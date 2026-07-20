@@ -1,0 +1,16 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/alice-openapi-original.json
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: API Key
+  type: apiKey
+  in: header
+  parameter: af-api-key
+  description: ''
+  sources:
+  - openapi/alice-openapi-original.json
