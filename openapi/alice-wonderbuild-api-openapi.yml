@@ -1,0 +1,448 @@
+openapi: 3.0.0
+info:
+  license:
+    name: Alice API Terms of Use
+    url: https://app.alice.io/ts-platform/api-terms.pdf
+  version: 3.0.0
+  title: Alice API Documentation WonderBuild API
+  description: "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n"
+  contact:
+    name: Support
+    email: support@alice.io
+  termsOfService: https://app.alice.io/ts-platform/terms.pdf
+servers:
+- url: https://api.alice.io
+  description: APIs Server
+security:
+- API Key: []
+tags:
+- name: WonderBuild
+  description: WonderBuild provides red teaming and security assessment tools for AI applications. APIs for running comprehensive security assessments on gen-AI applications.
+paths:
+  /redteam/assessments/:
+    get:
+      summary: Assessments
+      operationId: get-assessments
+      description: 'Endpoint: https://api.alice.io/redteam/assessments/
+
+
+        This synchronous endpoint is used to get defined red teaming assessments from the system with pagination support. It can return assessments based on filters, sorting, and pagination parameters.'
+      parameters:
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search term to filter assessments by name
+      - in: query
+        name: applicationIds
+        schema:
+          type: array
+          items:
+            type: string
+        description: Filter by application IDs
+      - in: query
+        name: applicationNames
+        schema:
+          type: array
+          items:
+            type: string
+        description: Filter by application names
+      - in: query
+        name: status
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - ready
+            - pending
+            - in_progress
+            - generating_report
+            - completed
+            - failed
+        description: Filter assessments by status (can be multiple)
+      - in: query
+        name: createdBy
+        schema:
+          type: array
+          items:
+            type: string
+        description: Filter by creator emails
+      - in: query
+        name: dateFrom
+        schema:
+          type: string
+          format: date-time
+        description: Filter assessments created from this date (ISO 8601 format, e.g., 2025-09-09T14:10:36.628Z)
+      - in: query
+        name: dateTo
+        schema:
+          type: string
+          format: date-time
+        description: Filter assessments created until this date (ISO 8601 format, e.g., 2025-09-09T14:10:36.628Z)
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+        description: Page number for pagination
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+        description: 'Number of results per page (default: 20)'
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - createdAt
+          - lastUpdatedAt
+          - name
+          - status
+        description: Field to sort by
+      - in: query
+        name: order
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        description: Sort order (ascending or descending)
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        assessmentId:
+                          type: string
+                          description: ID of a given assessment.
+                          example: 01992ed0-71cf-750a-83bf-f7406ca950dc
+                        applicationName:
+                          type: string
+                          description: The name of the application being assessed.
+                          example: MyChatbot
+                        versionName:
+                          type: string
+                          description: The assessment version
+                          example: 1.0.0
+                        name:
+                          type: string
+                          description: The given name of the assessment.
+                          example: Chatbot safety check
+                        status:
+                          type: string
+                          description: The assessment's current status
+                          example: ready
+                        createdAt:
+                          type: string
+                          description: The creation timestamp of the assessment.
+                          example: '2025-09-09T14:10:36.628Z'
+                        lastUpdatedAt:
+                          type: string
+                          description: The last update timestamp of the assessment.
+                          example: '2025-09-09T14:10:36.628Z'
+                      required:
+                      - assessmentId
+                      - applicationName
+                      - name
+                      - status
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        description: Current page number
+                        example: 1
+                      limit:
+                        type: integer
+                        description: Number of items per page
+                        example: 20
+                      total:
+                        type: integer
+                        description: Total number of items
+                        example: 150
+                      totalPages:
+                        type: integer
+                        description: Total number of pages
+                        example: 8
+                      hasNextPage:
+                        type: boolean
+                        description: Whether there is a next page
+                        example: true
+                      hasPrevPage:
+                        type: boolean
+                        description: Whether there is a previous page
+                        example: false
+                    required:
+                    - page
+                    - limit
+                    - total
+                    - totalPages
+                    - hasNextPage
+                    - hasPrevPage
+                required:
+                - data
+                - pagination
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - WonderBuild
+  /redteam/assessments/run/{id}:
+    post:
+      summary: run assessment
+      operationId: run-assessment
+      description: 'Endpoint: https://api.alice.io/redteam/assessments/run/{id}
+
+
+        This endpoint is given an ID of an existing assessment, which it will then run. The assessment must be in a run-ready state'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The unique identifier of the assessment to clone.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assessmentId:
+                    type: string
+                    description: ID of the assessment.
+                    example: 01992ed0-71cf-750a-83bf-f7406ca950dc
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - WonderBuild
+  /redteam/assessments/cloneAndRun/{id}:
+    post:
+      summary: Clone and run
+      operationId: clone-and-run-assessment
+      description: 'Endpoint: https://api.alice.io/redteam/assessments/cloneAndRun/{id}
+
+
+        This endpoint is given an ID of an existing assessment, which it will then clone, and run the clone assessment.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The unique identifier of the assessment to clone.
+      - in: query
+        name: reusePrompts
+        schema:
+          type: boolean
+        description: Whether to reuse prompts from the original assessment or generate new ones.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assessmentId:
+                    type: string
+                    description: ID of the newly cloned assessment.
+                    example: 01992ed0-71cf-750a-83bf-f7406ca950dc
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - WonderBuild
+  /redteam/assessments/runFromPreset:
+    post:
+      summary: Run assessment from preset
+      operationId: run-assessment-preset
+      description: 'Endpoint: https://api.alice.io/redteam/assessments/runFromPreset
+
+
+        This endpoint is given an app name, an app version and a preset name. It will create a new assessment for the given app+version based on the preset, and run it.
+
+
+        If the version does not exist, it will create it, based on the values of the last created version of the given app.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                preset_name:
+                  type: string
+                  description: The name of the preset to create an assessment from.
+                  example: all_safety_checks
+                app_name:
+                  type: string
+                  description: The name of the app the assessment will be checking. The app must have been pre configured in our system.
+                  example: MyChatBot
+                version_name:
+                  type: string
+                  description: The name of the app version that is being assessed. If it doesn't exist in our system, it will be created.
+                  example: '1.2'
+              required:
+              - preset_name
+              - app_name
+              - version_name
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assessmentId:
+                    type: string
+                    description: ID of the newly created assessment.
+                    example: 01992ed0-71cf-750a-83bf-f7406ca950dc
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - WonderBuild
+components:
+  responses:
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              message:
+                type: string
+                example: \"text\" is required
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                        example: body
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: \"text\" is required
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: Invalid credentials
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Invalid credentials
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
+  securitySchemes:
+    API Key:
+      name: af-api-key
+      type: apiKey
+      in: header
+      description: '
+
+        '
+x-stoplight:
+  id: 324cav554fkgg
+x-tagGroups:
+- name: WonderSuite
+  tags:
+  - General
+  - WonderBuild
+  - WonderFence
+- name: ActiveFamily
+  tags:
+  - Integrating with ActiveOS
+  - content
+  - users
+  - collection
+  - flags
+  - api keys

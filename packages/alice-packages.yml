@@ -1,0 +1,19 @@
+generated: '2026-07-17'
+method: searched
+source: docs.alice.io integrations/SDK page + PyPI registry probes
+notes: >-
+  Alice's docs reference a "WonderFence SDK" and a "Parlant Integration SDK".
+  Parlant (github.com/emcie-co/parlant) is a published PyPI package used for the
+  agent-guardrails integration; it is an ecosystem framework, not a first-party
+  Alice-branded client, so official is left false. No first-party alice/activefence
+  client library was found published on npm, PyPI, Maven, NuGet, pkg.go.dev,
+  RubyGems, Packagist, or crates.io as of this pass; the REST API is consumed
+  directly with the af-api-key header.
+packages:
+- language: python
+  registry: pypi
+  name: parlant
+  url: https://pypi.org/project/parlant/
+  install: pip install parlant
+  official: false
+  note: Referenced by Alice docs as the "Parlant Integration SDK" for agent guardrails.

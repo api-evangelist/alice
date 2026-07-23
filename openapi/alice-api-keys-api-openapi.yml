@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  license:
+    name: Alice API Terms of Use
+    url: https://app.alice.io/ts-platform/api-terms.pdf
+  version: 3.0.0
+  title: Alice API Documentation api keys API
+  description: "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n"
+  contact:
+    name: Support
+    email: support@alice.io
+  termsOfService: https://app.alice.io/ts-platform/terms.pdf
+servers:
+- url: https://api.alice.io
+  description: APIs Server
+security:
+- API Key: []
+tags:
+- name: api keys
+  description: Provides APIs to manage API key(s), including adding new keys, listing existing keys, and deleting keys.
+paths:
+  /v3/apikeys:
+    post:
+      summary: Generate New API Key
+      operationId: post-generate-api-key
+      description: 'Endpoint: https://api.alice.io/v3/apikeys
+
+
+        The Generate New API Key allows generating a new API key with a specified name and optional description.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the new API key.
+                  example: my-new-api-key
+                  maxLength: 30
+                description:
+                  type: string
+                  description: An optional description for the new API key.
+                  example: API key for analytics service.
+                  maxLength: 250
+              required:
+              - name
+      responses:
+        '200':
+          description: API key successfully created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: The name of the new API key.
+                    example: my-new-api-key
+                  description:
+                    type: string
+                    description: The description of the new API key, if provided.
+                    example: API key for analytics service.
+                  api_key:
+                    type: string
+                    description: The generated API key.
+                    example: abc123xyz456
+                  id:
+                    type: string
+                    description: A unique identifier for the API key.
+                    example: 666709eaa8d91cbbba13a59d
+                  created_at:
+                    type: string
+                    description: The creation timestamp of the API key.
+                    example: '2024-12-31T23:59:59Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Input validation error
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        field:
+                          type: string
+                        message:
+                          type: string
+                    example:
+                    - field: name
+                      message: Required
+                    - field: description
+                      message: '''description'' must not exceed 250 characters'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - api keys
+    get:
+      summary: List API Keys
+      operationId: get-api-keys
+      description: 'Endpoint: https://api.alice.io/v3/apikeys
+
+
+        The List API Keys retrieves a list of all existing API keys.
+
+
+        <u>Note</u>: The information presented per API Key includes metadata only, whereas the key itself is not exposed due to confidentiality considerations.'
+      responses:
+        '200':
+          description: A list of API keys.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the API key.
+                      example: my-new-api-key
+                    description:
+                      type: string
+                      description: The description of the API key, if provided.
+                      example: API key for analytics service.
+                    id:
+                      type: string
+                      description: A unique identifier for the API key.
+                      example: 666709eaa8d91cbbba13a59d
+                    created_at:
+                      type: string
+                      description: The creation timestamp of the API key.
+                      example: '2024-12-31T23:59:59Z'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - api keys
+  /v3/apikeys/{id}:
+    delete:
+      summary: Delete API Key
+      operationId: delete-api-key
+      description: 'Endpoint: https://api.alice.io/v3/apikeys/{id}
+
+
+        The Delete API Key deletes an API key by its identifier.'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: The unique identifier of the API key to be deleted.
+      responses:
+        '204':
+          description: API key successfully deleted. No content returned.
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      tags:
+      - api keys
+components:
+  responses:
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: Invalid credentials
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Invalid credentials
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
+  securitySchemes:
+    API Key:
+      name: af-api-key
+      type: apiKey
+      in: header
+      description: '
+
+        '
+x-stoplight:
+  id: 324cav554fkgg
+x-tagGroups:
+- name: WonderSuite
+  tags:
+  - General
+  - WonderBuild
+  - WonderFence
+- name: ActiveFamily
+  tags:
+  - Integrating with ActiveOS
+  - content
+  - users
+  - collection
+  - flags
+  - api keys

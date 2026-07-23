@@ -1,0 +1,38 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/alice-openapi-original.json
+notes: Cross-cutting request/response semantics derived from the OpenAPI. Docs (docs.alice.io) return 403 to non-browser clients, so values not present in the spec are omitted rather than guessed.
+authentication:
+  style: api-key
+  header: af-api-key
+  in: header
+  see: authentication/alice-authentication.yml
+idempotency:
+  supported: false
+  note: No Idempotency-Key header or parameter is documented in the OpenAPI.
+pagination:
+  style: page-number
+  params: [page, limit, sort, order]
+  applies_to:
+  - openapi/alice-openapi-original.json#get-assessments
+async_callbacks:
+  supported: true
+  style: openapi-callbacks
+  request_fields: [callback_url, callback_key_name]
+  description: >-
+    Asynchronous content endpoints (text/image/video/audio, users, collections)
+    accept a callback_url and POST the "Analysis result" back to it when analysis
+    completes. See asyncapi/alice-webhooks.yml.
+  see: asyncapi/alice-webhooks.yml
+versioning:
+  scheme: uri-path
+  versions: [v3, v1]
+  note: Content/collection/user/apikey APIs are v3; the WonderFence evaluate/message endpoint is v1; red-team assessment endpoints are unversioned under /redteam/.
+error_envelope:
+  format: none
+  documented_statuses: [400, 401, 429]
+  see: errors/alice-problem-types.yml
+rate_limit_signaling:
+  documented: false
+  note: A 429 response is declared but no rate-limit response headers are documented in the spec.
+  see: errors/alice-problem-types.yml

@@ -1,0 +1,23 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/alice-openapi-original.json
+format: none
+notes: >-
+  Derived from OpenAPI 4xx/5xx responses. The spec declares status codes without
+  response bodies/schemas, so no RFC 9457 application/problem+json envelope is
+  documented. Titles/remediation below are conventional interpretations of the
+  status codes for the content-analysis endpoints; the docs error reference
+  (docs.alice.io, 403 to non-browser clients) was not machine-readable this pass.
+problems:
+- status: 400
+  title: Bad Request
+  remediation: Validate the request payload (content_id, media/text fields, callback_url) against the schema.
+  source_operation: openapi/alice-openapi-original.json#post-content-text
+- status: 401
+  title: Unauthorized
+  remediation: Provide a valid API key in the af-api-key header.
+  source_operation: openapi/alice-openapi-original.json#post-content-text
+- status: 429
+  title: Too Many Requests
+  remediation: Back off and retry; you have exceeded the request rate for your plan.
+  source_operation: openapi/alice-openapi-original.json#post-content-text

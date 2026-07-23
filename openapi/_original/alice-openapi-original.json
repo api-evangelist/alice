@@ -1,0 +1,3044 @@
+{
+	"openapi": "3.0.0",
+	"x-stoplight": {
+		"id": "324cav554fkgg"
+	},
+	"info": {
+		"license": {
+			"name": "Alice API Terms of Use",
+			"url": "https://app.alice.io/ts-platform/api-terms.pdf"
+		},
+		"version": "3.0.0",
+		"title": "Alice API Documentation",
+		"description": "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n",
+		"contact": {
+			"name": "Support",
+			"email": "support@alice.io"
+		},
+		"termsOfService": "https://app.alice.io/ts-platform/terms.pdf"
+	},
+	"servers": [
+		{
+			"url": "https://api.alice.io",
+			"description": "APIs Server"
+		}
+	],
+	"components": {
+		"securitySchemes": {
+			"API Key": {
+				"name": "af-api-key",
+				"type": "apiKey",
+				"in": "header",
+				"description": "\n"
+			}
+		},
+		"schemas": {
+			"content_id": {
+				"title": "content_id",
+				"type": "string",
+				"description": "The unique identifier of the item on your platform.\nThis ID will be used in the response."
+			},
+			"category": {
+				"title": "category",
+				"type": "string",
+				"description": "This field activates specific policies corresponding to the categories included in the API request. For example, sending a category of \"chats\" will activate only those policies defined as \"chats\" via the Policy Management UI."
+			},
+			"media_url": {
+				"type": "string",
+				"title": "media_url",
+				"description": "The URL from which to download the content.\nIn order to be displayed correctly in the platform, the url should start with \"https://\" to avoid mixed content issues, where web browsers block insecure resources from loading.\nAlternatively, \"raw_media\" field can be used to send the media as Base64-encoded string.\nEither the \"media-url\" or \"raw-media\" field is mandatory.",
+				"format": "uri"
+			},
+			"title": {
+				"title": "title",
+				"type": "string",
+				"description": "The title that accompanied the item. Limited to 1024 characters",
+				"maxLength": 1024
+			},
+			"description": {
+				"title": "description",
+				"type": "string",
+				"description": "The description that accompanied the item. Limited to 10,240 characters.",
+				"maxLength": 10240
+			},
+			"thumbnail_url": {
+				"type": "string",
+				"title": "thumbnail_url",
+				"description": "The publicly available URL of the thumbnail that accompanied the item.\nIn order to be displayed correctly in the platform, the url should start with \"https://\" to avoid mixed content issues, where web browsers block insecure resources from loading.",
+				"format": "uri"
+			},
+			"date_created": {
+				"title": "date_created",
+				"description": "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\".",
+				"example": "2020-11-23 22:30",
+				"x-examples": {
+					"ISO format": "2020-11-23 22:30",
+					"Unix format": 1650886140
+				},
+				"anyOf": [
+					{
+						"type": "number"
+					},
+					{
+						"type": "string"
+					}
+				]
+			},
+			"views_count": {
+				"type": "number",
+				"title": "views_count",
+				"description": "The quantity of views of this item on your platform. ",
+				"minimum": 0
+			},
+			"comments_count": {
+				"type": "number",
+				"title": "comments_count",
+				"description": "The quantity of comments on this item on your platform.",
+				"minimum": 0
+			},
+			"user_id": {
+				"title": "user_id",
+				"type": "string",
+				"description": "The ID of the User who created this item. \nIt is recommended to first add the details of this User using the [Users API](#tag/users/operation/post-users-upsert)."
+			},
+			"contained_in": {
+				"title": "contained_in",
+				"type": "array",
+				"description": "The collections to which the item belongs.",
+				"items": {
+					"type": "object",
+					"properties": {
+						"collection_id": {
+							"type": "string",
+							"description": "The collection_id of a Collection object sent via the [Collection API](#tag/collection).",
+							"example": "channel123"
+						},
+						"collection_type": {
+							"type": "string",
+							"enum": ["channel", "playlist", "album", "folder", "group"],
+							"description": "The type of the collection."
+						}
+					}
+				}
+			},
+			"webpage_url": {
+				"type": "string",
+				"title": "webpage_url",
+				"format": "uri",
+				"description": "The publicly available web page where the item is visible."
+			},
+			"risk_score": {
+				"type": "number",
+				"title": "risk_score",
+				"maximum": 1,
+				"minimum": 0.1,
+				"example": 0.87,
+				"description": "A number between 0.1 and 1 representing the probability of the item to be violative."
+			},
+			"text": {
+				"title": "text",
+				"type": "string",
+				"description": "The text item to analyze. Limited to 1024 characters",
+				"maxLength": 1024
+			},
+			"response_id": {
+				"title": "response_id",
+				"type": "string",
+				"description": "A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.\n\nAll callbacks for a request have the same response ID, so they can all be related to the request."
+			},
+			"response_id_sync": {
+				"title": "response_id_sync",
+				"type": "string",
+				"description": "A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.",
+				"x-stoplight": {
+					"id": "9cf0ab8b08475"
+				}
+			},
+			"entity_id": {
+				"title": "entity_id",
+				"type": "string",
+				"description": "The unique identifier of the item on your platform, as specified in the request's content_id / collection_id / user_id field. "
+			},
+			"entity_type": {
+				"type": "string",
+				"title": "entity_type",
+				"enum": ["content", "collection", "user"],
+				"description": "The type of the entity, which can be one of the following –\n\"content\", \"user\" or \"collection\"."
+			},
+			"confidence": {
+				"type": "string",
+				"title": "confidence",
+				"enum": ["NotDetected", "LOW", "MEDIUM", "HIGH"],
+				"description": "This field indicates the confidence level associated with the risk score returned by the policies.\n* Per client request. Contact customer success for more information."
+			},
+			"language": {
+				"title": "language",
+				"type": "string",
+				"description": "This field denotes the language identified for the analyzed item."
+			},
+			"violation_type_text": {
+				"type": "string",
+				"enum": [
+					"abusive_or_harmful.harassment_or_bullying",
+					"abusive_or_harmful.profanity",
+					"abusive_or_harmful.general_violence",
+					"abusive_or_harmful.hate_speech",
+					"abusive_or_harmful.child_grooming",
+					"adult_content.general",
+					"self_harm.general",
+					"privacy_violation.PII"
+				],
+				"title": "violation_type_text",
+				"description": "Specifies the detected violation for a text."
+			},
+			"violation_type_image": {
+				"type": "string",
+				"title": "violation_type_image",
+				"enum": [
+					"abusive_or_harmful.graphic_violence",
+					"abusive_or_harmful.hate_speech",
+					"abusive_or_harmful.child_abuse",
+					"adult_content.general",
+					"adult_content.swimwear",
+					"unauthorised_sales.drugs",
+					"unauthorised_sales.alcohol",
+					"unauthorised_sales.weapons",
+					"gambling.gambling"
+				],
+				"description": "Specifies the detected violation for an image."
+			},
+			"violation_types": {
+				"title": "violation_types",
+				"type": "string",
+				"enum": [
+					"abusive_or_harmful.harassment_or_bullying",
+					"abusive_or_harmful.profanity",
+					"abusive_or_harmful.hate_speech",
+					"abusive_or_harmful.child_grooming",
+					"abusive_or_harmful.graphic_violence",
+					"abusive_or_harmful.general_violence",
+					"abusive_or_harmful.child_abuse",
+					"abusive_or_harmful.promotes_terrorism",
+					"self_harm.general",
+					"adult_content.general",
+					"adult_content.swimwear",
+					"unauthorised_sales.drugs",
+					"unauthorised_sales.alcohol",
+					"unauthorised_sales.weapons",
+					"gambling.gambling",
+					"privacy_violation.PII"
+				],
+				"description": "violation types analyzed by Alice"
+			},
+			"detection_type": {
+				"type": "string",
+				"title": "detection_type",
+				"enum": ["manual"],
+				"description": "OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface."
+			},
+			"analysis_description": {
+				"title": "analysis_description",
+				"type": "string",
+				"description": "OPTIONAL. A textual description of the violation that was created by a human reviewer or the Alice platform algorithm.\nReturned only if exists."
+			},
+			"user": {
+				"title": "user",
+				"type": "object",
+				"description": "User object is a data structure to be used in ActiveScore API requests, such as the Upsert User API",
+				"properties": {
+					"user_id": {
+						"type": "string",
+						"description": "The unique ID of the user on your platform.",
+						"example": "user123"
+					},
+					"webpage_url": {
+						"$ref": "#/components/schemas/webpage_url"
+					},
+					"session_id": {
+						"type": "string",
+						"description": "The user's current Session ID, which is used to associate a user's events before and after log in or user creation.",
+						"example": "sessionID1"
+					},
+					"name": {
+						"type": "string",
+						"description": "The full name of the user.",
+						"example": "my name",
+						"maxLength": 1024
+					},
+					"description": {
+						"$ref": "#/components/schemas/description"
+					},
+					"nickname": {
+						"type": "string",
+						"description": "The nickname used by the user.",
+						"example": "my nickname",
+						"maxLength": 1024
+					},
+					"ips": {
+						"type": "array",
+						"description": "The IP addresses from which the user interacted with the system.",
+						"items": {
+							"type": "string",
+							"example": "111.111.1.11"
+						}
+					},
+					"email": {
+						"type": "string",
+						"description": "The email address of the user.",
+						"format": "email"
+					},
+					"phone": {
+						"type": "string",
+						"description": "The phone number of the user in E.164 format, including country code.\nFor example: \"+442075861777\".\n",
+						"example": "442075861777"
+					},
+					"thumbnail_url": {
+						"$ref": "#/components/schemas/thumbnail_url"
+					},
+					"language": {
+						"type": "string",
+						"description": "The [ISO 639-1, 2 letters language code]( https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) used by the user.",
+						"example": "en"
+					},
+					"birthdate": {
+						"type": "string",
+						"format": "date",
+						"description": "The [ISO 8601 birthdate]( https://www.iso.org/iso-8601-date-and-time-format.html) of the user.\nFor example – \"2020-04-01T19:18:15.657Z\".\nThis date can later be used to run various workflows according to the user's age."
+					},
+					"date_created": {
+						"$ref": "#/components/schemas/date_created"
+					},
+					"views_count": {
+						"$ref": "#/components/schemas/views_count"
+					},
+					"comments_count": {
+						"$ref": "#/components/schemas/comments_count"
+					},
+					"custom_fields": {
+						"$ref": "#/components/schemas/custom_fields"
+					},
+					"response_custom_fields": {
+						"$ref": "#/components/schemas/response_custom_fields"
+					}
+				},
+				"required": ["user_id"]
+			},
+			"collection": {
+				"title": "collection",
+				"type": "object",
+				"description": "A Collection object is a data structure to be used in ActiveScore API requests to describe a collection of items, such as playlist, groups, folders and so on.",
+				"properties": {
+					"collection_id": {
+						"type": "string",
+						"description": "The unique ID of the collection."
+					},
+					"name": {
+						"type": "string",
+						"description": "The name of the collection.",
+						"maxLength": 1024
+					},
+					"admins": {
+						"type": "array",
+						"description": "An array of user_ids of the collection's admins as provided in the Users API.",
+						"items": {
+							"type": "string",
+							"example": "[\"admin1\",\"admin2\"]"
+						}
+					},
+					"webpage_url": {
+						"$ref": "#/components/schemas/webpage_url"
+					},
+					"description": {
+						"$ref": "#/components/schemas/description"
+					},
+					"thumbnail_url": {
+						"$ref": "#/components/schemas/thumbnail_url"
+					},
+					"date_created": {
+						"$ref": "#/components/schemas/date_created"
+					},
+					"views_count": {
+						"$ref": "#/components/schemas/views_count"
+					},
+					"comments_count": {
+						"$ref": "#/components/schemas/comments_count"
+					},
+					"custom_fields": {
+						"$ref": "#/components/schemas/custom_fields"
+					},
+					"response_custom_fields": {
+						"$ref": "#/components/schemas/response_custom_fields"
+					}
+				},
+				"required": ["collection_id", "name"]
+			},
+			"custom_fields": {
+				"title": "custom_fields",
+				"x-stoplight": {
+					"id": "pn300kxait3uk"
+				},
+				"type": "array",
+				"description": "A set of key/value pairs of the custom fields that were added to your account. \nThese custom fields then appear throughout the platform.\n\n**Example –** [{\"special_name\":\"name1\"}, {\"special_count\": \"10\"}, {\"is_premium\": \"true\"}]\n\n**Note –** Quotation marks must be used for key and text values.\n",
+				"items": {
+					"type": "object",
+					"description": "key/value pair.\nkey - Corresponds to a custom field's key defined on your platform.\nvalue - Can be a string, integer, boolean (true/false), date or dropdown\nQuotation marks must be used for key and text values."
+				},
+				"x-examples": {
+					"Dropdown with multiple values": {
+						"custom_fields": [
+							{
+								"\"animal_type": "\"Persian cat\""
+							},
+							{
+								"\"age\"": 3
+							},
+							{
+								"\"is_adopted\"": true
+							},
+							{
+								"adoption_date": "2015-11-25"
+							},
+							{
+								"habitat": ["Urban", "Coastal"]
+							}
+						]
+					},
+					"Dropdown with a single value": {
+						"custom_fields": [
+							{
+								"\"animal_type": "\"Persian cat\""
+							},
+							{
+								"\"age\"": 3
+							},
+							{
+								"\"is_adopted\"": true
+							},
+							{
+								"adoption_date": "2015-11-25"
+							},
+							{
+								"habitat": "Urban"
+							}
+						]
+					}
+				}
+			},
+			"response_custom_fields": {
+				"title": "response_custom_fields",
+				"x-stoplight": {
+					"id": "v1yd97fsakvfi"
+				},
+				"type": "array",
+				"description": "list of field names to be included in the response.\nthese names should match some \\ all of the fields which were specified in the 'custom_fields'.\n",
+				"items": {
+					"type": "string",
+					"description": "Corresponds to a custom field's field name."
+				},
+				"x-examples": ["field1", "field2"]
+			},
+			"content_id_async": {
+				"title": "content_id_async",
+				"x-stoplight": {
+					"id": "v1yd97fsakvfi"
+				},
+				"type": "string",
+				"description": "The unique identifier of the item on your platform.\nThis ID will be used in the callback sent to your platform.\n\n**Note –** A callback containing the analysis results is only sent once for each content_id."
+			},
+			"callback_url": {
+				"title": "callback_url",
+				"x-stoplight": {
+					"id": "dbz2z4mf2znla"
+				},
+				"type": "string",
+				"description": "Callback URL where Alice will post the response to."
+			},
+			"violation_error": {
+				"title": "violation_error",
+				"x-stoplight": {
+					"id": "spx19wur2mvdt"
+				},
+				"type": "object",
+				"properties": {
+					"violation": {
+						"type": "string"
+					},
+					"status": {
+						"type": "number",
+						"example": 400
+					},
+					"type": {
+						"type": "string",
+						"example": "Bad request"
+					},
+					"message": {
+						"type": "string",
+						"example": "media type invalid: "
+					}
+				}
+			},
+			"callback_key_name": {
+				"title": "callback_key_name",
+				"x-stoplight": {
+					"id": "cufgi3wj9z5zc"
+				},
+				"type": "string",
+				"description": "The name of a key defined in the platform's Auth Management section.\n\nThis key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.",
+				"example": "\"my key"
+			},
+			"raw_media": {
+				"title": "raw_media",
+				"x-stoplight": {
+					"id": "igues9uz3yw70"
+				},
+				"type": "string",
+				"description": "Base64-encoded string of a media file.\nAlternatively, \"media_url\" field can be used to send a link to the media.\nEither the \"raw-media\" or \"media-url\" field is mandatory.\n"
+			},
+			"mime_type": {
+				"title": "mime_type",
+				"x-stoplight": {
+					"id": "cqcka4fu6aiun"
+				},
+				"type": "string",
+				"description": "The MIME (Multipurpose Internet Mail Extensions) type of a media file. Represents the specific format or type of the media content sent in \"raw-media\" field. \nIt is not mandatory in scenarios where the media type can be reliably inferred or detected.",
+				"example": "image/jpeg"
+			}
+		},
+		"responses": {
+			"200": {
+				"description": "Example response",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"response_id": {
+									"$ref": "#/components/schemas/response_id"
+								},
+								"analyzed_violations": {
+									"type": "array",
+									"description": "A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent",
+									"items": {
+										"$ref": "#/components/schemas/violation_types"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"400": {
+				"description": "Bad Request",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"statusCode": {
+									"type": "number",
+									"example": 400
+								},
+								"error": {
+									"type": "string",
+									"example": "Bad Request"
+								},
+								"message": {
+									"type": "string",
+									"example": "\\\"text\\\" is required"
+								},
+								"params": {
+									"type": "object",
+									"properties": {
+										"body": {
+											"type": "object",
+											"description": "error type",
+											"properties": {
+												"source": {
+													"type": "string",
+													"example": "body"
+												},
+												"keys": {
+													"type": "array",
+													"items": {
+														"type": "string"
+													}
+												},
+												"message": {
+													"type": "string",
+													"example": "\\\"text\\\" is required"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"401": {
+				"description": "Unauthorized",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"statusCode": {
+									"type": "number",
+									"example": 401
+								},
+								"error": {
+									"type": "string",
+									"example": "Unauthorized"
+								},
+								"message": {
+									"type": "string",
+									"example": "Invalid credentials"
+								},
+								"params": {
+									"type": "object",
+									"properties": {
+										"body": {
+											"type": "object",
+											"description": "error type",
+											"properties": {
+												"source": {
+													"type": "string"
+												},
+												"keys": {
+													"type": "array",
+													"items": {
+														"type": "string"
+													}
+												},
+												"message": {
+													"type": "string",
+													"example": "Invalid credentials"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"429": {
+				"description": "Too Many Requests",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"statusCode": {
+									"type": "number",
+									"example": 429
+								},
+								"error": {
+									"type": "string",
+									"example": "Too Many Requests"
+								},
+								"message": {
+									"type": "string",
+									"example": "Too Many Requests"
+								},
+								"params": {
+									"type": "object",
+									"properties": {
+										"body": {
+											"type": "object",
+											"description": "error type",
+											"properties": {
+												"source": {
+													"type": "string"
+												},
+												"keys": {
+													"type": "array",
+													"items": {
+														"type": "string"
+													}
+												},
+												"message": {
+													"type": "string",
+													"example": "Too Many Requests"
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"200-async-text": {
+				"description": "Example response",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"response_id": {
+									"$ref": "#/components/schemas/response_id"
+								},
+								"analyzed_violations": {
+									"type": "array",
+									"description": "A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent",
+									"items": {
+										"$ref": "#/components/schemas/violation_type_text"
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"200-sync": {
+				"description": "Example response",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"response_id": {
+									"$ref": "#/components/schemas/response_id_sync"
+								}
+							}
+						}
+					},
+					"application/xml": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"response_id": {
+									"$ref": "#/components/schemas/response_id_sync"
+								}
+							}
+						}
+					},
+					"multipart/form-data": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"response_id": {
+									"$ref": "#/components/schemas/response_id_sync"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"requestBodies": {},
+		"parameters": {
+			"collection_type": {
+				"name": "collection_type",
+				"in": "path",
+				"required": true,
+				"schema": {
+					"type": "string",
+					"enum": ["album", "playlist", "channel", "folder", "group"]
+				},
+				"description": "The type of the collection."
+			}
+		}
+	},
+	"paths": {
+		"/v3/content/text": {
+			"post": {
+				"summary": "Text API - Asynchronous",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200-async-text"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"operationId": "post-content-text",
+				"parameters": [],
+				"description": "Endpoint: https://api.alice.io/v3/content/text\n\nThe Asynchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item in a callback. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** and **thumbnail_url** fields.\n\n**NOTE** - **Text length is limited to 10,240 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"text": {
+										"type": "string",
+										"description": "The text to analyze. Limited to 10,240 characters",
+										"maxLength": 10240
+									},
+									"content_id": {
+										"$ref": "#/components/schemas/content_id_async"
+									},
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"callback_url": {
+										"$ref": "#/components/schemas/callback_url"
+									},
+									"callback_key_name": {
+										"$ref": "#/components/schemas/callback_key_name"
+									},
+									"thumbnail_url": {
+										"$ref": "#/components/schemas/thumbnail_url"
+									},
+									"date_created": {
+										"$ref": "#/components/schemas/date_created"
+									},
+									"views_count": {
+										"$ref": "#/components/schemas/views_count"
+									},
+									"comments_count": {
+										"$ref": "#/components/schemas/comments_count"
+									},
+									"user_id": {
+										"$ref": "#/components/schemas/user_id"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"webpage_url": {
+										"$ref": "#/components/schemas/webpage_url"
+									},
+									"custom_fields": {
+										"$ref": "#/components/schemas/custom_fields"
+									},
+									"response_custom_fields": {
+										"$ref": "#/components/schemas/response_custom_fields"
+									}
+								},
+								"required": ["text", "content_id"]
+							}
+						}
+					},
+					"description": "Text, along with its context."
+				},
+				"callbacks": {
+					"Analysis result": {
+						"{$request.body#/callback_url}": {
+							"post": {
+								"summary": "callback with analysis result",
+								"requestBody": {
+									"description": "Analysis result",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"properties": {
+													"response_id": {
+														"$ref": "#/components/schemas/response_id"
+													},
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"entity_type": {
+														"$ref": "#/components/schemas/entity_type"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_text"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"detection_type": {
+																	"$ref": "#/components/schemas/detection_type"
+																},
+																"analysis_description": {
+																	"$ref": "#/components/schemas/analysis_description"
+																}
+															}
+														}
+													},
+													"analyzed_violations": {
+														"type": "array",
+														"description": "violation types analyzed by Alice in this response",
+														"items": {
+															"$ref": "#/components/schemas/violation_type_text"
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								"responses": {
+									"200": {
+										"description": "Callback successfully processed"
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": ["content"]
+			},
+			"parameters": []
+		},
+		"/sync/v3/content/text": {
+			"post": {
+				"summary": "Text API - Synchronous",
+				"operationId": "post-sync-content-text",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"response_id": {
+											"$ref": "#/components/schemas/response_id_sync"
+										},
+										"entity_id": {
+											"$ref": "#/components/schemas/entity_id"
+										},
+										"entity_type": {
+											"$ref": "#/components/schemas/entity_type"
+										},
+										"confidence": {
+											"$ref": "#/components/schemas/confidence"
+										},
+										"language": {
+											"$ref": "#/components/schemas/language"
+										},
+										"violations": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"violation_type": {
+														"$ref": "#/components/schemas/violation_type_text"
+													},
+													"risk_score": {
+														"$ref": "#/components/schemas/risk_score"
+													}
+												}
+											}
+										},
+										"errors": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/violation_error"
+											}
+										}
+									},
+									"required": [
+										"response_id",
+										"entity_id",
+										"entity_type",
+										"violations"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"text": {
+										"$ref": "#/components/schemas/text"
+									},
+									"content_id": {
+										"$ref": "#/components/schemas/content_id"
+									},
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"thumbnail_url": {
+										"$ref": "#/components/schemas/thumbnail_url"
+									},
+									"webpage_url": {
+										"$ref": "#/components/schemas/webpage_url"
+									},
+									"date_created": {
+										"$ref": "#/components/schemas/date_created"
+									},
+									"user_id": {
+										"$ref": "#/components/schemas/user_id"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"views_count": {
+										"$ref": "#/components/schemas/views_count"
+									},
+									"comments_count": {
+										"$ref": "#/components/schemas/comments_count"
+									},
+									"custom_fields": {
+										"$ref": "#/components/schemas/custom_fields"
+									},
+									"response_custom_fields": {
+										"$ref": "#/components/schemas/response_custom_fields"
+									}
+								},
+								"required": ["text", "content_id"]
+							},
+							"examples": {
+								"Example": {
+									"value": {
+										"text": "text to analyze",
+										"content_id": "entity123",
+										"category": "chats",
+										"thumbnail_url": "http://example.com",
+										"webpage_url": "http://example.com",
+										"date_created": 1650886140,
+										"user_id": "user123",
+										"contained_in": [
+											{
+												"collection_id": "channel123",
+												"collection_type": "channel"
+											}
+										],
+										"views_count": 0,
+										"comments_count": 0,
+										"custom_fields": [{}]
+									}
+								}
+							}
+						}
+					},
+					"description": "Text, along with its context."
+				},
+				"description": "Endpoint: https://api.alice.io/sync/v3/content/text\n\nThe Synchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** field.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request.",
+				"tags": ["content"],
+				"parameters": []
+			},
+			"parameters": []
+		},
+		"/sync/v3/content/bulk/text": {
+			"post": {
+				"summary": "Bulk Text API - Synchronous",
+				"operationId": "post-sync-content-bulk-text",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"response_id": {
+											"$ref": "#/components/schemas/response_id_sync"
+										},
+										"entity_type": {
+											"$ref": "#/components/schemas/entity_type"
+										},
+										"items": {
+											"type": "array",
+											"description": "Array of results for each item sent in the request.",
+											"items": {
+												"type": "object",
+												"properties": {
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"language": {
+														"$ref": "#/components/schemas/language"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_text"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"confidence": {
+																	"$ref": "#/components/schemas/confidence"
+																}
+															}
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												},
+												"required": ["entity_id", "violations"]
+											}
+										},
+										"failed_item_indexes": {
+											"type": "array",
+											"description": "Array of indexes of items in the request that failed to be processed.",
+											"items": {
+												"type": "number"
+											}
+										}
+									},
+									"required": [
+										"response_id",
+										"entity_type",
+										"items",
+										"failed_item_indexes"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"items": {
+										"type": "array",
+										"description": "Array of text items to analyze. Minimum 1 item, Maximum 100 items.",
+										"items": {
+											"type": "object",
+											"properties": {
+												"text": {
+													"$ref": "#/components/schemas/text"
+												},
+												"content_id": {
+													"$ref": "#/components/schemas/content_id"
+												},
+												"thumbnail_url": {
+													"$ref": "#/components/schemas/thumbnail_url"
+												},
+												"webpage_url": {
+													"$ref": "#/components/schemas/webpage_url"
+												},
+												"date_created": {
+													"$ref": "#/components/schemas/date_created"
+												},
+												"user_id": {
+													"$ref": "#/components/schemas/user_id"
+												},
+												"contained_in": {
+													"$ref": "#/components/schemas/contained_in"
+												},
+												"views_count": {
+													"$ref": "#/components/schemas/views_count"
+												},
+												"comments_count": {
+													"$ref": "#/components/schemas/comments_count"
+												},
+												"custom_fields": {
+													"$ref": "#/components/schemas/custom_fields"
+												},
+												"response_custom_fields": {
+													"$ref": "#/components/schemas/response_custom_fields"
+												}
+											},
+											"required": ["text", "content_id"]
+										}
+									}
+								},
+								"required": ["items"]
+							},
+							"examples": {
+								"Example": {
+									"value": {
+										"category": "chats",
+										"contained_in": [
+											{
+												"collection_id": "channel123",
+												"collection_type": "channel"
+											}
+										],
+										"items": [
+											{
+												"text": "text to analyze",
+												"content_id": "entity123",
+												"thumbnail_url": "http://example.com",
+												"webpage_url": "http://example.com",
+												"date_created": 1650886140,
+												"user_id": "user123",
+												"views_count": 0,
+												"comments_count": 0,
+												"custom_fields": [{}]
+											},
+											{
+												"text": "another text to analyze",
+												"content_id": "entity456",
+												"thumbnail_url": "http://example.com",
+												"webpage_url": "http://example.com",
+												"date_created": 1650886140,
+												"user_id": "user123",
+												"views_count": 0,
+												"comments_count": 0,
+												"custom_fields": [{}]
+											}
+										]
+									}
+								}
+							}
+						}
+					},
+					"description": "Bulk texts, along with contexts."
+				},
+				"description": "Endpoint: https://api.alice.io/sync/v3/content/bulk/text\n\nThe Synchronous Bulk Text API enables you to send a number of text items and their contexts to the Alice T&S platform in a single call, which will then analyze all of them, detect violations and return an array of one or more violations detected in each item synchronously. \n\n Since the number of items analyzed in each request is arbitrary and determined by the sender, there are no SLA guarantees on bulk item requests. \n\nThe T&S platform analyzes the **text** field of each item sent.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent as separate items.\n\nA bulk request is limited to 100 items maximum. A repeat of the same content_id in items in the same bulk request is **forbidden**, and will fail the duplicated item.\n\n**NOTE** This endpoint does not update items in the ActiveOS platform, and only returns the analysis on the request itself.",
+				"tags": ["content"],
+				"parameters": []
+			},
+			"parameters": []
+		},
+		"/sync/v3/content/image": {
+			"post": {
+				"summary": "Image API - Synchronous",
+				"operationId": "post-sync-content-image",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"response_id": {
+											"$ref": "#/components/schemas/response_id_sync"
+										},
+										"entity_id": {
+											"$ref": "#/components/schemas/entity_id"
+										},
+										"entity_type": {
+											"$ref": "#/components/schemas/entity_type"
+										},
+										"confidence": {
+											"$ref": "#/components/schemas/confidence"
+										},
+										"language": {
+											"$ref": "#/components/schemas/language"
+										},
+										"violations": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"violation_type": {
+														"$ref": "#/components/schemas/violation_type_image"
+													},
+													"risk_score": {
+														"$ref": "#/components/schemas/risk_score"
+													}
+												}
+											}
+										},
+										"errors": {
+											"type": "array",
+											"items": {
+												"$ref": "#/components/schemas/violation_error"
+											}
+										}
+									},
+									"required": [
+										"response_id",
+										"entity_id",
+										"entity_type",
+										"violations"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"content_id": {
+										"$ref": "#/components/schemas/content_id"
+									},
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"media_url": {
+										"$ref": "#/components/schemas/media_url"
+									},
+									"webpage_url": {
+										"$ref": "#/components/schemas/webpage_url"
+									},
+									"title": {
+										"$ref": "#/components/schemas/title"
+									},
+									"description": {
+										"$ref": "#/components/schemas/description"
+									},
+									"date_created": {
+										"$ref": "#/components/schemas/date_created"
+									},
+									"views_count": {
+										"$ref": "#/components/schemas/views_count"
+									},
+									"comments_count": {
+										"$ref": "#/components/schemas/comments_count"
+									},
+									"user_id": {
+										"$ref": "#/components/schemas/user_id"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"custom_fields": {
+										"$ref": "#/components/schemas/custom_fields"
+									},
+									"response_custom_fields": {
+										"$ref": "#/components/schemas/response_custom_fields"
+									},
+									"raw_media": {
+										"$ref": "#/components/schemas/raw_media"
+									},
+									"mime_type": {
+										"$ref": "#/components/schemas/mime_type"
+									}
+								},
+								"required": ["content_id"]
+							},
+							"examples": {
+								"Example": {
+									"value": {
+										"content_id": "entity123",
+										"media_url": "https://example.com/image.jpg",
+										"category": "posts",
+										"title": "Image title",
+										"description": "Image description",
+										"webpage_url": "https://example.com",
+										"date_created": 1650886140,
+										"user_id": "user123",
+										"contained_in": [
+											{
+												"collection_id": "channel123",
+												"collection_type": "channel"
+											}
+										],
+										"views_count": 0,
+										"comments_count": 0,
+										"custom_fields": [{}]
+									}
+								}
+							}
+						}
+					},
+					"description": "Image, along with its context."
+				},
+				"description": "Endpoint: https://api.alice.io/sync/v3/content/image\n\nThe Synchronous Image API enables you to send an image item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously.\n\nIf the ID of this image already exists, then its details are updated.\n\nThe API supports the following file formats: **JPG, PNG, WEBP**.\n**Image file size is limited to 6k - 5MB**.\n\nThe T&S platform analyzes the following fields:\n\nAnalyzed image - **media_url** or **raw_media** fields.\n\nAnalyzed texts - **title** and **description** fields.\n\n**NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.",
+				"tags": ["content"],
+				"parameters": []
+			},
+			"parameters": []
+		},
+		"/v3/content/image": {
+			"post": {
+				"summary": "Image API - asynchronous",
+				"operationId": "post-content-image",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"description": "Endpoint: https://api.alice.io/v3/content/image\n\nThe Image API enables you to send an image item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this image already exists, then its details are updated.\n\nThe API supports the following file formats: **JPG, PNG, WEBP**.\n**Image file size is limited to 6k - 5MB**.\n\nThe T&S platform analyzes the following fields:\n\nAnalyzed image - **media_url** or **raw_media** fields.\n\nAnalyzed texts - **title** and **description** fields.\n\n**NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"content_id": {
+										"$ref": "#/components/schemas/content_id_async"
+									},
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"media_url": {
+										"$ref": "#/components/schemas/media_url"
+									},
+									"callback_url": {
+										"$ref": "#/components/schemas/callback_url"
+									},
+									"callback_key_name": {
+										"$ref": "#/components/schemas/callback_key_name"
+									},
+									"webpage_url": {
+										"$ref": "#/components/schemas/webpage_url"
+									},
+									"title": {
+										"$ref": "#/components/schemas/title"
+									},
+									"description": {
+										"$ref": "#/components/schemas/description"
+									},
+									"date_created": {
+										"$ref": "#/components/schemas/date_created"
+									},
+									"views_count": {
+										"$ref": "#/components/schemas/views_count"
+									},
+									"comments_count": {
+										"$ref": "#/components/schemas/comments_count"
+									},
+									"user_id": {
+										"$ref": "#/components/schemas/user_id"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"custom_fields": {
+										"$ref": "#/components/schemas/custom_fields"
+									},
+									"response_custom_fields": {
+										"$ref": "#/components/schemas/response_custom_fields"
+									},
+									"raw_media": {
+										"$ref": "#/components/schemas/raw_media"
+									},
+									"mime_type": {
+										"$ref": "#/components/schemas/mime_type"
+									}
+								},
+								"required": ["content_id"]
+							}
+						}
+					},
+					"description": ""
+				},
+				"callbacks": {
+					"Analysis result": {
+						"{$request.body#/callback_url}": {
+							"post": {
+								"summary": "Callback response",
+								"requestBody": {
+									"description": "Analysis result",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"properties": {
+													"response_id": {
+														"$ref": "#/components/schemas/response_id"
+													},
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"entity_type": {
+														"$ref": "#/components/schemas/entity_type"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_image"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"detection_type": {
+																	"$ref": "#/components/schemas/detection_type"
+																},
+																"analysis_description": {
+																	"$ref": "#/components/schemas/analysis_description"
+																}
+															},
+															"required": [
+																"violation_type",
+																"risk_score"
+															]
+														}
+													},
+													"analyzed_violations": {
+														"type": "array",
+														"description": "violation types analyzed by Alice in this response",
+														"items": {
+															"$ref": "#/components/schemas/violation_types"
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												}
+											}
+										}
+									}
+								},
+								"responses": {
+									"200": {
+										"description": "Callback successfully processed"
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": ["content"]
+			},
+			"parameters": []
+		},
+		"/v3/content/video": {
+			"post": {
+				"summary": "Video API - asynchronous",
+				"operationId": "post-content-video",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"description": "Endpoint: https://api.alice.io/v3/content/video\n\nThe Video API enables you to send a video item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this video already exists, then its details are updated.\n\nThe API supports the following file formats: **mp4, mkv, avi**.\n\nVideo length is limited to 30 min.\n\nVideo file size is limited to 1GB.\n\nThe T&S platform analyzes the following fields:\n\nAnalyzed video - **media_url** or **raw_media** fields.\n\nAnalyzed image - **thumbnail_url** field.\n\nAnalyzed texts - **title** and **description** fields.\n\n**NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"content_id": {
+										"$ref": "#/components/schemas/content_id_async"
+									},
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"media_url": {
+										"$ref": "#/components/schemas/media_url"
+									},
+									"callback_url": {
+										"$ref": "#/components/schemas/callback_url"
+									},
+									"callback_key_name": {
+										"$ref": "#/components/schemas/callback_key_name"
+									},
+									"webpage_url": {
+										"$ref": "#/components/schemas/webpage_url"
+									},
+									"title": {
+										"$ref": "#/components/schemas/title"
+									},
+									"description": {
+										"$ref": "#/components/schemas/description"
+									},
+									"thumbnail_url": {
+										"$ref": "#/components/schemas/thumbnail_url"
+									},
+									"date_created": {
+										"$ref": "#/components/schemas/date_created"
+									},
+									"views_count": {
+										"$ref": "#/components/schemas/views_count"
+									},
+									"comments_count": {
+										"$ref": "#/components/schemas/comments_count"
+									},
+									"user_id": {
+										"$ref": "#/components/schemas/user_id"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"custom_fields": {
+										"$ref": "#/components/schemas/custom_fields"
+									},
+									"response_custom_fields": {
+										"$ref": "#/components/schemas/response_custom_fields"
+									},
+									"raw_media": {
+										"$ref": "#/components/schemas/raw_media"
+									},
+									"mime_type": {
+										"$ref": "#/components/schemas/mime_type"
+									}
+								},
+								"required": ["content_id"]
+							}
+						}
+					},
+					"description": ""
+				},
+				"callbacks": {
+					"Analysis result": {
+						"{$request.body#/callback_url}": {
+							"post": {
+								"summary": "Callback response",
+								"requestBody": {
+									"description": "Analysis result",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"properties": {
+													"response_id": {
+														"$ref": "#/components/schemas/response_id"
+													},
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"entity_type": {
+														"$ref": "#/components/schemas/entity_type"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_image"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"detection_type": {
+																	"$ref": "#/components/schemas/detection_type"
+																},
+																"analysis_description": {
+																	"$ref": "#/components/schemas/analysis_description"
+																}
+															}
+														}
+													},
+													"analyzed_violations": {
+														"type": "array",
+														"description": "violation types analyzed by Alice in this response",
+														"items": {
+															"$ref": "#/components/schemas/violation_types"
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												},
+												"required": [
+													"response_id",
+													"entity_id",
+													"entity_type",
+													"violations"
+												]
+											}
+										}
+									}
+								},
+								"responses": {
+									"200": {
+										"description": "Callback successfully processed"
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": ["content"]
+			},
+			"parameters": []
+		},
+		"/v3/content/audio": {
+			"post": {
+				"summary": "Audio API - asynchronous",
+				"operationId": "post-content-audio",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"description": "Endpoint: https://api.alice.io/v3/content/audio\n\nThe Audio API enables you to send an audio item and its context to the Alice T&S platform. If the ID of this audio already exists, then its details are updated.\n\nThe Platform supports playing the following file formats: **mp3, WAV, OGG**.\n\nAudio length is limited to 30 min.\n\nAnalyzed audio - **media_url** or **raw_media** fields.\n\nAnalyzed image - **thumbnail_url** field.\n\nAnalyzed texts - **title** and **description** fields.\n\n**NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"content_id": {
+										"$ref": "#/components/schemas/content_id_async"
+									},
+									"category": {
+										"$ref": "#/components/schemas/category"
+									},
+									"media_url": {
+										"$ref": "#/components/schemas/media_url"
+									},
+									"callback_url": {
+										"$ref": "#/components/schemas/callback_url"
+									},
+									"callback_key_name": {
+										"$ref": "#/components/schemas/callback_key_name"
+									},
+									"webpage_url": {
+										"$ref": "#/components/schemas/webpage_url"
+									},
+									"title": {
+										"$ref": "#/components/schemas/title"
+									},
+									"description": {
+										"$ref": "#/components/schemas/description"
+									},
+									"thumbnail_url": {
+										"$ref": "#/components/schemas/thumbnail_url"
+									},
+									"date_created": {
+										"$ref": "#/components/schemas/date_created"
+									},
+									"views_count": {
+										"$ref": "#/components/schemas/views_count"
+									},
+									"comments_count": {
+										"$ref": "#/components/schemas/comments_count"
+									},
+									"user_id": {
+										"$ref": "#/components/schemas/user_id"
+									},
+									"contained_in": {
+										"$ref": "#/components/schemas/contained_in"
+									},
+									"custom_fields": {
+										"$ref": "#/components/schemas/custom_fields"
+									},
+									"response_custom_fields": {
+										"$ref": "#/components/schemas/response_custom_fields"
+									},
+									"raw_media": {
+										"$ref": "#/components/schemas/raw_media"
+									},
+									"mime_type": {
+										"$ref": "#/components/schemas/mime_type"
+									}
+								},
+								"required": ["content_id"]
+							}
+						}
+					},
+					"description": ""
+				},
+				"callbacks": {
+					"Analysis result": {
+						"{$request.body#/callback_url}": {
+							"post": {
+								"summary": "Callback response",
+								"requestBody": {
+									"description": "Analysis result",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"properties": {
+													"response_id": {
+														"$ref": "#/components/schemas/response_id"
+													},
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"entity_type": {
+														"$ref": "#/components/schemas/entity_type"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_image"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"detection_type": {
+																	"$ref": "#/components/schemas/detection_type"
+																},
+																"analysis_description": {
+																	"$ref": "#/components/schemas/analysis_description"
+																}
+															}
+														}
+													},
+													"analyzed_violations": {
+														"type": "array",
+														"description": "violation types analyzed by Alice in this response",
+														"items": {
+															"$ref": "#/components/schemas/violation_types"
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												},
+												"required": [
+													"response_id",
+													"entity_id",
+													"entity_type",
+													"violations"
+												]
+											}
+										}
+									}
+								},
+								"responses": {
+									"200": {
+										"description": "Callback successfully processed"
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": ["content"]
+			},
+			"parameters": []
+		},
+		"/v3/users/upsert": {
+			"post": {
+				"summary": "Users API",
+				"operationId": "post-users-upsert",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"users": {
+										"type": "array",
+										"items": {
+											"$ref": "#/components/schemas/user"
+										}
+									},
+									"callback_url": {
+										"$ref": "#/components/schemas/callback_url"
+									},
+									"callback_key_name": {
+										"$ref": "#/components/schemas/callback_key_name"
+									}
+								},
+								"required": ["users"]
+							}
+						}
+					}
+				},
+				"description": "Endpoint: https://api.alice.io/v3/users/upsert\n\nThe Users API enables you to send details about a user of your platform to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this user already exists, then its details are updated.\n\nThe T&S platform analyzes the **name**, **description** and **nickname** fields of each item.\n\n**NOTE** - **name and nickname fields are limited to 1,024 characters. Description field is limited to 10,240 characters**.",
+				"callbacks": {
+					"Analysis result": {
+						"{$request.body#/callback_url}": {
+							"post": {
+								"summary": "callback with analysis result",
+								"requestBody": {
+									"description": "Analysis result",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"properties": {
+													"response_id": {
+														"$ref": "#/components/schemas/response_id"
+													},
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"entity_type": {
+														"$ref": "#/components/schemas/entity_type"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_text"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"detection_type": {
+																	"$ref": "#/components/schemas/detection_type"
+																},
+																"analysis_description": {
+																	"$ref": "#/components/schemas/analysis_description"
+																}
+															},
+															"required": [
+																"violation_type",
+																"risk_score"
+															]
+														}
+													},
+													"analyzed_violations": {
+														"type": "array",
+														"description": "violation types analyzed by Alice in this response",
+														"items": {
+															"$ref": "#/components/schemas/violation_types"
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												},
+												"required": [
+													"response_id",
+													"entity_id",
+													"entity_type",
+													"violations"
+												]
+											}
+										}
+									}
+								},
+								"responses": {
+									"200": {
+										"description": "Callback successfully processed"
+									}
+								}
+							}
+						}
+					}
+				},
+				"tags": ["users"]
+			},
+			"parameters": []
+		},
+		"/v3/collections/{collection_type}": {
+			"post": {
+				"summary": "Collection API",
+				"operationId": "post-collections",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"description": "Endpoint: https://api.alice.io/v3/collections/{collection_type}\n\nThe Collections API enables you to send details about a collection of your platform to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this collection already exists, then its details are updated.\n\nThe T&S platform analyzes the **name** and **description** fields of each collection.",
+				"callbacks": {
+					"Analysis result": {
+						"{$request.body#/callback_url}": {
+							"post": {
+								"summary": "callback with analysis result",
+								"requestBody": {
+									"description": "Analysis result",
+									"content": {
+										"application/json": {
+											"schema": {
+												"type": "object",
+												"properties": {
+													"response_id": {
+														"$ref": "#/components/schemas/response_id"
+													},
+													"entity_id": {
+														"$ref": "#/components/schemas/entity_id"
+													},
+													"entity_type": {
+														"$ref": "#/components/schemas/entity_type"
+													},
+													"violations": {
+														"type": "array",
+														"items": {
+															"type": "object",
+															"properties": {
+																"violation_type": {
+																	"$ref": "#/components/schemas/violation_type_text"
+																},
+																"risk_score": {
+																	"$ref": "#/components/schemas/risk_score"
+																},
+																"detection_type": {
+																	"$ref": "#/components/schemas/detection_type"
+																},
+																"analysis_description": {
+																	"$ref": "#/components/schemas/analysis_description"
+																}
+															},
+															"required": [
+																"violation_type",
+																"risk_score"
+															]
+														}
+													},
+													"analyzed_violations": {
+														"type": "array",
+														"description": "violation types analyzed by Alice in this response",
+														"items": {
+															"$ref": "#/components/schemas/violation_types"
+														}
+													},
+													"errors": {
+														"type": "array",
+														"items": {
+															"$ref": "#/components/schemas/violation_error"
+														}
+													}
+												},
+												"required": [
+													"response_id",
+													"entity_id",
+													"entity_type",
+													"violations"
+												]
+											}
+										}
+									}
+								},
+								"responses": {
+									"200": {
+										"description": "Callback successfully processed"
+									}
+								}
+							}
+						}
+					}
+				},
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"description": "The collection object ",
+								"properties": {
+									"collection": {
+										"$ref": "#/components/schemas/collection"
+									},
+									"callback_url": {
+										"$ref": "#/components/schemas/callback_url"
+									},
+									"callback_key_name": {
+										"$ref": "#/components/schemas/callback_key_name"
+									}
+								}
+							}
+						},
+						"application/xml": {
+							"schema": {
+								"type": "object",
+								"properties": {}
+							}
+						}
+					},
+					"description": ""
+				},
+				"tags": ["collection"]
+			},
+			"parameters": [
+				{
+					"$ref": "#/components/parameters/collection_type"
+				}
+			]
+		},
+		"/v3/flags": {
+			"post": {
+				"summary": "Flags API",
+				"operationId": "post-flags",
+				"responses": {
+					"200": {
+						"$ref": "#/components/responses/200-sync"
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"description": "Endpoint: https://api.alice.io/v3/flags\n\nA flag represents a report by a platform user of what they consider a violative item, such as to specify that a content, a user or a collection is offensive, abusive or hate speech. \n\nThe Flag API enables you to send details about the flag made on an item on your platform to the Alice T&S platform. \n\nYou can specify one of the Alice supported [violation types](#section/Integrating-with-the-TandS-Platform-Overview/Violation-Types) and/or specify a custom violation for the flag. You can also describe the reason for this flag.\n\nA Flags request must include the flagger's ID, as well as an identifier of either the flagged content,user or collection. Only one of these identifiers should be specified in the request.\n\nIf a flag with the same id is defined in Alice already, then its details are updated. \n\nIf the flagged item and/or the flagger do not exist in Alice, they are automatically created as empty fields.\n\n\nHere is an example of a flag sent to the Alice T&S platform – \n\n    {\n      \"flag_id\":\"flag1\",\n      \"flagger_id\":\"user12345\",\n      \"flagged_content_id\":\"content12345\",\n      \"flagging_reasoning\":\"this is offensive\",\n      \"flagged_at\":\"2023-01-15 20:31\",\n      \"violation\":\"abusive_or_harmful.hate_speech\"\n    }\n\nEach item's flag appears in the Flags pane on the right of the Moderator's View when that item is selected. \n \n![FLAGS](https://lh6.googleusercontent.com/oT_4O43bMWaYKEaSZ0IjUiJqhLetPtzqV8MYz1X689lqQAiJUeLvlSdI8dnEc9nah8-lXMXjJCo5G_mAjx0_3k-TrSM4isewMf8dCR7YRq7jNSbuu_z35UbTusg0RCPi8iu8TEb2FOvrLnSFOrTuQjY9CkUldBmqBBUcnHg6JljKH_LjGGbd3LPJgnrvxQ)\n\nEach additional flag will appear similarly underneath it.  \n\nThe result of the Flags request shown above will appear in the Flags pane of the Moderator's View as shown below –\n \n![FLAG](https://lh4.googleusercontent.com/ovfrLMQJt97hrs5w-fmXMIxSbEr66Oud4xwP9kxGV3gPtgDJzbimmAfuT5eDixQA6Z15LzLyhuNZQV8LotOwH7Kk9wc0fbwg_bnAUQsiS0URQqPznrq5-xU9iaiHwwwkvFUy-VJY666IP0-wtboL85jXc71NtO1jdJHVzCJ56A1iFdJRpQeXpsHBHJft2A)\n\nIn this example, **JOHN DOE** is the name of the user referenced in the **flagger_id** field.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"flag_id": {
+										"type": "string",
+										"description": "The unique identifier of the flag on your platform."
+									},
+									"flagger_id": {
+										"type": "string",
+										"description": "The ID of the user who created this flag. It is recommended to first add the details of this User using the Users API."
+									},
+									"flagged_content_id": {
+										"type": "string",
+										"description": "The unique identifier of the flagged content on your platform."
+									},
+									"flagged_collection_id": {
+										"type": "string",
+										"description": "The unique identifier of the flagged collection on your platform"
+									},
+									"flagged_user_id": {
+										"type": "string",
+										"description": "The unique identifier of the flagged user on your platform."
+									},
+									"flagged_at": {
+										"anyOf": [
+											{
+												"type": "number"
+											},
+											{
+												"type": "string"
+											}
+										],
+										"description": "The date and time in which the item was flagged.\nThis field should be sent as a timestamp in Coordinated Universal Time (UTC).\nIf the field is omitted, it will be automatically populated with the current time at the time of processing.\nSupports [ISO 8601 time]( https://www.iso.org/iso-8601-date-and-time-format.html) string or UNIX number. \nISO format: YYYY-MM-DD HH:MM or MM-DD-YYYY HH:MM.\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\".",
+										"format": "date-time"
+									},
+									"flagging_reasoning": {
+										"type": "string",
+										"description": "Free text that describes the reason for the flag.",
+										"maxLength": 1024
+									},
+									"violation": {
+										"$ref": "#/components/schemas/violation_types"
+									},
+									"custom_violation": {
+										"type": "string",
+										"description": "Free text that describes a custom violation. This is not one of the violations supported by Alice."
+									}
+								},
+								"required": ["flag_id", "flagger_id"]
+							}
+						}
+					},
+					"description": "A Flag request must include an identifier of a flagged content/user/collection, as well as the flagger's ID.\nIn the event that the flagged entity and/or the flagger do not exist in Alice, they are automatically created as empty fields."
+				},
+				"tags": ["flags"]
+			}
+		},
+		"/v3/apikeys": {
+			"post": {
+				"summary": "Generate New API Key",
+				"operationId": "post-generate-api-key",
+				"description": "Endpoint: https://api.alice.io/v3/apikeys\n\nThe Generate New API Key allows generating a new API key with a specified name and optional description.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "The name of the new API key.",
+										"example": "my-new-api-key",
+										"maxLength": 30
+									},
+									"description": {
+										"type": "string",
+										"description": "An optional description for the new API key.",
+										"example": "API key for analytics service.",
+										"maxLength": 250
+									}
+								},
+								"required": ["name"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "API key successfully created.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"name": {
+											"type": "string",
+											"description": "The name of the new API key.",
+											"example": "my-new-api-key"
+										},
+										"description": {
+											"type": "string",
+											"description": "The description of the new API key, if provided.",
+											"example": "API key for analytics service."
+										},
+										"api_key": {
+											"type": "string",
+											"description": "The generated API key.",
+											"example": "abc123xyz456"
+										},
+										"id": {
+											"type": "string",
+											"description": "A unique identifier for the API key.",
+											"example": "666709eaa8d91cbbba13a59d"
+										},
+										"created_at": {
+											"type": "string",
+											"description": "The creation timestamp of the API key.",
+											"example": "2024-12-31T23:59:59Z"
+										}
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad Request",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"message": {
+											"type": "string",
+											"example": "Input validation error"
+										},
+										"errors": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"field": {
+														"type": "string"
+													},
+													"message": {
+														"type": "string"
+													}
+												}
+											},
+											"example": [
+												{
+													"field": "name",
+													"message": "Required"
+												},
+												{
+													"field": "description",
+													"message": "'description' must not exceed 250 characters"
+												}
+											]
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["api keys"]
+			},
+			"get": {
+				"summary": "List API Keys",
+				"operationId": "get-api-keys",
+				"description": "Endpoint: https://api.alice.io/v3/apikeys\n\nThe List API Keys retrieves a list of all existing API keys.\n\n<u>Note</u>: The information presented per API Key includes metadata only, whereas the key itself is not exposed due to confidentiality considerations.",
+				"responses": {
+					"200": {
+						"description": "A list of API keys.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "array",
+									"items": {
+										"type": "object",
+										"properties": {
+											"name": {
+												"type": "string",
+												"description": "The name of the API key.",
+												"example": "my-new-api-key"
+											},
+											"description": {
+												"type": "string",
+												"description": "The description of the API key, if provided.",
+												"example": "API key for analytics service."
+											},
+											"id": {
+												"type": "string",
+												"description": "A unique identifier for the API key.",
+												"example": "666709eaa8d91cbbba13a59d"
+											},
+											"created_at": {
+												"type": "string",
+												"description": "The creation timestamp of the API key.",
+												"example": "2024-12-31T23:59:59Z"
+											}
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["api keys"]
+			}
+		},
+		"/v3/apikeys/{id}": {
+			"delete": {
+				"summary": "Delete API Key",
+				"operationId": "delete-api-key",
+				"description": "Endpoint: https://api.alice.io/v3/apikeys/{id}\n\nThe Delete API Key deletes an API key by its identifier.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "The unique identifier of the API key to be deleted."
+					}
+				],
+				"responses": {
+					"204": {
+						"description": "API key successfully deleted. No content returned."
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["api keys"]
+			}
+		},
+		"/v1/evaluate/message": {
+			"post": {
+				"summary": "Message",
+				"operationId": "post-genai-evaluate",
+				"description": "Endpoint: https://api.alice.io/v1/evaluate/message\n\nThis synchronous endpoint is used to evaluate messages sent to the Alice Guardrails service. It analyzes messages for potential violations and returns appropriate actions based on the analysis.",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"text": {
+										"type": "string",
+										"description": "The message text to evaluate for potential violations.",
+										"maxLength": 10240
+									},
+									"message_type": {
+										"type": "string",
+										"description": "The type of message being evaluated.",
+										"enum": ["prompt", "response"]
+									},
+									"session_id": {
+										"type": "string",
+										"description": "The session identifier for the message.",
+										"maxLength": 100
+									},
+									"user_id": {
+										"type": "string",
+										"description": "The identifier of the user who sent the message.",
+										"maxLength": 100
+									},
+									"model_context": {
+										"type": "object",
+										"description": "Additional context about the model being used.",
+										"properties": {
+											"provider": {
+												"type": "string",
+												"description": "The provider of the model.",
+												"maxLength": 100
+											},
+											"name": {
+												"type": "string",
+												"description": "The name of the model.",
+												"maxLength": 100
+											},
+											"version": {
+												"type": "string",
+												"description": "The version of the model.",
+												"maxLength": 100
+											},
+											"cloud_platform": {
+												"type": "string",
+												"description": "The cloud platform where the model is deployed.",
+												"maxLength": 100
+											}
+										},
+										"required": ["provider", "name", "version"]
+									},
+									"app_name": {
+										"type": "string",
+										"description": "The name of the application sending the message.",
+										"maxLength": 100
+									},
+									"external_moderation": {
+										"type": "object",
+										"description": "Optional external moderation data to be considered in the evaluation."
+									}
+								},
+								"required": [
+									"text",
+									"message_type",
+									"session_id",
+									"user_id",
+									"model_context"
+								]
+							}
+						}
+					},
+					"description": "The message and context to evaluate"
+				},
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"correlation_id": {
+											"type": "string",
+											"description": "The correlation ID for tracking the request.",
+											"example": "123e4567-e89b-12d3-a456-426614174000"
+										},
+										"action": {
+											"type": "string",
+											"description": "The action to take based on the evaluation.",
+											"example": "block"
+										},
+										"action_text": {
+											"type": "string",
+											"description": "The text description of the action.",
+											"example": "I'm sorry, I cannot answer this question. Please refer to the application usage guidelines and see that you follow them"
+										},
+										"detections": {
+											"type": "array",
+											"description": "The detected violations and their details.",
+											"items": {
+												"type": "object",
+												"properties": {
+													"violation_type": {
+														"type": "string",
+														"description": "The type of violation detected.",
+														"example": "abusive_or_harmful.hate_speech"
+													},
+													"risk_score": {
+														"type": "number",
+														"description": "The risk score for the detected violation.",
+														"minimum": 0.1,
+														"maximum": 1,
+														"example": 0.87
+													},
+													"detection_type": {
+														"type": "string",
+														"description": "The type of detection method used.",
+														"enum": ["manual"],
+														"example": "manual"
+													},
+													"analysis_description": {
+														"type": "string",
+														"description": "A textual description of the violation.",
+														"example": "Content contains hate speech targeting a specific group"
+													}
+												},
+												"required": ["violation_type", "risk_score"]
+											},
+											"example": [
+												{
+													"violation_type": "abusive_or_harmful.hate_speech",
+													"risk_score": 0.87
+												},
+												{
+													"violation_type": "abusive_or_harmful.profanity",
+													"risk_score": 0.65
+												}
+											]
+										},
+										"errors": {
+											"type": "array",
+											"description": "Any errors that occurred during evaluation.",
+											"items": {
+												"type": "object"
+											},
+											"example": []
+										}
+									},
+									"required": [
+										"correlation_id",
+										"action",
+										"action_text",
+										"detections",
+										"errors"
+									]
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["WonderFence"]
+			}
+		},
+		"/redteam/assessments/": {
+			"get": {
+				"summary": "Assessments",
+				"operationId": "get-assessments",
+				"description": "Endpoint: https://api.alice.io/redteam/assessments/\n\nThis synchronous endpoint is used to get defined red teaming assessments from the system with pagination support. It can return assessments based on filters, sorting, and pagination parameters.",
+				"parameters": [
+					{
+						"in": "query",
+						"name": "search",
+						"schema": {
+							"type": "string"
+						},
+						"description": "Search term to filter assessments by name"
+					},
+					{
+						"in": "query",
+						"name": "applicationIds",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"description": "Filter by application IDs"
+					},
+					{
+						"in": "query",
+						"name": "applicationNames",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"description": "Filter by application names"
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string",
+								"enum": [
+									"ready",
+									"pending",
+									"in_progress",
+									"generating_report",
+									"completed",
+									"failed"
+								]
+							}
+						},
+						"description": "Filter assessments by status (can be multiple)"
+					},
+					{
+						"in": "query",
+						"name": "createdBy",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							}
+						},
+						"description": "Filter by creator emails"
+					},
+					{
+						"in": "query",
+						"name": "dateFrom",
+						"schema": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"description": "Filter assessments created from this date (ISO 8601 format, e.g., 2025-09-09T14:10:36.628Z)"
+					},
+					{
+						"in": "query",
+						"name": "dateTo",
+						"schema": {
+							"type": "string",
+							"format": "date-time"
+						},
+						"description": "Filter assessments created until this date (ISO 8601 format, e.g., 2025-09-09T14:10:36.628Z)"
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"schema": {
+							"type": "integer",
+							"minimum": 1
+						},
+						"description": "Page number for pagination"
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"schema": {
+							"type": "integer",
+							"minimum": 1,
+							"maximum": 100,
+							"default": 20
+						},
+						"description": "Number of results per page (default: 20)"
+					},
+					{
+						"in": "query",
+						"name": "sort",
+						"schema": {
+							"type": "string",
+							"enum": ["createdAt", "lastUpdatedAt", "name", "status"]
+						},
+						"description": "Field to sort by"
+					},
+					{
+						"in": "query",
+						"name": "order",
+						"schema": {
+							"type": "string",
+							"enum": ["asc", "desc"]
+						},
+						"description": "Sort order (ascending or descending)"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"assessmentId": {
+														"type": "string",
+														"description": "ID of a given assessment.",
+														"example": "01992ed0-71cf-750a-83bf-f7406ca950dc"
+													},
+													"applicationName": {
+														"type": "string",
+														"description": "The name of the application being assessed.",
+														"example": "MyChatbot"
+													},
+													"versionName": {
+														"type": "string",
+														"description": "The assessment version",
+														"example": "1.0.0"
+													},
+													"name": {
+														"type": "string",
+														"description": "The given name of the assessment.",
+														"example": "Chatbot safety check"
+													},
+													"status": {
+														"type": "string",
+														"description": "The assessment's current status",
+														"example": "ready"
+													},
+													"createdAt": {
+														"type": "string",
+														"description": "The creation timestamp of the assessment.",
+														"example": "2025-09-09T14:10:36.628Z"
+													},
+													"lastUpdatedAt": {
+														"type": "string",
+														"description": "The last update timestamp of the assessment.",
+														"example": "2025-09-09T14:10:36.628Z"
+													}
+												},
+												"required": [
+													"assessmentId",
+													"applicationName",
+													"name",
+													"status"
+												]
+											}
+										},
+										"pagination": {
+											"type": "object",
+											"properties": {
+												"page": {
+													"type": "integer",
+													"description": "Current page number",
+													"example": 1
+												},
+												"limit": {
+													"type": "integer",
+													"description": "Number of items per page",
+													"example": 20
+												},
+												"total": {
+													"type": "integer",
+													"description": "Total number of items",
+													"example": 150
+												},
+												"totalPages": {
+													"type": "integer",
+													"description": "Total number of pages",
+													"example": 8
+												},
+												"hasNextPage": {
+													"type": "boolean",
+													"description": "Whether there is a next page",
+													"example": true
+												},
+												"hasPrevPage": {
+													"type": "boolean",
+													"description": "Whether there is a previous page",
+													"example": false
+												}
+											},
+											"required": [
+												"page",
+												"limit",
+												"total",
+												"totalPages",
+												"hasNextPage",
+												"hasPrevPage"
+											]
+										}
+									},
+									"required": ["data", "pagination"]
+								}
+							}
+						}
+					},
+					"400": {
+						"$ref": "#/components/responses/400"
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["WonderBuild"]
+			}
+		},
+		"/redteam/assessments/run/{id}": {
+			"post": {
+				"summary": "run assessment",
+				"operationId": "run-assessment",
+				"description": "Endpoint: https://api.alice.io/redteam/assessments/run/{id}\n\nThis endpoint is given an ID of an existing assessment, which it will then run. The assessment must be in a run-ready state",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "The unique identifier of the assessment to clone."
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"assessmentId": {
+											"type": "string",
+											"description": "ID of the assessment.",
+											"example": "01992ed0-71cf-750a-83bf-f7406ca950dc"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["WonderBuild"]
+			}
+		},
+		"/redteam/assessments/cloneAndRun/{id}": {
+			"post": {
+				"summary": "Clone and run",
+				"operationId": "clone-and-run-assessment",
+				"description": "Endpoint: https://api.alice.io/redteam/assessments/cloneAndRun/{id}\n\nThis endpoint is given an ID of an existing assessment, which it will then clone, and run the clone assessment.",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"schema": {
+							"type": "string"
+						},
+						"description": "The unique identifier of the assessment to clone."
+					},
+					{
+						"in": "query",
+						"name": "reusePrompts",
+						"schema": {
+							"type": "boolean"
+						},
+						"description": "Whether to reuse prompts from the original assessment or generate new ones."
+					}
+				],
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"assessmentId": {
+											"type": "string",
+											"description": "ID of the newly cloned assessment.",
+											"example": "01992ed0-71cf-750a-83bf-f7406ca950dc"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["WonderBuild"]
+			}
+		},
+		"/redteam/assessments/runFromPreset": {
+			"post": {
+				"summary": "Run assessment from preset",
+				"operationId": "run-assessment-preset",
+				"description": "Endpoint: https://api.alice.io/redteam/assessments/runFromPreset\n\nThis endpoint is given an app name, an app version and a preset name. It will create a new assessment for the given app+version based on the preset, and run it.\n\nIf the version does not exist, it will create it, based on the values of the last created version of the given app.",
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"preset_name": {
+										"type": "string",
+										"description": "The name of the preset to create an assessment from.",
+										"example": "all_safety_checks"
+									},
+									"app_name": {
+										"type": "string",
+										"description": "The name of the app the assessment will be checking. The app must have been pre configured in our system.",
+										"example": "MyChatBot"
+									},
+									"version_name": {
+										"type": "string",
+										"description": "The name of the app version that is being assessed. If it doesn't exist in our system, it will be created.",
+										"example": "1.2"
+									}
+								},
+								"required": ["preset_name", "app_name", "version_name"]
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"assessmentId": {
+											"type": "string",
+											"description": "ID of the newly created assessment.",
+											"example": "01992ed0-71cf-750a-83bf-f7406ca950dc"
+										}
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"$ref": "#/components/responses/401"
+					},
+					"429": {
+						"$ref": "#/components/responses/429"
+					}
+				},
+				"tags": ["WonderBuild"]
+			}
+		}
+	},
+	"tags": [
+		{
+			"name": "Integrating with ActiveOS",
+			"description": "ActiveOS is the world's leading tool stack for Trust & Safety teams. \n\nWith Alice's end-to-end solution, Trust & Safety teams of all sizes can protect users from malicious activity and online harm – regardless of content format, language or abuse area. By combining AI and a team of our subject-matter experts, the ActiveOS platform enables you to be agile and proactive for maximum efficiency, scalability and impact. \n\nIntegrating with ActiveOS platform enables you to detect, collect and analyze harmful content that may put your users and brand at risk. ActiveOS also provides a self-service UI that lets you easily tackle various moderation challenges and take action against violators.\n\n## Concepts & Terms\n### Entities\nThe ActiveOS platform categorizes your content data as one of the following entities – \n#### Content\nRepresents **WHAT** content was created on your platform, such as a post, comment, review, message, article or data. For example, a web page containing a video, a customer review of a product, a comment and so on. \n#### Users\nRepresents **WHO** created content on your platform. These are the end users that have uploaded content to your platform, meaning the people who are the creators or publishers of the content. For example, the account used for creating an image, the user who commented on a post and so on. \n#### Collections\nRepresents grouped entities. A collection is composed of multiple items grouped together in a playlist, album, folder, group or channel on your platform. For example, a playlist of videos (holding a list of videos), a discussion group (holding a list of posts), a folder (holding a list of files) or a channel.\n\n### Item\nAn item is an instance of an entity, meaning a specific user, content or collection that was on your platform and was sent to ActiveOS platform for analysis. For example, a specific user (a guy named Roy-the-Man), specific content (a video that this user uploaded to your platform) or a specific collection (a specific playlist of this user). \n\n### Media\nIt's important to differentiate between content and media. Media refers to the images, videos, text, audio and/or files that may be contained in an item (entity instance). All entity types in ActiveOS (meaning users, content and collections) can contain one or more media. \n\nFor example, a blog post, an article or a post might contain an image, video, text, audio and/or file.\n\n### Flags\nA flag is a common mechanism for platform users to report what they consider harmful, such as to specify that something is offensive, abusive or hate speech. Each flag may have multiple attributes, such as a Violation Category and the free text explanation entered by the person who flagged the item.\n\n## Risk Score\nActiveScore uses a combination of AI-powered risk scores and human analysis to analyze each item, as well as its context in order to provide a risk score of (between 0 – 1) that indicates the extent and confidence that the item is in violation of each violation type, as described above. \n\nThis means that an array of two values is sent by ActiveScore in response to each item that is analyzed. \n\nFor example, the following array might be returned by the API for a specific text item – \n\n* Violation Type – **abusive_or_harmful.hate_speech**, Risk Score – **0.8**\n* Violation Type – **abusive_or_harmful.harassment_or_bullying**, Risk Score – **0.6**\n\nA risk score is only returned for a violation type, if the risk score is over 0.1.\n\n**Note –** In ActiveOS platform user interface, this number is represented as 0 – 100 and a single aggregated risk score is assigned to each item.\n\n## Violation Types\nEach item that is analyzed by ActiveScore is assigned a risk score for each violation type in order to indicate the extent and confidence that an item (entity instance) is in violation of each violation type. Violation types include abusive behavior, terrorism, extremism, profanity and so on. A risk score between 0 and 1 represents the probability of the item to be violative, as described below.\n\n## API Response latency\nResponse latency is measured from the time a request is received by our servers to the time the response is returned by our servers, not including network latency, which might have an impact. \n\nThe latency depends on file type and size, so it might vary from our general benchmark:\n\nmedia | p50| p90 \n---------|----------|---------\n text | 100 ms | 250 ms \n image| 1 sec | 5 sec\n video (1 min) | 10 sec | 15 sec\n video (5 min) | 1 min | 1.5 min\n video (30 min) | 3 min | 3.5 min\n audio (30 sec) | 6 sec | 8 sec\n audio (60 sec) | 8 sec | 11 sec\n audio (30 min) | 15 min | 20 min\n\n## ActiveScore and ActiveOS Use Cases\n**Here's a few popular use cases for sending data to ActiveOS platform –**\n* **Newly published items** – Before publishing items, you can send them to the platform in order to avoid publishing violative items. Alternatively, you can send all newly published items to the platform immediately after publishing them in order to determine whether they should be removed.\n* **High-impact items** – You can send items that have become extremely popular to the platform in order to verify whether they are violative and should be removed. \n* **Just violation detection** – If you have your own in-house platform, you can send items to the platform for violation detection and then handle the results yourselves.\n* **A second opinion** – If you're already sending your data to other risk score vendors, you can use the platform as yet another vendor for specific violations. \n* **Orchestration** – You can send your data to the platform in order to leverage its Automated Workflows and Moderation Views.\n* **Getting more services** – You can send the platform items that you have already detected as violative, so that the platform can use this information to provide various services, such as detecting repeat offenders or improving the platform's violation detection services. \n\n## Rate limit\nProjects has a rate limit for the amount of requests you can send per second. \nThe default rate limit is 50 requests per second. You can reach out to your account manager to  increase this rate limit.\n\nWhen you are past the rate limit, your API requests will get a HTTP 429 response.\n\n## APIs\nAlice platform APIs enable you to send your content to the platform in order to get violation detections, risk scores, moderation insights and reports to be consumed by your software. \n\nIn this way, you can use the Alice APIs in the traditional request/response model, with or without the Alice platform UI. When using the Alice platform UI, the APIs can act as a gateway for sending your data to Alice. This data then appears in the Alice platform's UI (Moderation View) and in Automated Workflows. \n\n### APIs – How To\n**Here's a list of the API types provided for sending your data to the platform –**\n\n* [Text API – synchronous](#tag/content/operation/post-sync-content-text)\n* [Bulk Text API – synchronous](#tag/content/operation/post-sync-content-bulk-text)\n* [Image API – synchronous](#tag/content/operation/post-sync-content-image)\n* [Text API – asynchronous](#tag/content/operation/post-content-text)\n* [Image API - asynchronous](#tag/content/operation/post-content-image)\n* [Audio API](#tag/content/operation/post-content-audio)\n* [Video API](#tag/content/operation/post-content-video)\n* [Users API](#tag/users/operation/post-users-upsert)\n* [Collection API](#tag/collection/operation/post-collections)\n\nThe platform provides both synchronous endpoints and asynchronous endpoints. The data in the request and the response of both types is similar. The difference is the manner in which the response is sent. \n\n* The platform responds to synchronous endpoints in real time.\n* The platform responds to asynchronous endpoints by acknowledging the receipt of the request and then later sending a callback. \n\n#### Synchronous APIs\nA synchronous endpoint is best suited for users who need realtime responses and require low latency. A synchronous endpoint keeps the HTTP request connection open until after it has completed processing and has sent the results in the response. Currently, [text items](#tag/content/operation/post-sync-content-text) and [image items](#tag/content/operation/post-sync-content-image) can be sent to the platform synchronously.\nFor example, a chat message or an image post might require a realtime response from the platform in order to verify that it is not violative before it is published. \n\n**To execute a synchronous endpoint –**\n1. If you have not done so yet, create an API key, as described in the [Authentication](#section/Authentication) section. Otherwise, you can use the API key that you created previously.\n2. Send a request to the platform, while using the API key in the **af-api-key** header of the request.\nThe platform immediately sends back the violation detections and risk scores.\nSee [Text API – synchronous](#tag/content/operation/post-sync-content-text) or [Image API – synchronous](#tag/content/operation/post-sync-content-image) for the syntax of the request.\n\n#### Asynchronous APIs\nThe Asynchronous API enables you to send data to the platform and to later get a response as a callback. \n\n**To execute an asynchronous endpoint –**\n1. If you have not done so yet, create an API key, as described in the [Authentication](#section/Authentication) section. Otherwise, you can use the API key that you created previously.\n2. Configure your callback endpoint in the platform as described in Callbacks.\n3. Send a request while using the API key in the **af-api-key** header of the API request that you send to the platform. \nThe platform immediately sends back an acknowledgement upon receiving a request and later sends the result to your callback endpoint. \nSee the following for the syntax of the requests –\n* [Text API – asynchronous](#tag/content/operation/post-content-text)\n* [Image API](#tag/content/operation/post-content-image)\n* [Audio API - asynchronous](#tag/content/operation/post-content-audio)\n* [Video API - asynchronous](#tag/content/operation/post-content-video)\n* [Users API](#tag/users/operation/post-users-upsert)\n* [Collection API](#tag/collection/operation/post-collections)\n\n## Action Webhooks\nIn the Alice platform, you can define action webhooks that enable you to trigger actions on your own platform or on any other third-party system. \n\nThese action webhooks can be triggered by you at the click of a button in the platform Moderation View or by an Automated Workflow that you define. \n\nYou must make sure that a relevant API is defined on your platform or on the third-party platform that will execute the action upon receiving the action webhook from the Alice platform. \n\n### Action Webhooks – How To\nIn the Alice platform, you can define action webhooks that enable you to activate actions on your platform or on any other third-party system. These action webhooks can be triggered by you at the click of a button in the Alice platform Moderation View or by an Automated Workflow that you define. \n* **Actions on your platform –** The Alice platform action webhooks can trigger actions on your platform, such as removing content, suspending a user, removing a user, warning a user and so on. You must define an API on your platform (for each action webhook) that will execute the relevant action upon receiving the action webhook request from the Alice platform. \n* **Actions on third-party platforms –** The Alice platform action webhooks can trigger actions on third-party applications, such as ZenDesk. You must ensure that the relevant API exists on the third-party application that will execute the relevant action upon receiving the action webhook request from the Alice platform. \n\nYou can customize Moderation Views and the action buttons that they contain, as well as Automated Workflows according to your organization's preferences and requirements. \n\n## Callbacks\nA callback is a notification sent by the Alice platform in response to an asynchronous API request sent by your platform. \n\nThe Alice platform will send a callback to the endpoint of your choice after the Alice platform has completed processing the request sent in an asynchronous API.\n\nFor example, after your platform sends an [asynchronous **text** request](#tag/content/operation/post-content-text), the Alice platform returns an analysis result callback containing the list of violations that were detected for that text.\n\n**Important Note**\n\n**Terror**, **Hate Speech** and **Child Abuse** violations take longer to process. \nTo avoid waiting for the results of each of these types of violations, **a separate callback is sent by the Alice platform for each of these violations** after the process completes for a text, image and/or audio API. \n\nA separate callback may be sent in response to a video API for each type of violation.\n \nThis means that multiple callbacks may be triggered in response to a single request. \nEach callback contains the risk score for one or more violations and considers all relevant media fields (texts/images and so on) sent in the request. \n\nYou may refer to the documentation of each API for a description of the fields that are analyzed for each API. \n\nThe list of the violations with which this callback is associated is in the **analyzed_violations** field. \n\nA callback is triggered even when no violation is found (risk score is 0, or no relevant fields exist in the request for a violation) so that you can track when the processing of this item has finished.\n\n### How to define a Callback\n**To define the callback endpoint –**\n\nWhen sending an asynchronous request, set the **callback_url** field to your endpoint. \nAlice will call this endpoint once processing is done, or for error reporting.\n\nNote - This field is not mandatory. In case it is not used, the request would still be processed, only a callback won't be called by Alice.\n\n**Callback Authentication**\n\nYou have the option to add an API key to a callback request's header or query params. To do so, assign the name of a key that you defined in the platform's Auth Management section to **callback_key_name**. This key is then added as the API key in the callback request's header or query params.\n\n## Auth Management\nThe Auth Management option enables you to create API keys (and AWS Signature credentials) that the platform uses to send action webhook notifications or callbacks to your platform, such as a notification to remove a post from your platform. \n\n**To define an API key –**\n1. Click the Account Settings button.\n\n2. Select **DATA MANAGEMENT**, and then select **Auth Management**. \n\n    A list of the existing authorizations is displayed.\n\n3. Click the **Add Authorization** button and choose **API Key** as the auth type.\n\n4. Fill out the following fields – \n* **Name –** Enter any free text to identify the key. \n* **Description –** Enter a free text description of the purpose of this key.\n* **Key –** Enter any free-text as the key name. Spaces or periods (.) are not permitted. Underscores (_) and dashes (-) are permitted. \n* **Value –** Enter the value for this key. For security reasons, once you save the API key, you will no longer be able to display it here, but you can always regenerate another API key. \n* **Add To –** Select **Header** or **Query Params** to specify where the key will be inserted in the request.\n\n5. Click the **Save** button.\n\n## Custom Fields\nBy default, the Alice platform is provided with a wide variety of fields to describe your items. \n\nThe Alice platform also enables you to add your own fields by defining the title, key and type of each Custom Field to be added to your account. These Custom Fields then appear throughout the platform, such as in the Moderation Views and Automated Workflows. \n\nFor example, you might define a new Custom Field named **Subscription**, which can have one of the following values – **Premium**, **Basic** or **Free**.\n\nBy defining these Custom Fields in the Alice platform, the request structure of the API requests that you can send to the Alice platform is automatically modified to accept these Custom Fields according to your definitions. You can immediately start sending values in these new fields.\n\n**To define Custom Fields –**\n1. Click the **Account Settings** button.\n\n2. Select **MODERATION CAPABILITIES** and then select **Custom Fields**. \n\n3. Click the **Add Field** button.\n\n4. Click on the **COLLECTED** or **EDITABLE** option and then the **Next** button to specify that the values of these fields will be received by the Alice platform from your platform via API request or direct upload.\n\n5. In the **Title** field, enter any free-text name. This name appears as the name of this Custom Field and as title of this field's column in the Moderation View. This field can include spaces.\n\n6. In the **Key** field, enter any free text name for this key. This name appears as the name of this field in an API request to the platform. Spaces or periods (.) are not permitted. Underscores (_) and dashes (-) are permitted.\n\n7. From the **Type** dropdown menu, select the data type of the Custom Field, which can be Text, Number, Boolean, Date or Dropdown. \n\n    **Note –** The data type of fields sent to the Alice platform in a Custom Field will be verified and if incorrect, an error is generated. \n\n    Later, in the Moderation View, the Alice platform will validate the data type that a moderator can enter for this field. The platform will also validate data type received in API requests accordingly.\n\n8. Click the **Finish** button.\n\n9. You can now push data to the Alice platform. \n\nThe following is an example of an API request that sends an image to the platform.\n\n**animal_type**, **age**, **is_adopted**, **adoption_date** and **habitat** are the key names of the Custom Fields and **Persian cat**, **3**, **true**, **2015-11-25** and **Urban, Coastal** are the values accordingly. \n\nWhen this request will be received by the platform, it will validate the data type (Text, Number, Boolean, Date or Dropdown) in each Custom Field.\n\nValid formats:\n\n**Text** : Free text.\n\n**Number** : Any number including floating number.\n\n**Boolean** : true / false.\n\n**Date**: \"MM-DD-YYYY\" , \"YYYY-MM-DD\" , \"MM-DD-YYYY HH:MM\" , \"YYYY-MM-DD HH:MM\".\n\n**Dropdown**: A single string or an Array of strings - [\"str1\", \"str2\"].\n \nRequest example:\n\n    \"custom_fields\" : [\n    {\"animal_type\": \"Persian cat\"}, \n    {\"age\": 3}, \n    {\"is_adopted\": true}, \n    {\"adoption_date\" : \"2015-11-25\"},\n    {\"habitat\" : [\"Urban\",\"Coastal\"]} or {\"habitat\" : \"Urban\"}\n    ]\n\nThese fields are now part of each item, so that they may appear in each row (item) in a Moderation View, if the Moderation View is defined to include them. \n\n**Note –** Defining **Editable** fields by selecting **Editable** in the **Choose custom field type** window (described above) enables moderators to enter these item values in a Moderation View.\nEditable fields can also be populated by API requests using the custom fields."
+		},
+		{
+			"name": "content",
+			"description": "Content APIs Represents WHAT content was created on your platform, such as a post, comment, review, message, article or data. For example, a web page containing a video, a customer review of a product, a comment and so on."
+		},
+		{
+			"name": "collection",
+			"description": "Collection API Represents grouped entities. A collection is comprised of multiple items grouped together in a playlist, album, folder, group or channel on your platform. For example, a playlist of videos (holding a list of videos), a discussion group (holding a list of posts), a folder (holding a list of files) or a channel."
+		},
+		{
+			"name": "flags",
+			"description": "The Flags API enables you to send details about the flag made on an item on your platform to the Alice T&S platform."
+		},
+		{
+			"name": "users",
+			"description": "Users API Represents WHO created content on your platform. These are the end users that have uploaded content to your platform, meaning the people who are the creators or publishers of the content. For example, the account used for creating an image. A user can also be someone who likes, reacts, follows, administers, shares items and so on."
+		},
+		{
+			"name": "api keys",
+			"description": "Provides APIs to manage API key(s), including adding new keys, listing existing keys, and deleting keys."
+		},
+		{
+			"name": "WonderBuild",
+			"description": "WonderBuild provides red teaming and security assessment tools for AI applications. APIs for running comprehensive security assessments on gen-AI applications."
+		},
+		{
+			"name": "WonderFence",
+			"description": "WonderFence provides real-time guardrails for AI-generated content. APIs for evaluating and moderating AI-generated content and interactions to protect against harmful outputs and prompt attacks.\n\n## API Response Key Mapping\nThe following table is a mapping between violation types, their categories, and their corresponding API response keys:\n\nViolation Type | Category | API Response Key\n---------------|----------|----------------\n Impersonation | Security | prompt_attack.impersonation\n System Prompt Override | Security | prompt_attack.system_prompt_override\n Encoding | Security | prompt_injection.general_encoding\n Prompt Injection | Security | prompt_injection.general\n PII | Privacy | privacy_violation.PII\n Harassment or Bullying | Safety | abusive_or_harmful.harassment_or_bullying\n Profanity | Safety | abusive_or_harmful.profanity\n Hate Speech | Safety | abusive_or_harmful.hate_speech\n Child Abuse | Safety | abusive_or_harmful.child_abuse\n Suicide and Self-harm | Safety | self_harm.general\n Adult Content | Safety | adult_content.general\n Weapons | Safety | unauthorised_sales.weapons\n Legal Advice | Safety | deny_topics.legal_advice\n Financial Advice | Safety | deny_topics.financial_advice"
+		},
+		{
+			"name": "General",
+			"description": "General information and reference materials for GenAI APIs.\n\n## API Response Key Mapping\nThe following table is a mapping between violation types, their categories, and their corresponding API response keys:\n\nViolation Type | Category | API Response Key\n---------------|----------|----------------\n Impersonation | Security | prompt_attack.impersonation\n System Prompt Override | Security | prompt_attack.system_prompt_override\n Encoding | Security | prompt_injection.general_encoding\n Prompt Injection | Security | prompt_injection.general\n PII | Privacy | privacy_violation.PII\n Harassment or Bullying | Safety | abusive_or_harmful.harassment_or_bullying\n Profanity | Safety | abusive_or_harmful.profanity\n Hate Speech | Safety | abusive_or_harmful.hate_speech\n Child Abuse | Safety | abusive_or_harmful.child_abuse\n Suicide and Self-harm | Safety | self_harm.general\n Adult Content | Safety | adult_content.general\n Weapons | Safety | unauthorised_sales.weapons\n Legal Advice | Safety | deny_topics.legal_advice\n Financial Advice | Safety | deny_topics.financial_advice"
+		}
+	],
+	"x-tagGroups": [
+		{
+			"name": "WonderSuite",
+			"tags": ["General", "WonderBuild", "WonderFence"]
+		},
+		{
+			"name": "ActiveFamily",
+			"tags": [
+				"Integrating with ActiveOS",
+				"content",
+				"users",
+				"collection",
+				"flags",
+				"api keys"
+			]
+		}
+	],
+	"security": [
+		{
+			"API Key": []
+		}
+	]
+}

@@ -1,0 +1,1350 @@
+openapi: 3.0.0
+info:
+  license:
+    name: Alice API Terms of Use
+    url: https://app.alice.io/ts-platform/api-terms.pdf
+  version: 3.0.0
+  title: Alice API Documentation content API
+  description: "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n"
+  contact:
+    name: Support
+    email: support@alice.io
+  termsOfService: https://app.alice.io/ts-platform/terms.pdf
+servers:
+- url: https://api.alice.io
+  description: APIs Server
+security:
+- API Key: []
+tags:
+- name: content
+  description: Content APIs Represents WHAT content was created on your platform, such as a post, comment, review, message, article or data. For example, a web page containing a video, a customer review of a product, a comment and so on.
+paths:
+  /v3/content/text:
+    parameters: []
+    post:
+      summary: Text API - Asynchronous
+      responses:
+        '200':
+          $ref: '#/components/responses/200-async-text'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      operationId: post-content-text
+      parameters: []
+      description: "Endpoint: https://api.alice.io/v3/content/text\n\nThe Asynchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item in a callback. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** and **thumbnail_url** fields.\n\n**NOTE** - **Text length is limited to 10,240 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  description: The text to analyze. Limited to 10,240 characters
+                  maxLength: 10240
+                content_id:
+                  $ref: '#/components/schemas/content_id_async'
+                category:
+                  $ref: '#/components/schemas/category'
+                callback_url:
+                  $ref: '#/components/schemas/callback_url'
+                callback_key_name:
+                  $ref: '#/components/schemas/callback_key_name'
+                thumbnail_url:
+                  $ref: '#/components/schemas/thumbnail_url'
+                date_created:
+                  $ref: '#/components/schemas/date_created'
+                views_count:
+                  $ref: '#/components/schemas/views_count'
+                comments_count:
+                  $ref: '#/components/schemas/comments_count'
+                user_id:
+                  $ref: '#/components/schemas/user_id'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                webpage_url:
+                  $ref: '#/components/schemas/webpage_url'
+                custom_fields:
+                  $ref: '#/components/schemas/custom_fields'
+                response_custom_fields:
+                  $ref: '#/components/schemas/response_custom_fields'
+              required:
+              - text
+              - content_id
+        description: Text, along with its context.
+      callbacks:
+        Analysis result:
+          '{$request.body#/callback_url}':
+            post:
+              summary: callback with analysis result
+              requestBody:
+                description: Analysis result
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        response_id:
+                          $ref: '#/components/schemas/response_id'
+                        entity_id:
+                          $ref: '#/components/schemas/entity_id'
+                        entity_type:
+                          $ref: '#/components/schemas/entity_type'
+                        violations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              violation_type:
+                                $ref: '#/components/schemas/violation_type_text'
+                              risk_score:
+                                $ref: '#/components/schemas/risk_score'
+                              detection_type:
+                                $ref: '#/components/schemas/detection_type'
+                              analysis_description:
+                                $ref: '#/components/schemas/analysis_description'
+                        analyzed_violations:
+                          type: array
+                          description: violation types analyzed by Alice in this response
+                          items:
+                            $ref: '#/components/schemas/violation_type_text'
+                        errors:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/violation_error'
+              responses:
+                '200':
+                  description: Callback successfully processed
+      tags:
+      - content
+  /sync/v3/content/text:
+    parameters: []
+    post:
+      summary: Text API - Synchronous
+      operationId: post-sync-content-text
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    $ref: '#/components/schemas/response_id_sync'
+                  entity_id:
+                    $ref: '#/components/schemas/entity_id'
+                  entity_type:
+                    $ref: '#/components/schemas/entity_type'
+                  confidence:
+                    $ref: '#/components/schemas/confidence'
+                  language:
+                    $ref: '#/components/schemas/language'
+                  violations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        violation_type:
+                          $ref: '#/components/schemas/violation_type_text'
+                        risk_score:
+                          $ref: '#/components/schemas/risk_score'
+                  errors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/violation_error'
+                required:
+                - response_id
+                - entity_id
+                - entity_type
+                - violations
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  $ref: '#/components/schemas/text'
+                content_id:
+                  $ref: '#/components/schemas/content_id'
+                category:
+                  $ref: '#/components/schemas/category'
+                thumbnail_url:
+                  $ref: '#/components/schemas/thumbnail_url'
+                webpage_url:
+                  $ref: '#/components/schemas/webpage_url'
+                date_created:
+                  $ref: '#/components/schemas/date_created'
+                user_id:
+                  $ref: '#/components/schemas/user_id'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                views_count:
+                  $ref: '#/components/schemas/views_count'
+                comments_count:
+                  $ref: '#/components/schemas/comments_count'
+                custom_fields:
+                  $ref: '#/components/schemas/custom_fields'
+                response_custom_fields:
+                  $ref: '#/components/schemas/response_custom_fields'
+              required:
+              - text
+              - content_id
+            examples:
+              Example:
+                value:
+                  text: text to analyze
+                  content_id: entity123
+                  category: chats
+                  thumbnail_url: http://example.com
+                  webpage_url: http://example.com
+                  date_created: 1650886140
+                  user_id: user123
+                  contained_in:
+                  - collection_id: channel123
+                    collection_type: channel
+                  views_count: 0
+                  comments_count: 0
+                  custom_fields:
+                  - {}
+        description: Text, along with its context.
+      description: "Endpoint: https://api.alice.io/sync/v3/content/text\n\nThe Synchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** field.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request."
+      tags:
+      - content
+      parameters: []
+  /sync/v3/content/bulk/text:
+    parameters: []
+    post:
+      summary: Bulk Text API - Synchronous
+      operationId: post-sync-content-bulk-text
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    $ref: '#/components/schemas/response_id_sync'
+                  entity_type:
+                    $ref: '#/components/schemas/entity_type'
+                  items:
+                    type: array
+                    description: Array of results for each item sent in the request.
+                    items:
+                      type: object
+                      properties:
+                        entity_id:
+                          $ref: '#/components/schemas/entity_id'
+                        language:
+                          $ref: '#/components/schemas/language'
+                        violations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              violation_type:
+                                $ref: '#/components/schemas/violation_type_text'
+                              risk_score:
+                                $ref: '#/components/schemas/risk_score'
+                              confidence:
+                                $ref: '#/components/schemas/confidence'
+                        errors:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/violation_error'
+                      required:
+                      - entity_id
+                      - violations
+                  failed_item_indexes:
+                    type: array
+                    description: Array of indexes of items in the request that failed to be processed.
+                    items:
+                      type: number
+                required:
+                - response_id
+                - entity_type
+                - items
+                - failed_item_indexes
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  $ref: '#/components/schemas/category'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                items:
+                  type: array
+                  description: Array of text items to analyze. Minimum 1 item, Maximum 100 items.
+                  items:
+                    type: object
+                    properties:
+                      text:
+                        $ref: '#/components/schemas/text'
+                      content_id:
+                        $ref: '#/components/schemas/content_id'
+                      thumbnail_url:
+                        $ref: '#/components/schemas/thumbnail_url'
+                      webpage_url:
+                        $ref: '#/components/schemas/webpage_url'
+                      date_created:
+                        $ref: '#/components/schemas/date_created'
+                      user_id:
+                        $ref: '#/components/schemas/user_id'
+                      contained_in:
+                        $ref: '#/components/schemas/contained_in'
+                      views_count:
+                        $ref: '#/components/schemas/views_count'
+                      comments_count:
+                        $ref: '#/components/schemas/comments_count'
+                      custom_fields:
+                        $ref: '#/components/schemas/custom_fields'
+                      response_custom_fields:
+                        $ref: '#/components/schemas/response_custom_fields'
+                    required:
+                    - text
+                    - content_id
+              required:
+              - items
+            examples:
+              Example:
+                value:
+                  category: chats
+                  contained_in:
+                  - collection_id: channel123
+                    collection_type: channel
+                  items:
+                  - text: text to analyze
+                    content_id: entity123
+                    thumbnail_url: http://example.com
+                    webpage_url: http://example.com
+                    date_created: 1650886140
+                    user_id: user123
+                    views_count: 0
+                    comments_count: 0
+                    custom_fields:
+                    - {}
+                  - text: another text to analyze
+                    content_id: entity456
+                    thumbnail_url: http://example.com
+                    webpage_url: http://example.com
+                    date_created: 1650886140
+                    user_id: user123
+                    views_count: 0
+                    comments_count: 0
+                    custom_fields:
+                    - {}
+        description: Bulk texts, along with contexts.
+      description: "Endpoint: https://api.alice.io/sync/v3/content/bulk/text\n\nThe Synchronous Bulk Text API enables you to send a number of text items and their contexts to the Alice T&S platform in a single call, which will then analyze all of them, detect violations and return an array of one or more violations detected in each item synchronously. \n\n Since the number of items analyzed in each request is arbitrary and determined by the sender, there are no SLA guarantees on bulk item requests. \n\nThe T&S platform analyzes the **text** field of each item sent.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent as separate items.\n\nA bulk request is limited to 100 items maximum. A repeat of the same content_id in items in the same bulk request is **forbidden**, and will fail the duplicated item.\n\n**NOTE** This endpoint does not update items in the ActiveOS platform, and only returns the analysis on the request itself."
+      tags:
+      - content
+      parameters: []
+  /sync/v3/content/image:
+    parameters: []
+    post:
+      summary: Image API - Synchronous
+      operationId: post-sync-content-image
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    $ref: '#/components/schemas/response_id_sync'
+                  entity_id:
+                    $ref: '#/components/schemas/entity_id'
+                  entity_type:
+                    $ref: '#/components/schemas/entity_type'
+                  confidence:
+                    $ref: '#/components/schemas/confidence'
+                  language:
+                    $ref: '#/components/schemas/language'
+                  violations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        violation_type:
+                          $ref: '#/components/schemas/violation_type_image'
+                        risk_score:
+                          $ref: '#/components/schemas/risk_score'
+                  errors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/violation_error'
+                required:
+                - response_id
+                - entity_id
+                - entity_type
+                - violations
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content_id:
+                  $ref: '#/components/schemas/content_id'
+                category:
+                  $ref: '#/components/schemas/category'
+                media_url:
+                  $ref: '#/components/schemas/media_url'
+                webpage_url:
+                  $ref: '#/components/schemas/webpage_url'
+                title:
+                  $ref: '#/components/schemas/title'
+                description:
+                  $ref: '#/components/schemas/description'
+                date_created:
+                  $ref: '#/components/schemas/date_created'
+                views_count:
+                  $ref: '#/components/schemas/views_count'
+                comments_count:
+                  $ref: '#/components/schemas/comments_count'
+                user_id:
+                  $ref: '#/components/schemas/user_id'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                custom_fields:
+                  $ref: '#/components/schemas/custom_fields'
+                response_custom_fields:
+                  $ref: '#/components/schemas/response_custom_fields'
+                raw_media:
+                  $ref: '#/components/schemas/raw_media'
+                mime_type:
+                  $ref: '#/components/schemas/mime_type'
+              required:
+              - content_id
+            examples:
+              Example:
+                value:
+                  content_id: entity123
+                  media_url: https://example.com/image.jpg
+                  category: posts
+                  title: Image title
+                  description: Image description
+                  webpage_url: https://example.com
+                  date_created: 1650886140
+                  user_id: user123
+                  contained_in:
+                  - collection_id: channel123
+                    collection_type: channel
+                  views_count: 0
+                  comments_count: 0
+                  custom_fields:
+                  - {}
+        description: Image, along with its context.
+      description: 'Endpoint: https://api.alice.io/sync/v3/content/image
+
+
+        The Synchronous Image API enables you to send an image item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously.
+
+
+        If the ID of this image already exists, then its details are updated.
+
+
+        The API supports the following file formats: **JPG, PNG, WEBP**.
+
+        **Image file size is limited to 6k - 5MB**.
+
+
+        The T&S platform analyzes the following fields:
+
+
+        Analyzed image - **media_url** or **raw_media** fields.
+
+
+        Analyzed texts - **title** and **description** fields.
+
+
+        **NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.'
+      tags:
+      - content
+      parameters: []
+  /v3/content/image:
+    parameters: []
+    post:
+      summary: Image API - asynchronous
+      operationId: post-content-image
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      description: 'Endpoint: https://api.alice.io/v3/content/image
+
+
+        The Image API enables you to send an image item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this image already exists, then its details are updated.
+
+
+        The API supports the following file formats: **JPG, PNG, WEBP**.
+
+        **Image file size is limited to 6k - 5MB**.
+
+
+        The T&S platform analyzes the following fields:
+
+
+        Analyzed image - **media_url** or **raw_media** fields.
+
+
+        Analyzed texts - **title** and **description** fields.
+
+
+        **NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content_id:
+                  $ref: '#/components/schemas/content_id_async'
+                category:
+                  $ref: '#/components/schemas/category'
+                media_url:
+                  $ref: '#/components/schemas/media_url'
+                callback_url:
+                  $ref: '#/components/schemas/callback_url'
+                callback_key_name:
+                  $ref: '#/components/schemas/callback_key_name'
+                webpage_url:
+                  $ref: '#/components/schemas/webpage_url'
+                title:
+                  $ref: '#/components/schemas/title'
+                description:
+                  $ref: '#/components/schemas/description'
+                date_created:
+                  $ref: '#/components/schemas/date_created'
+                views_count:
+                  $ref: '#/components/schemas/views_count'
+                comments_count:
+                  $ref: '#/components/schemas/comments_count'
+                user_id:
+                  $ref: '#/components/schemas/user_id'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                custom_fields:
+                  $ref: '#/components/schemas/custom_fields'
+                response_custom_fields:
+                  $ref: '#/components/schemas/response_custom_fields'
+                raw_media:
+                  $ref: '#/components/schemas/raw_media'
+                mime_type:
+                  $ref: '#/components/schemas/mime_type'
+              required:
+              - content_id
+        description: ''
+      callbacks:
+        Analysis result:
+          '{$request.body#/callback_url}':
+            post:
+              summary: Callback response
+              requestBody:
+                description: Analysis result
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        response_id:
+                          $ref: '#/components/schemas/response_id'
+                        entity_id:
+                          $ref: '#/components/schemas/entity_id'
+                        entity_type:
+                          $ref: '#/components/schemas/entity_type'
+                        violations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              violation_type:
+                                $ref: '#/components/schemas/violation_type_image'
+                              risk_score:
+                                $ref: '#/components/schemas/risk_score'
+                              detection_type:
+                                $ref: '#/components/schemas/detection_type'
+                              analysis_description:
+                                $ref: '#/components/schemas/analysis_description'
+                            required:
+                            - violation_type
+                            - risk_score
+                        analyzed_violations:
+                          type: array
+                          description: violation types analyzed by Alice in this response
+                          items:
+                            $ref: '#/components/schemas/violation_types'
+                        errors:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/violation_error'
+              responses:
+                '200':
+                  description: Callback successfully processed
+      tags:
+      - content
+  /v3/content/video:
+    parameters: []
+    post:
+      summary: Video API - asynchronous
+      operationId: post-content-video
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      description: 'Endpoint: https://api.alice.io/v3/content/video
+
+
+        The Video API enables you to send a video item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this video already exists, then its details are updated.
+
+
+        The API supports the following file formats: **mp4, mkv, avi**.
+
+
+        Video length is limited to 30 min.
+
+
+        Video file size is limited to 1GB.
+
+
+        The T&S platform analyzes the following fields:
+
+
+        Analyzed video - **media_url** or **raw_media** fields.
+
+
+        Analyzed image - **thumbnail_url** field.
+
+
+        Analyzed texts - **title** and **description** fields.
+
+
+        **NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content_id:
+                  $ref: '#/components/schemas/content_id_async'
+                category:
+                  $ref: '#/components/schemas/category'
+                media_url:
+                  $ref: '#/components/schemas/media_url'
+                callback_url:
+                  $ref: '#/components/schemas/callback_url'
+                callback_key_name:
+                  $ref: '#/components/schemas/callback_key_name'
+                webpage_url:
+                  $ref: '#/components/schemas/webpage_url'
+                title:
+                  $ref: '#/components/schemas/title'
+                description:
+                  $ref: '#/components/schemas/description'
+                thumbnail_url:
+                  $ref: '#/components/schemas/thumbnail_url'
+                date_created:
+                  $ref: '#/components/schemas/date_created'
+                views_count:
+                  $ref: '#/components/schemas/views_count'
+                comments_count:
+                  $ref: '#/components/schemas/comments_count'
+                user_id:
+                  $ref: '#/components/schemas/user_id'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                custom_fields:
+                  $ref: '#/components/schemas/custom_fields'
+                response_custom_fields:
+                  $ref: '#/components/schemas/response_custom_fields'
+                raw_media:
+                  $ref: '#/components/schemas/raw_media'
+                mime_type:
+                  $ref: '#/components/schemas/mime_type'
+              required:
+              - content_id
+        description: ''
+      callbacks:
+        Analysis result:
+          '{$request.body#/callback_url}':
+            post:
+              summary: Callback response
+              requestBody:
+                description: Analysis result
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        response_id:
+                          $ref: '#/components/schemas/response_id'
+                        entity_id:
+                          $ref: '#/components/schemas/entity_id'
+                        entity_type:
+                          $ref: '#/components/schemas/entity_type'
+                        violations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              violation_type:
+                                $ref: '#/components/schemas/violation_type_image'
+                              risk_score:
+                                $ref: '#/components/schemas/risk_score'
+                              detection_type:
+                                $ref: '#/components/schemas/detection_type'
+                              analysis_description:
+                                $ref: '#/components/schemas/analysis_description'
+                        analyzed_violations:
+                          type: array
+                          description: violation types analyzed by Alice in this response
+                          items:
+                            $ref: '#/components/schemas/violation_types'
+                        errors:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/violation_error'
+                      required:
+                      - response_id
+                      - entity_id
+                      - entity_type
+                      - violations
+              responses:
+                '200':
+                  description: Callback successfully processed
+      tags:
+      - content
+  /v3/content/audio:
+    parameters: []
+    post:
+      summary: Audio API - asynchronous
+      operationId: post-content-audio
+      responses:
+        '200':
+          $ref: '#/components/responses/200'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      description: 'Endpoint: https://api.alice.io/v3/content/audio
+
+
+        The Audio API enables you to send an audio item and its context to the Alice T&S platform. If the ID of this audio already exists, then its details are updated.
+
+
+        The Platform supports playing the following file formats: **mp3, WAV, OGG**.
+
+
+        Audio length is limited to 30 min.
+
+
+        Analyzed audio - **media_url** or **raw_media** fields.
+
+
+        Analyzed image - **thumbnail_url** field.
+
+
+        Analyzed texts - **title** and **description** fields.
+
+
+        **NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content_id:
+                  $ref: '#/components/schemas/content_id_async'
+                category:
+                  $ref: '#/components/schemas/category'
+                media_url:
+                  $ref: '#/components/schemas/media_url'
+                callback_url:
+                  $ref: '#/components/schemas/callback_url'
+                callback_key_name:
+                  $ref: '#/components/schemas/callback_key_name'
+                webpage_url:
+                  $ref: '#/components/schemas/webpage_url'
+                title:
+                  $ref: '#/components/schemas/title'
+                description:
+                  $ref: '#/components/schemas/description'
+                thumbnail_url:
+                  $ref: '#/components/schemas/thumbnail_url'
+                date_created:
+                  $ref: '#/components/schemas/date_created'
+                views_count:
+                  $ref: '#/components/schemas/views_count'
+                comments_count:
+                  $ref: '#/components/schemas/comments_count'
+                user_id:
+                  $ref: '#/components/schemas/user_id'
+                contained_in:
+                  $ref: '#/components/schemas/contained_in'
+                custom_fields:
+                  $ref: '#/components/schemas/custom_fields'
+                response_custom_fields:
+                  $ref: '#/components/schemas/response_custom_fields'
+                raw_media:
+                  $ref: '#/components/schemas/raw_media'
+                mime_type:
+                  $ref: '#/components/schemas/mime_type'
+              required:
+              - content_id
+        description: ''
+      callbacks:
+        Analysis result:
+          '{$request.body#/callback_url}':
+            post:
+              summary: Callback response
+              requestBody:
+                description: Analysis result
+                content:
+                  application/json:
+                    schema:
+                      type: object
+                      properties:
+                        response_id:
+                          $ref: '#/components/schemas/response_id'
+                        entity_id:
+                          $ref: '#/components/schemas/entity_id'
+                        entity_type:
+                          $ref: '#/components/schemas/entity_type'
+                        violations:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              violation_type:
+                                $ref: '#/components/schemas/violation_type_image'
+                              risk_score:
+                                $ref: '#/components/schemas/risk_score'
+                              detection_type:
+                                $ref: '#/components/schemas/detection_type'
+                              analysis_description:
+                                $ref: '#/components/schemas/analysis_description'
+                        analyzed_violations:
+                          type: array
+                          description: violation types analyzed by Alice in this response
+                          items:
+                            $ref: '#/components/schemas/violation_types'
+                        errors:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/violation_error'
+                      required:
+                      - response_id
+                      - entity_id
+                      - entity_type
+                      - violations
+              responses:
+                '200':
+                  description: Callback successfully processed
+      tags:
+      - content
+components:
+  schemas:
+    violation_types:
+      title: violation_types
+      type: string
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - abusive_or_harmful.graphic_violence
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.child_abuse
+      - abusive_or_harmful.promotes_terrorism
+      - self_harm.general
+      - adult_content.general
+      - adult_content.swimwear
+      - unauthorised_sales.drugs
+      - unauthorised_sales.alcohol
+      - unauthorised_sales.weapons
+      - gambling.gambling
+      - privacy_violation.PII
+      description: violation types analyzed by Alice
+    mime_type:
+      title: mime_type
+      x-stoplight:
+        id: cqcka4fu6aiun
+      type: string
+      description: "The MIME (Multipurpose Internet Mail Extensions) type of a media file. Represents the specific format or type of the media content sent in \"raw-media\" field. \nIt is not mandatory in scenarios where the media type can be reliably inferred or detected."
+      example: image/jpeg
+    entity_type:
+      type: string
+      title: entity_type
+      enum:
+      - content
+      - collection
+      - user
+      description: 'The type of the entity, which can be one of the following –
+
+        "content", "user" or "collection".'
+    violation_type_text:
+      type: string
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - adult_content.general
+      - self_harm.general
+      - privacy_violation.PII
+      title: violation_type_text
+      description: Specifies the detected violation for a text.
+    entity_id:
+      title: entity_id
+      type: string
+      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
+    language:
+      title: language
+      type: string
+      description: This field denotes the language identified for the analyzed item.
+    response_id_sync:
+      title: response_id_sync
+      type: string
+      description: A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
+      x-stoplight:
+        id: 9cf0ab8b08475
+    detection_type:
+      type: string
+      title: detection_type
+      enum:
+      - manual
+      description: OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface.
+    views_count:
+      type: number
+      title: views_count
+      description: 'The quantity of views of this item on your platform. '
+      minimum: 0
+    date_created:
+      title: date_created
+      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
+      example: 2020-11-23 22:30
+      x-examples:
+        ISO format: 2020-11-23 22:30
+        Unix format: 1650886140
+      anyOf:
+      - type: number
+      - type: string
+    risk_score:
+      type: number
+      title: risk_score
+      maximum: 1
+      minimum: 0.1
+      example: 0.87
+      description: A number between 0.1 and 1 representing the probability of the item to be violative.
+    content_id_async:
+      title: content_id_async
+      x-stoplight:
+        id: v1yd97fsakvfi
+      type: string
+      description: 'The unique identifier of the item on your platform.
+
+        This ID will be used in the callback sent to your platform.
+
+
+        **Note –** A callback containing the analysis results is only sent once for each content_id.'
+    category:
+      title: category
+      type: string
+      description: This field activates specific policies corresponding to the categories included in the API request. For example, sending a category of "chats" will activate only those policies defined as "chats" via the Policy Management UI.
+    response_id:
+      title: response_id
+      type: string
+      description: 'A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
+
+
+        All callbacks for a request have the same response ID, so they can all be related to the request.'
+    response_custom_fields:
+      title: response_custom_fields
+      x-stoplight:
+        id: v1yd97fsakvfi
+      type: array
+      description: 'list of field names to be included in the response.
+
+        these names should match some \ all of the fields which were specified in the ''custom_fields''.
+
+        '
+      items:
+        type: string
+        description: Corresponds to a custom field's field name.
+      x-examples:
+      - field1
+      - field2
+    webpage_url:
+      type: string
+      title: webpage_url
+      format: uri
+      description: The publicly available web page where the item is visible.
+    callback_url:
+      title: callback_url
+      x-stoplight:
+        id: dbz2z4mf2znla
+      type: string
+      description: Callback URL where Alice will post the response to.
+    raw_media:
+      title: raw_media
+      x-stoplight:
+        id: igues9uz3yw70
+      type: string
+      description: 'Base64-encoded string of a media file.
+
+        Alternatively, "media_url" field can be used to send a link to the media.
+
+        Either the "raw-media" or "media-url" field is mandatory.
+
+        '
+    title:
+      title: title
+      type: string
+      description: The title that accompanied the item. Limited to 1024 characters
+      maxLength: 1024
+    violation_error:
+      title: violation_error
+      x-stoplight:
+        id: spx19wur2mvdt
+      type: object
+      properties:
+        violation:
+          type: string
+        status:
+          type: number
+          example: 400
+        type:
+          type: string
+          example: Bad request
+        message:
+          type: string
+          example: 'media type invalid: '
+    confidence:
+      type: string
+      title: confidence
+      enum:
+      - NotDetected
+      - LOW
+      - MEDIUM
+      - HIGH
+      description: 'This field indicates the confidence level associated with the risk score returned by the policies.
+
+        * Per client request. Contact customer success for more information.'
+    content_id:
+      title: content_id
+      type: string
+      description: 'The unique identifier of the item on your platform.
+
+        This ID will be used in the response.'
+    contained_in:
+      title: contained_in
+      type: array
+      description: The collections to which the item belongs.
+      items:
+        type: object
+        properties:
+          collection_id:
+            type: string
+            description: The collection_id of a Collection object sent via the [Collection API](#tag/collection).
+            example: channel123
+          collection_type:
+            type: string
+            enum:
+            - channel
+            - playlist
+            - album
+            - folder
+            - group
+            description: The type of the collection.
+    comments_count:
+      type: number
+      title: comments_count
+      description: The quantity of comments on this item on your platform.
+      minimum: 0
+    custom_fields:
+      title: custom_fields
+      x-stoplight:
+        id: pn300kxait3uk
+      type: array
+      description: "A set of key/value pairs of the custom fields that were added to your account. \nThese custom fields then appear throughout the platform.\n\n**Example –** [{\"special_name\":\"name1\"}, {\"special_count\": \"10\"}, {\"is_premium\": \"true\"}]\n\n**Note –** Quotation marks must be used for key and text values.\n"
+      items:
+        type: object
+        description: 'key/value pair.
+
+          key - Corresponds to a custom field''s key defined on your platform.
+
+          value - Can be a string, integer, boolean (true/false), date or dropdown
+
+          Quotation marks must be used for key and text values.'
+      x-examples:
+        Dropdown with multiple values:
+          custom_fields:
+          - '"animal_type': '"Persian cat"'
+          - '"age"': 3
+          - '"is_adopted"': true
+          - adoption_date: '2015-11-25'
+          - habitat:
+            - Urban
+            - Coastal
+        Dropdown with a single value:
+          custom_fields:
+          - '"animal_type': '"Persian cat"'
+          - '"age"': 3
+          - '"is_adopted"': true
+          - adoption_date: '2015-11-25'
+          - habitat: Urban
+    analysis_description:
+      title: analysis_description
+      type: string
+      description: 'OPTIONAL. A textual description of the violation that was created by a human reviewer or the Alice platform algorithm.
+
+        Returned only if exists.'
+    violation_type_image:
+      type: string
+      title: violation_type_image
+      enum:
+      - abusive_or_harmful.graphic_violence
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_abuse
+      - adult_content.general
+      - adult_content.swimwear
+      - unauthorised_sales.drugs
+      - unauthorised_sales.alcohol
+      - unauthorised_sales.weapons
+      - gambling.gambling
+      description: Specifies the detected violation for an image.
+    thumbnail_url:
+      type: string
+      title: thumbnail_url
+      description: 'The publicly available URL of the thumbnail that accompanied the item.
+
+        In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.'
+      format: uri
+    callback_key_name:
+      title: callback_key_name
+      x-stoplight:
+        id: cufgi3wj9z5zc
+      type: string
+      description: 'The name of a key defined in the platform''s Auth Management section.
+
+
+        This key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.'
+      example: '"my key'
+    text:
+      title: text
+      type: string
+      description: The text item to analyze. Limited to 1024 characters
+      maxLength: 1024
+    description:
+      title: description
+      type: string
+      description: The description that accompanied the item. Limited to 10,240 characters.
+      maxLength: 10240
+    user_id:
+      title: user_id
+      type: string
+      description: "The ID of the User who created this item. \nIt is recommended to first add the details of this User using the [Users API](#tag/users/operation/post-users-upsert)."
+    media_url:
+      type: string
+      title: media_url
+      description: 'The URL from which to download the content.
+
+        In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.
+
+        Alternatively, "raw_media" field can be used to send the media as Base64-encoded string.
+
+        Either the "media-url" or "raw-media" field is mandatory.'
+      format: uri
+  responses:
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: Invalid credentials
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Invalid credentials
+    '200':
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id'
+              analyzed_violations:
+                type: array
+                description: A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent
+                items:
+                  $ref: '#/components/schemas/violation_types'
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
+    200-async-text:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id'
+              analyzed_violations:
+                type: array
+                description: A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent
+                items:
+                  $ref: '#/components/schemas/violation_type_text'
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              message:
+                type: string
+                example: \"text\" is required
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                        example: body
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: \"text\" is required
+  securitySchemes:
+    API Key:
+      name: af-api-key
+      type: apiKey
+      in: header
+      description: '
+
+        '
+x-stoplight:
+  id: 324cav554fkgg
+x-tagGroups:
+- name: WonderSuite
+  tags:
+  - General
+  - WonderBuild
+  - WonderFence
+- name: ActiveFamily
+  tags:
+  - Integrating with ActiveOS
+  - content
+  - users
+  - collection
+  - flags
+  - api keys

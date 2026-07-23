@@ -1,0 +1,67 @@
+generated: '2026-07-17'
+method: derived
+status: candidate
+source: openapi/alice-openapi-original.json
+notes: >-
+  No official hosted/remote MCP server was found for Alice (checked docs.alice.io,
+  npm @modelcontextprotocol, and MCP registries). This is a DERIVED candidate tool
+  list, one tool per OpenAPI operation, offered as a starting point for an agent
+  integration. Not a published server.
+server:
+  name: alice
+  transport: http
+tools:
+- name: moderate_text_async
+  description: Submit text content for asynchronous safety/violation analysis (callback).
+  source_operation: openapi/alice-openapi-original.json#post-content-text
+- name: moderate_text_sync
+  description: Analyze text content synchronously and return violations inline.
+  source_operation: openapi/alice-openapi-original.json#post-sync-content-text
+- name: moderate_text_bulk_sync
+  description: Analyze a batch of text items synchronously.
+  source_operation: openapi/alice-openapi-original.json#post-sync-content-bulk-text
+- name: moderate_image_sync
+  description: Analyze an image synchronously for policy violations.
+  source_operation: openapi/alice-openapi-original.json#post-sync-content-image
+- name: moderate_image_async
+  description: Submit an image for asynchronous analysis (callback).
+  source_operation: openapi/alice-openapi-original.json#post-content-image
+- name: moderate_video_async
+  description: Submit a video for asynchronous analysis (callback).
+  source_operation: openapi/alice-openapi-original.json#post-content-video
+- name: moderate_audio_async
+  description: Submit audio for asynchronous analysis (callback).
+  source_operation: openapi/alice-openapi-original.json#post-content-audio
+- name: upsert_user
+  description: Create or update a user entity used to enrich analysis context.
+  source_operation: openapi/alice-openapi-original.json#post-users-upsert
+- name: upsert_collection
+  description: Create or update a collection entity of grouped content.
+  source_operation: openapi/alice-openapi-original.json#post-collections
+- name: submit_flag
+  description: Submit a moderation flag/label.
+  source_operation: openapi/alice-openapi-original.json#post-flags
+- name: create_api_key
+  description: Generate a new API key.
+  source_operation: openapi/alice-openapi-original.json#post-generate-api-key
+- name: list_api_keys
+  description: List existing API keys.
+  source_operation: openapi/alice-openapi-original.json#get-api-keys
+- name: delete_api_key
+  description: Delete an API key by id.
+  source_operation: openapi/alice-openapi-original.json#delete-api-key
+- name: evaluate_genai_message
+  description: Evaluate a GenAI message for safety/policy violations (WonderFence).
+  source_operation: openapi/alice-openapi-original.json#post-genai-evaluate
+- name: list_redteam_assessments
+  description: List red-team assessments (WonderBuild).
+  source_operation: openapi/alice-openapi-original.json#get-assessments
+- name: run_redteam_assessment
+  description: Run a red-team assessment by id.
+  source_operation: openapi/alice-openapi-original.json#run-assessment
+- name: clone_and_run_redteam_assessment
+  description: Clone a red-team assessment and run the copy.
+  source_operation: openapi/alice-openapi-original.json#clone-and-run-assessment
+- name: run_redteam_assessment_from_preset
+  description: Run a red-team assessment from a preset.
+  source_operation: openapi/alice-openapi-original.json#run-assessment-preset

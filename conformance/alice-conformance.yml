@@ -1,0 +1,26 @@
+generated: '2026-07-17'
+method: searched
+source: https://alice.io/llms.txt + openapi/alice-openapi-original.json
+notes: >-
+  Compliance certifications (SOC 2, ISO 27001) are published first-party in Alice's
+  llms.txt and on alice.io. Cross-cutting API standards are derived from the OpenAPI.
+standards:
+- id: soc2
+  conforms: true
+  evidence: 'llms.txt + alice.io: "SOC 2 certified"'
+- id: iso-27001
+  conforms: true
+  evidence: 'llms.txt + alice.io: "ISO 27001" certification listed'
+- id: apikey-auth
+  conforms: true
+  evidence: openapi securityScheme type apiKey (af-api-key header)
+- id: oauth2
+  conforms: false
+- id: openid-connect
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: error responses do not document application/problem+json bodies
+- id: webhooks-openapi-callbacks
+  conforms: true
+  evidence: openapi callbacks[] on async content endpoints

@@ -1,0 +1,35 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/alice-openapi-original.json
+spec_type: Webhooks
+notes: >-
+  Derived from OpenAPI callbacks[]. Alice's asynchronous content-analysis endpoints
+  accept a callback_url in the request and POST the analysis result to it when
+  processing completes (an authenticated callback keyed by callback_key_name).
+  This is a webhook/event surface; no standalone AsyncAPI document is published by
+  the provider. Not fabricated — every entry maps to an OpenAPI callback object.
+transport: https-webhook
+delivery: POST to caller-supplied callback_url
+authentication:
+  style: callback-key
+  fields: [callback_url, callback_key_name]
+  description: The subscriber supplies callback_url and callback_key_name on the original request; Alice signs/keys the callback with that value.
+events:
+- name: analysis.result
+  source_operation: openapi/alice-openapi-original.json#post-content-text
+  trigger: Async text analysis completed
+- name: analysis.result
+  source_operation: openapi/alice-openapi-original.json#post-content-image
+  trigger: Async image analysis completed
+- name: analysis.result
+  source_operation: openapi/alice-openapi-original.json#post-content-video
+  trigger: Async video analysis completed
+- name: analysis.result
+  source_operation: openapi/alice-openapi-original.json#post-content-audio
+  trigger: Async audio analysis completed
+- name: analysis.result
+  source_operation: openapi/alice-openapi-original.json#post-users-upsert
+  trigger: Async user analysis completed
+- name: analysis.result
+  source_operation: openapi/alice-openapi-original.json#post-collections
+  trigger: Async collection analysis completed

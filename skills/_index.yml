@@ -1,0 +1,16 @@
+generated: '2026-07-17'
+method: generated
+source: openapi/alice-openapi-original.json
+skills:
+- file: alice-moderate-content.md
+  name: Moderate content with Alice
+  api: openapi/alice-openapi-original.json
+  operations: [post-sync-content-text, post-content-text, post-sync-content-image, post-sync-content-bulk-text]
+- file: alice-run-redteam-assessment.md
+  name: Run an Alice red-team assessment
+  api: openapi/alice-openapi-original.json
+  operations: [get-assessments, run-assessment, clone-and-run-assessment, run-assessment-preset]
+- file: alice-evaluate-genai-message.md
+  name: Evaluate a GenAI message with Alice WonderFence
+  api: openapi/alice-openapi-original.json
+  operations: [post-genai-evaluate]

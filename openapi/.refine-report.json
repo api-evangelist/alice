@@ -1,0 +1,22 @@
+{
+  "provider": "alice",
+  "sources": [
+    "alice-openapi-original.json"
+  ],
+  "outputs": [
+    "alice-wonderbuild-api-openapi.yml",
+    "alice-wonderfence-api-openapi.yml",
+    "alice-api-keys-api-openapi.yml",
+    "alice-collection-api-openapi.yml",
+    "alice-content-api-openapi.yml",
+    "alice-flags-api-openapi.yml",
+    "alice-users-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/alice-openapi-original.json"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

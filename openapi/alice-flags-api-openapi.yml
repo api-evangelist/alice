@@ -1,0 +1,251 @@
+openapi: 3.0.0
+info:
+  license:
+    name: Alice API Terms of Use
+    url: https://app.alice.io/ts-platform/api-terms.pdf
+  version: 3.0.0
+  title: Alice API Documentation flags API
+  description: "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n"
+  contact:
+    name: Support
+    email: support@alice.io
+  termsOfService: https://app.alice.io/ts-platform/terms.pdf
+servers:
+- url: https://api.alice.io
+  description: APIs Server
+security:
+- API Key: []
+tags:
+- name: flags
+  description: The Flags API enables you to send details about the flag made on an item on your platform to the Alice T&S platform.
+paths:
+  /v3/flags:
+    post:
+      summary: Flags API
+      operationId: post-flags
+      responses:
+        '200':
+          $ref: '#/components/responses/200-sync'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '429':
+          $ref: '#/components/responses/429'
+      description: "Endpoint: https://api.alice.io/v3/flags\n\nA flag represents a report by a platform user of what they consider a violative item, such as to specify that a content, a user or a collection is offensive, abusive or hate speech. \n\nThe Flag API enables you to send details about the flag made on an item on your platform to the Alice T&S platform. \n\nYou can specify one of the Alice supported [violation types](#section/Integrating-with-the-TandS-Platform-Overview/Violation-Types) and/or specify a custom violation for the flag. You can also describe the reason for this flag.\n\nA Flags request must include the flagger's ID, as well as an identifier of either the flagged content,user or collection. Only one of these identifiers should be specified in the request.\n\nIf a flag with the same id is defined in Alice already, then its details are updated. \n\nIf the flagged item and/or the flagger do not exist in Alice, they are automatically created as empty fields.\n\n\nHere is an example of a flag sent to the Alice T&S platform – \n\n    {\n      \"flag_id\":\"flag1\",\n      \"flagger_id\":\"user12345\",\n      \"flagged_content_id\":\"content12345\",\n      \"flagging_reasoning\":\"this is offensive\",\n      \"flagged_at\":\"2023-01-15 20:31\",\n      \"violation\":\"abusive_or_harmful.hate_speech\"\n    }\n\nEach item's flag appears in the Flags pane on the right of the Moderator's View when that item is selected. \n \n![FLAGS](https://lh6.googleusercontent.com/oT_4O43bMWaYKEaSZ0IjUiJqhLetPtzqV8MYz1X689lqQAiJUeLvlSdI8dnEc9nah8-lXMXjJCo5G_mAjx0_3k-TrSM4isewMf8dCR7YRq7jNSbuu_z35UbTusg0RCPi8iu8TEb2FOvrLnSFOrTuQjY9CkUldBmqBBUcnHg6JljKH_LjGGbd3LPJgnrvxQ)\n\nEach additional flag will appear similarly underneath it.  \n\nThe result of the Flags request shown above will appear in the Flags pane of the Moderator's View as shown below –\n \n![FLAG](https://lh4.googleusercontent.com/ovfrLMQJt97hrs5w-fmXMIxSbEr66Oud4xwP9kxGV3gPtgDJzbimmAfuT5eDixQA6Z15LzLyhuNZQV8LotOwH7Kk9wc0fbwg_bnAUQsiS0URQqPznrq5-xU9iaiHwwwkvFUy-VJY666IP0-wtboL85jXc71NtO1jdJHVzCJ56A1iFdJRpQeXpsHBHJft2A)\n\nIn this example, **JOHN DOE** is the name of the user referenced in the **flagger_id** field."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                flag_id:
+                  type: string
+                  description: The unique identifier of the flag on your platform.
+                flagger_id:
+                  type: string
+                  description: The ID of the user who created this flag. It is recommended to first add the details of this User using the Users API.
+                flagged_content_id:
+                  type: string
+                  description: The unique identifier of the flagged content on your platform.
+                flagged_collection_id:
+                  type: string
+                  description: The unique identifier of the flagged collection on your platform
+                flagged_user_id:
+                  type: string
+                  description: The unique identifier of the flagged user on your platform.
+                flagged_at:
+                  anyOf:
+                  - type: number
+                  - type: string
+                  description: "The date and time in which the item was flagged.\nThis field should be sent as a timestamp in Coordinated Universal Time (UTC).\nIf the field is omitted, it will be automatically populated with the current time at the time of processing.\nSupports [ISO 8601 time]( https://www.iso.org/iso-8601-date-and-time-format.html) string or UNIX number. \nISO format: YYYY-MM-DD HH:MM or MM-DD-YYYY HH:MM.\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
+                  format: date-time
+                flagging_reasoning:
+                  type: string
+                  description: Free text that describes the reason for the flag.
+                  maxLength: 1024
+                violation:
+                  $ref: '#/components/schemas/violation_types'
+                custom_violation:
+                  type: string
+                  description: Free text that describes a custom violation. This is not one of the violations supported by Alice.
+              required:
+              - flag_id
+              - flagger_id
+        description: 'A Flag request must include an identifier of a flagged content/user/collection, as well as the flagger''s ID.
+
+          In the event that the flagged entity and/or the flagger do not exist in Alice, they are automatically created as empty fields.'
+      tags:
+      - flags
+components:
+  schemas:
+    violation_types:
+      title: violation_types
+      type: string
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - abusive_or_harmful.graphic_violence
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.child_abuse
+      - abusive_or_harmful.promotes_terrorism
+      - self_harm.general
+      - adult_content.general
+      - adult_content.swimwear
+      - unauthorised_sales.drugs
+      - unauthorised_sales.alcohol
+      - unauthorised_sales.weapons
+      - gambling.gambling
+      - privacy_violation.PII
+      description: violation types analyzed by Alice
+    response_id_sync:
+      title: response_id_sync
+      type: string
+      description: A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
+      x-stoplight:
+        id: 9cf0ab8b08475
+  responses:
+    200-sync:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+        application/xml:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              message:
+                type: string
+                example: \"text\" is required
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                        example: body
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: \"text\" is required
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: Invalid credentials
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Invalid credentials
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
+  securitySchemes:
+    API Key:
+      name: af-api-key
+      type: apiKey
+      in: header
+      description: '
+
+        '
+x-stoplight:
+  id: 324cav554fkgg
+x-tagGroups:
+- name: WonderSuite
+  tags:
+  - General
+  - WonderBuild
+  - WonderFence
+- name: ActiveFamily
+  tags:
+  - Integrating with ActiveOS
+  - content
+  - users
+  - collection
+  - flags
+  - api keys

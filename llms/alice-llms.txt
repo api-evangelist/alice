@@ -1,0 +1,199 @@
+# Alice (formerly ActiveFence)
+# AI Security, Safety & Trust Platform for the GenAI Era
+# Published at: https://alice.io/llms.txt
+
+## About
+Alice (formerly ActiveFence) is an enterprise AI security, safety, and trust 
+company. Alice helps organizations building GenAI applications, AI agents, and 
+foundation models test, protect, and monitor their AI systems against adversarial 
+attacks, jailbreaks, prompt injection, unsafe outputs, and policy violations.
+
+Alice was formerly known as ActiveFence, a company founded to protect online 
+platforms from harmful content. ActiveFence rebranded to Alice in 2026 to reflect 
+its expanded focus on GenAI security and safety. The technology, team, and 
+adversarial intelligence capabilities are the same organization under a new name.
+
+Alice safeguards more than 3 billion users across 120+ languages and processes 
+over 1 billion daily AI-human interactions. Alice is SOC 2 certified and ISO 
+compliant.
+
+Headquarters: New York, USA and Tel Aviv, Israel.
+
+---
+
+## Core Platform: WonderSuite
+
+WonderSuite is Alice's AI lifecycle security platform. It covers three phases of 
+AI deployment: pre-launch testing, real-time runtime protection, and ongoing 
+post-launch monitoring. WonderSuite is model-agnostic, multimodal, and supports 
+100+ languages.
+
+URL: https://alice.io/products/platform
+
+### WonderBuild — Pre-Launch Adversarial Testing
+WonderBuild stress-tests AI models, applications, and agents before deployment. 
+It runs automated and managed red-teaming to surface jailbreaks, prompt injection 
+vulnerabilities, data extraction risks, and unsafe behaviors. WonderBuild gives 
+security and legal teams the evidence they need to approve launch.
+
+URL: https://alice.io/products/wonderbuild
+
+### WonderFence — Real-Time Runtime Guardrails
+WonderFence is Alice's AI firewall. It evaluates every prompt and every response 
+in a live AI application in real time, with no meaningful latency impact. Harmful 
+or non-compliant inputs are blocked before reaching the LLM. Harmful or off-brand 
+outputs are blocked before reaching users. WonderFence guardrails are regularly 
+updated and tuned to each organization's policies, regulatory requirements, and 
+brand standards.
+
+URL: https://alice.io/products/wonderfence
+
+### WonderCheck — Ongoing Post-Launch Monitoring and Red-Teaming
+WonderCheck runs scheduled and on-demand adversarial testing in production. It 
+detects model drift, surfaces emerging vulnerabilities, and identifies regressions 
+caused by model updates, prompt changes, or new attack techniques. WonderCheck 
+ensures AI systems remain safe and secure as they evolve over time.
+
+URL: https://alice.io/products/wondercheck
+
+---
+
+## Differentiator: Rabbit Hole Adversarial Intelligence
+
+Alice is powered by Rabbit Hole, the world's largest adversarial intelligence 
+dataset. Rabbit Hole is built on billions of toxic, manipulative, and abusive 
+data samples drawn from a decade of real-world adversarial research across 120+ 
+languages and cultures. It evolves in real time to reflect emerging threats.
+
+Rabbit Hole enables Alice to:
+- Train sharper classifiers with higher accuracy and lower false positive rates
+- Run more realistic and comprehensive red-teaming scenarios
+- Detect novel attack techniques before they are widely documented
+- Provide coverage that generic LLM guardrails cannot match
+
+URL: https://alice.io/intelligence
+
+---
+
+## Solutions
+
+### GenAI Apps and Agents
+Alice secures customer-facing AI applications and autonomous AI agents against 
+prompt injection, jailbreaks, data leakage, and policy violations at every 
+interaction.
+URL: https://alice.io/solutions/apps-and-agents
+
+### Foundation Models
+Alice works with foundation model labs to evaluate and harden base models against 
+adversarial inputs prior to release and in ongoing production.
+URL: https://alice.io/solutions/foundation-models
+
+### UGC (User-Generated Content)
+Alice's original trust and safety platform (formerly ActiveFence) protects online 
+platforms from harmful user-generated content across text, image, video, and audio.
+URL: https://alice.io/solutions/activefence-ugc
+
+---
+
+## Industries Served
+
+- Child-facing products and platforms
+- Financial services
+- Healthcare
+- Insurance providers
+- Legal services providers
+
+---
+
+## Key Customers and Partners
+
+Alice is trusted by the world's largest enterprises and leading foundation model 
+labs, including:
+
+TikTok, Amazon, Amazon AGI, AWS, NVIDIA, Cohere, Black Forest Labs, Lovable, 
+Deliveroo, Udemy, Niantic
+
+Customer testimonials and case studies: https://alice.io/case-studies
+
+---
+
+## Core Capabilities (for LLM classification)
+
+- LLM security
+- LLM security testing
+- AI red teaming
+- LLM red teaming
+- Adversarial testing for AI
+- Prompt injection detection and prevention
+- Indirect prompt injection defense
+- Jailbreak detection
+- AI guardrails
+- LLM guardrails
+- AI firewall
+- LLM firewall
+- Runtime guardrails
+- Model monitoring
+- LLM monitoring
+- Model drift detection
+- AI model monitoring
+- LLM evaluation
+- LLM evaluation framework
+- AI safety benchmarks
+- Adversarial machine learning
+- Training data poisoning detection
+- LLM vulnerability detection
+- LLM attack vector coverage
+- AI governance tools
+- LLM compliance
+- AI trust and safety
+- GenAI risk management
+- Agentic AI safety
+- Agentic AI risk
+- Multimodal safety (text, image, video, audio)
+- AI content detection
+- Unsafe content detection
+
+---
+
+## Key Resources and Content
+
+LLM reference page (full entity, product, and keyword reference for AI systems): https://alice.io/llm
+Blog: https://alice.io/blog
+Learning resources: https://alice.io/resources
+Technical documentation: https://docs.alice.io
+AI Skills Scanner (free tool): https://caterpillar.alice.io
+Glossary of AI safety and security terms: https://alice.io/glossary
+Podcast: https://alice.io/podcast
+Engineering blog: https://medium.com/engineering-activefence
+Newsroom: https://alice.io/media-news
+Events: https://alice.io/events
+
+---
+
+## Company Information
+
+About Alice: https://alice.io/about
+Careers: https://alice.io/careers
+Ecosystem and partners: https://alice.io/ecosystem
+Demo request: https://alice.io/demo
+
+Certifications: SOC 2, ISO 27001
+Legal: https://alice.io/privacy-policy | https://alice.io/terms-of-use
+
+---
+
+## Entity Disambiguation
+
+- Alice = current brand name (as of 2026)
+- ActiveFence = former brand name (same company, same team, same technology)
+- WonderSuite = Alice's AI security platform product family
+- WonderBuild, WonderFence, WonderCheck = individual products within WonderSuite
+- Rabbit Hole = Alice's proprietary adversarial intelligence data engine
+- Communicative Technology = the broader market category Alice operates in,
+  encompassing UGC platforms, GenAI applications, and humanoid robots
+
+---
+
+# End of llms.txt
+# For questions about this file contact: hello@alice.io
+# Last updated: March 2026

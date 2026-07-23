@@ -1,0 +1,28 @@
+generated: '2026-07-17'
+method: searched
+source: live probes of /.well-known/ on alice.io, api.alice.io, docs.alice.io
+notes: >-
+  No /.well-known/ discovery documents are published. api.alice.io is a live TLS
+  host but returns 404 at the root and for well-known paths. docs.alice.io returns
+  403 to non-browser clients. Absence recorded as valid data.
+hosts:
+- host: https://alice.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://docs.alice.io
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+- host: https://api.alice.io
+  documents:
+  - path: /
+    status: 404

@@ -1,0 +1,39 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/alice-openapi-original.json
+notes: >-
+  Entity graph derived from the OpenAPI schemas and id-reference fields. Alice's
+  ActiveScore model analyzes three entity types (content, collection, user), tied
+  together by id references the caller supplies.
+entities:
+- name: content
+  description: An item of content (text/image/video/audio) submitted for analysis.
+  id_field: content_id
+- name: collection
+  description: A grouping of content submitted together for analysis.
+  id_field: entity_id
+- name: user
+  description: A user of the caller's platform, upserted to enrich analysis context.
+  id_field: user_id
+- name: analysis_result
+  description: The violation/risk-scoring result returned (inline or via callback).
+  id_field: response_id
+relationships:
+- from: content
+  to: user
+  type: belongs_to
+  via: user_id
+- from: content
+  to: collection
+  type: belongs_to
+  via: contained_in
+- from: analysis_result
+  to: content
+  type: belongs_to
+  via: entity_id
+- from: analysis_result
+  to: collection
+  type: belongs_to
+  via: entity_id
+enums:
+  entity_type: [content, collection, user]

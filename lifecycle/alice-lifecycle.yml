@@ -1,0 +1,19 @@
+generated: '2026-07-17'
+method: derived
+source: openapi/alice-openapi-original.json + llms.txt
+notes: >-
+  Derived from the OpenAPI version surface and the published llms.txt. No public
+  status page (status.alice.io does not resolve), deprecation policy, or SLA page
+  was found this pass, so no StatusPage/Deprecation pointers are emitted.
+versioning:
+  scheme: uri-path
+  current: v3
+  versions: [v3, v1]
+  docs: https://docs.alice.io
+deprecation:
+  policy_url: null
+  sunset_header: unknown
+sla:
+  url: null
+status_page: null
+deprecated_operations: []

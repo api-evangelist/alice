@@ -1,0 +1,18 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Alice API
+  version: 1.0.0
+extends: openapi/alice-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-17'
+    x-apievangelist-provider: alice
+    x-apievangelist-auth: api-key (af-api-key header)
+    x-apievangelist-webhooks: openapi-callbacks (analysis.result)
+- target: $.info
+  update:
+    x-apievangelist-notes: >-
+      Alice (formerly ActiveFence) AI safety/moderation API. v3 content analysis
+      (text/image/video/audio), v1 WonderFence GenAI message evaluation, and
+      red-team assessment endpoints. Async endpoints deliver results via callback_url.
