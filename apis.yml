@@ -165,6 +165,8 @@ apis:
   - type: OpenAPI
     url: openapi/alice-wonderfence-api-openapi.yml
 common:
+- type: Overlay
+  url: overlays/alice-overlay.yaml
 - type: Documentation
   url: https://docs.alice.io
 - type: DeveloperPortal
