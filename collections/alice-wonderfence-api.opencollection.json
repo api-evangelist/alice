@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation WonderFence API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "WonderFence",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Message",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v1/evaluate/message",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v1/evaluate/message\n\nThis synchronous endpoint is used to evaluate messages sent to the Alice Guardrails service. It analyzes messages for potential violations and returns appropriate actions based on the analysis."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

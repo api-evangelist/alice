@@ -1,0 +1,311 @@
+{
+  "item": [
+    {
+      "id": "50aa96c2-3ca3-4b37-b702-cb6fe9e6bd54",
+      "name": "WonderFence",
+      "description": {
+        "content": "WonderFence provides real-time guardrails for AI-generated content. APIs for evaluating and moderating AI-generated content and interactions to protect against harmful outputs and prompt attacks.\n\n## API Response Key Mapping\nThe following table is a mapping between violation types, their categories, and their corresponding API response keys:\n\nViolation Type | Category | API Response Key\n---------------|----------|----------------\n Impersonation | Security | prompt_attack.impersonation\n System Prompt Override | Security | prompt_attack.system_prompt_override\n Encoding | Security | prompt_injection.general_encoding\n Prompt Injection | Security | prompt_injection.general\n PII | Privacy | privacy_violation.PII\n Harassment or Bullying | Safety | abusive_or_harmful.harassment_or_bullying\n Profanity | Safety | abusive_or_harmful.profanity\n Hate Speech | Safety | abusive_or_harmful.hate_speech\n Child Abuse | Safety | abusive_or_harmful.child_abuse\n Suicide and Self-harm | Safety | self_harm.general\n Adult Content | Safety | adult_content.general\n Weapons | Safety | unauthorised_sales.weapons\n Legal Advice | Safety | deny_topics.legal_advice\n Financial Advice | Safety | deny_topics.financial_advice",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d3e59719-b40f-4f0c-9024-7addfff7e0ca",
+          "name": "Message",
+          "request": {
+            "name": "Message",
+            "description": {
+              "content": "Endpoint: https://api.alice.io/v1/evaluate/message\n\nThis synchronous endpoint is used to evaluate messages sent to the Alice Guardrails service. It analyzes messages for potential violations and returns appropriate actions based on the analysis.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "evaluate",
+                "message"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"message_type\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"model_context\": {\n    \"provider\": \"<string>\",\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"cloud_platform\": \"<string>\"\n  },\n  \"app_name\": \"<string>\",\n  \"external_moderation\": \"<object>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "181778ff-985f-4f8b-9531-465c8194d82a",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"message_type\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"model_context\": {\n    \"provider\": \"<string>\",\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"cloud_platform\": \"<string>\"\n  },\n  \"app_name\": \"<string>\",\n  \"external_moderation\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"correlation_id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"action\": \"block\",\n  \"action_text\": \"I'm sorry, I cannot answer this question. Please refer to the application usage guidelines and see that you follow them\",\n  \"detections\": [\n    {\n      \"violation_type\": \"abusive_or_harmful.hate_speech\",\n      \"risk_score\": 0.87\n    },\n    {\n      \"violation_type\": \"abusive_or_harmful.profanity\",\n      \"risk_score\": 0.65\n    }\n  ],\n  \"errors\": []\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e74a9186-b931-4c52-ae8c-fa307b9a6b8b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"message_type\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"model_context\": {\n    \"provider\": \"<string>\",\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"cloud_platform\": \"<string>\"\n  },\n  \"app_name\": \"<string>\",\n  \"external_moderation\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"\\\\\\\"text\\\\\\\" is required\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"body\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"\\\\\\\"text\\\\\\\" is required\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f5036652-2433-4f5d-8693-def3157c958a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"message_type\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"model_context\": {\n    \"provider\": \"<string>\",\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"cloud_platform\": \"<string>\"\n  },\n  \"app_name\": \"<string>\",\n  \"external_moderation\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 401,\n  \"error\": \"Unauthorized\",\n  \"message\": \"Invalid credentials\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"string\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"Invalid credentials\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ec28925-dc43-4254-bd28-8d5d18463753",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "evaluate",
+                    "message"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"text\": \"<string>\",\n  \"message_type\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"user_id\": \"<string>\",\n  \"model_context\": {\n    \"provider\": \"<string>\",\n    \"name\": \"<string>\",\n    \"version\": \"<string>\",\n    \"cloud_platform\": \"<string>\"\n  },\n  \"app_name\": \"<string>\",\n  \"external_moderation\": \"<object>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 429,\n  \"error\": \"Too Many Requests\",\n  \"message\": \"Too Many Requests\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"string\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"Too Many Requests\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.alice.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "af-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "421bc4b9-2971-4ba2-9327-ff442838b41c",
+    "name": "Alice API Documentation WonderFence API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n\n\nContact Support:\n Name: Support\n Email: support@alice.io",
+      "type": "text/plain"
+    }
+  }
+}

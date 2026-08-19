@@ -1,0 +1,164 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation WonderBuild API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "WonderBuild",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Assessments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.alice.io/redteam/assessments/",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search term to filter assessments by name"
+              },
+              {
+                "name": "applicationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter by application IDs"
+              },
+              {
+                "name": "applicationNames",
+                "value": "",
+                "type": "query",
+                "description": "Filter by application names"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter assessments by status (can be multiple)"
+              },
+              {
+                "name": "createdBy",
+                "value": "",
+                "type": "query",
+                "description": "Filter by creator emails"
+              },
+              {
+                "name": "dateFrom",
+                "value": "",
+                "type": "query",
+                "description": "Filter assessments created from this date (ISO 8601 format, e.g., 2025-09-09T14:10:36.628Z)"
+              },
+              {
+                "name": "dateTo",
+                "value": "",
+                "type": "query",
+                "description": "Filter assessments created until this date (ISO 8601 format, e.g., 2025-09-09T14:10:36.628Z)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (default: 20)"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query",
+                "description": "Sort order (ascending or descending)"
+              }
+            ]
+          },
+          "docs": "Endpoint: https://api.alice.io/redteam/assessments/\n\nThis synchronous endpoint is used to get defined red teaming assessments from the system with pagination support. It can return assessments based on filters, sorting, and pagination parameters."
+        },
+        {
+          "info": {
+            "name": "run assessment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/redteam/assessments/run/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the assessment to clone."
+              }
+            ]
+          },
+          "docs": "Endpoint: https://api.alice.io/redteam/assessments/run/{id}\n\nThis endpoint is given an ID of an existing assessment, which it will then run. The assessment must be in a run-ready state"
+        },
+        {
+          "info": {
+            "name": "Clone and run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/redteam/assessments/cloneAndRun/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the assessment to clone."
+              },
+              {
+                "name": "reusePrompts",
+                "value": "",
+                "type": "query",
+                "description": "Whether to reuse prompts from the original assessment or generate new ones."
+              }
+            ]
+          },
+          "docs": "Endpoint: https://api.alice.io/redteam/assessments/cloneAndRun/{id}\n\nThis endpoint is given an ID of an existing assessment, which it will then clone, and run the clone assessment."
+        },
+        {
+          "info": {
+            "name": "Run assessment from preset",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/redteam/assessments/runFromPreset",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/redteam/assessments/runFromPreset\n\nThis endpoint is given an app name, an app version and a preset name. It will create a new assessment for the given app+version based on the preset, and run it.\n\nIf the version does not exist, it will create it, based on the values of the last created version of the given app."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

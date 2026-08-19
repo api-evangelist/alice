@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation content API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "content",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Text API - Asynchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/content/text",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/content/text\n\nThe Asynchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item in a callback. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** and **thumbnail_url** fields.\n\n**NOTE** - **Text length is limited to 10,240 characters**. Longer texts should b"
+        },
+        {
+          "info": {
+            "name": "Text API - Synchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/sync/v3/content/text",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/sync/v3/content/text\n\nThe Synchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** field.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limi"
+        },
+        {
+          "info": {
+            "name": "Bulk Text API - Synchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/sync/v3/content/bulk/text",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/sync/v3/content/bulk/text\n\nThe Synchronous Bulk Text API enables you to send a number of text items and their contexts to the Alice T&S platform in a single call, which will then analyze all of them, detect violations and return an array of one or more violations detected in each item synchronously. \n\n Since the number of items analyzed in each request is arbitrary and determined by the sender, there are no SLA guarantees on bulk item requests. \n\nThe T&S platform a"
+        },
+        {
+          "info": {
+            "name": "Image API - Synchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/sync/v3/content/image",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/sync/v3/content/image\n\nThe Synchronous Image API enables you to send an image item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously.\n\nIf the ID of this image already exists, then its details are updated.\n\nThe API supports the following file formats: **JPG, PNG, WEBP**.\n**Image file size is limited to 6k - 5MB**.\n\nThe T&S platform analyzes the followin"
+        },
+        {
+          "info": {
+            "name": "Image API - asynchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/content/image",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/content/image\n\nThe Image API enables you to send an image item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this image already exists, then its details are updated.\n\nThe API supports the following file formats: **JPG, PNG, WEBP**.\n**Image file size is limited to 6k - 5MB**.\n\nThe T&S platform analyzes the following fields:\n\nAnalyzed image - **me"
+        },
+        {
+          "info": {
+            "name": "Video API - asynchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/content/video",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/content/video\n\nThe Video API enables you to send a video item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this video already exists, then its details are updated.\n\nThe API supports the following file formats: **mp4, mkv, avi**.\n\nVideo length is limited to 30 min.\n\nVideo file size is limited to 1GB.\n\nThe T&S platform analyzes the following fiel"
+        },
+        {
+          "info": {
+            "name": "Audio API - asynchronous",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/content/audio",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/content/audio\n\nThe Audio API enables you to send an audio item and its context to the Alice T&S platform. If the ID of this audio already exists, then its details are updated.\n\nThe Platform supports playing the following file formats: **mp3, WAV, OGG**.\n\nAudio length is limited to 30 min.\n\nAnalyzed audio - **media_url** or **raw_media** fields.\n\nAnalyzed image - **thumbnail_url** field.\n\nAnalyzed texts - **title** and **description** fields.\n\n**NOTE** - **title "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -2,11 +2,9 @@ generated: '2026-07-17'
 method: derived
 status: candidate
 source: openapi/alice-openapi-original.json
-notes: >-
-  No official hosted/remote MCP server was found for Alice (checked docs.alice.io,
-  npm @modelcontextprotocol, and MCP registries). This is a DERIVED candidate tool
-  list, one tool per OpenAPI operation, offered as a starting point for an agent
-  integration. Not a published server.
+notes: No official hosted/remote MCP server was found for Alice (checked docs.alice.io, npm @modelcontextprotocol,
+  and MCP registries). This is a DERIVED candidate tool list, one tool per OpenAPI operation, offered
+  as a starting point for an agent integration. Not a published server.
 server:
   name: alice
   transport: http
@@ -65,3 +63,9 @@ tools:
 - name: run_redteam_assessment_from_preset
   description: Run a red-team assessment from a preset.
   source_operation: openapi/alice-openapi-original.json#run-assessment-preset
+deployment:
+  mode: none
+  verified: derived
+  tools: 18
+  checked: '2026-08-12'
+  source: catalog MCP census

@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation api keys API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "api keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List API Keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.alice.io/v3/apikeys"
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/apikeys\n\nThe List API Keys retrieves a list of all existing API keys.\n\n<u>Note</u>: The information presented per API Key includes metadata only, whereas the key itself is not exposed due to confidentiality considerations."
+        },
+        {
+          "info": {
+            "name": "Generate New API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/apikeys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/apikeys\n\nThe Generate New API Key allows generating a new API key with a specified name and optional description."
+        },
+        {
+          "info": {
+            "name": "Delete API Key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.alice.io/v3/apikeys/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the API key to be deleted."
+              }
+            ]
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/apikeys/{id}\n\nThe Delete API Key deletes an API key by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

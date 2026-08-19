@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation collection API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "collection",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Collection API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/collections/:collection_type",
+            "params": [
+              {
+                "name": "collection_type",
+                "value": "",
+                "type": "path",
+                "description": "The type of the collection."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/collections/{collection_type}\n\nThe Collections API enables you to send details about a collection of your platform to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this collection already exists, then its details are updated.\n\nThe T&S platform analyzes the **name** and **description** fields of each collection."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

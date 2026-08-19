@@ -1,0 +1,306 @@
+{
+  "item": [
+    {
+      "id": "08eb50ec-459c-434b-866a-0e29faa8b47e",
+      "name": "flags",
+      "description": {
+        "content": "The Flags API enables you to send details about the flag made on an item on your platform to the Alice T&S platform.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2ababd72-f250-4ae7-be82-ec13f0bd64f5",
+          "name": "Flags API",
+          "request": {
+            "name": "Flags API",
+            "description": {
+              "content": "Endpoint: https://api.alice.io/v3/flags\n\nA flag represents a report by a platform user of what they consider a violative item, such as to specify that a content, a user or a collection is offensive, abusive or hate speech. \n\nThe Flag API enables you to send details about the flag made on an item on your platform to the Alice T&S platform. \n\nYou can specify one of the Alice supported [violation types](#section/Integrating-with-the-TandS-Platform-Overview/Violation-Types) and/or specify a custom violation for the flag. You can also describe the reason for this flag.\n\nA Flags request must include the flagger's ID, as well as an identifier of either the flagged content,user or collection. Only one of these identifiers should be specified in the request.\n\nIf a flag with the same id is defined in Alice already, then its details are updated. \n\nIf the flagged item and/or the flagger do not exist in Alice, they are automatically created as empty fields.\n\n\nHere is an example of a flag sent to the Alice T&S platform – \n\n    {\n      \"flag_id\":\"flag1\",\n      \"flagger_id\":\"user12345\",\n      \"flagged_content_id\":\"content12345\",\n      \"flagging_reasoning\":\"this is offensive\",\n      \"flagged_at\":\"2023-01-15 20:31\",\n      \"violation\":\"abusive_or_harmful.hate_speech\"\n    }\n\nEach item's flag appears in the Flags pane on the right of the Moderator's View when that item is selected. \n \n![FLAGS](https://lh6.googleusercontent.com/oT_4O43bMWaYKEaSZ0IjUiJqhLetPtzqV8MYz1X689lqQAiJUeLvlSdI8dnEc9nah8-lXMXjJCo5G_mAjx0_3k-TrSM4isewMf8dCR7YRq7jNSbuu_z35UbTusg0RCPi8iu8TEb2FOvrLnSFOrTuQjY9CkUldBmqBBUcnHg6JljKH_LjGGbd3LPJgnrvxQ)\n\nEach additional flag will appear similarly underneath it.  \n\nThe result of the Flags request shown above will appear in the Flags pane of the Moderator's View as shown below –\n \n![FLAG](https://lh4.googleusercontent.com/ovfrLMQJt97hrs5w-fmXMIxSbEr66Oud4xwP9kxGV3gPtgDJzbimmAfuT5eDixQA6Z15LzLyhuNZQV8LotOwH7Kk9wc0fbwg_bnAUQsiS0URQqPznrq5-xU9iaiHwwwkvFUy-VJY666IP0-wtboL85jXc71NtO1jdJHVzCJ56A1iFdJRpQeXpsHBHJft2A)\n\nIn this example, **JOHN DOE** is the name of the user referenced in the **flagger_id** field.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "flags"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"flag_id\": \"<string>\",\n  \"flagger_id\": \"<string>\",\n  \"flagged_content_id\": \"<string>\",\n  \"flagged_collection_id\": \"<string>\",\n  \"flagged_user_id\": \"<string>\",\n  \"flagged_at\": \"<number>\",\n  \"flagging_reasoning\": \"<string>\",\n  \"violation\": \"<string>\",\n  \"custom_violation\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "37c84d20-6bd3-4d5a-88d6-e7d119d1a000",
+              "name": "Example response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "flags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"flag_id\": \"<string>\",\n  \"flagger_id\": \"<string>\",\n  \"flagged_content_id\": \"<string>\",\n  \"flagged_collection_id\": \"<string>\",\n  \"flagged_user_id\": \"<string>\",\n  \"flagged_at\": \"<number>\",\n  \"flagging_reasoning\": \"<string>\",\n  \"violation\": \"<string>\",\n  \"custom_violation\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "59ae541c-9ec2-4428-9b53-61723497171b",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "flags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"flag_id\": \"<string>\",\n  \"flagger_id\": \"<string>\",\n  \"flagged_content_id\": \"<string>\",\n  \"flagged_collection_id\": \"<string>\",\n  \"flagged_user_id\": \"<string>\",\n  \"flagged_at\": \"<number>\",\n  \"flagging_reasoning\": \"<string>\",\n  \"violation\": \"<string>\",\n  \"custom_violation\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"\\\\\\\"text\\\\\\\" is required\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"body\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"\\\\\\\"text\\\\\\\" is required\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2337bbf0-dc92-4e4f-90a6-aeb4346a04de",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "flags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"flag_id\": \"<string>\",\n  \"flagger_id\": \"<string>\",\n  \"flagged_content_id\": \"<string>\",\n  \"flagged_collection_id\": \"<string>\",\n  \"flagged_user_id\": \"<string>\",\n  \"flagged_at\": \"<number>\",\n  \"flagging_reasoning\": \"<string>\",\n  \"violation\": \"<string>\",\n  \"custom_violation\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 401,\n  \"error\": \"Unauthorized\",\n  \"message\": \"Invalid credentials\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"string\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"Invalid credentials\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0b2e0c4b-4b73-4e82-9fbd-0948a9913131",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "flags"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"flag_id\": \"<string>\",\n  \"flagger_id\": \"<string>\",\n  \"flagged_content_id\": \"<string>\",\n  \"flagged_collection_id\": \"<string>\",\n  \"flagged_user_id\": \"<string>\",\n  \"flagged_at\": \"<number>\",\n  \"flagging_reasoning\": \"<string>\",\n  \"violation\": \"<string>\",\n  \"custom_violation\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 429,\n  \"error\": \"Too Many Requests\",\n  \"message\": \"Too Many Requests\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"string\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"Too Many Requests\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.alice.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "af-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8ea7740f-71b3-4a73-944e-616ce5f970ae",
+    "name": "Alice API Documentation flags API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n\n\nContact Support:\n Name: Support\n Email: support@alice.io",
+      "type": "text/plain"
+    }
+  }
+}

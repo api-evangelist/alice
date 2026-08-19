@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation users API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Users API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/users/upsert",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/users/upsert\n\nThe Users API enables you to send details about a user of your platform to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this user already exists, then its details are updated.\n\nThe T&S platform analyzes the **name**, **description** and **nickname** fields of each item.\n\n**NOTE** - **name and nickname fields are limited to 1,024 characters. Descript"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,311 @@
+{
+  "item": [
+    {
+      "id": "35f453c8-4754-4d41-a567-4d055731841b",
+      "name": "users",
+      "description": {
+        "content": "Users API Represents WHO created content on your platform. These are the end users that have uploaded content to your platform, meaning the people who are the creators or publishers of the content. For example, the account used for creating an image. A user can also be someone who likes, reacts, follows, administers, shares items and so on.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2ef11d2b-54f6-494c-95ba-22467ae4da3d",
+          "name": "Users API",
+          "request": {
+            "name": "Users API",
+            "description": {
+              "content": "Endpoint: https://api.alice.io/v3/users/upsert\n\nThe Users API enables you to send details about a user of your platform to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item. If the ID of this user already exists, then its details are updated.\n\nThe T&S platform analyzes the **name**, **description** and **nickname** fields of each item.\n\n**NOTE** - **name and nickname fields are limited to 1,024 characters. Description field is limited to 10,240 characters**.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v3",
+                "users",
+                "upsert"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"users\": [\n    {\n      \"user_id\": \"<string>\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"nickname\": \"<string>\",\n      \"ips\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"<string>\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"<string>\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"user_id\": \"<string>\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"description\": \"<string>\",\n      \"nickname\": \"<string>\",\n      \"ips\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"<string>\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"<string>\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"callback_url\": \"<string>\",\n  \"callback_key_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2bd48d7c-eeb3-4807-b97b-c61c4818f721",
+              "name": "Example response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": [\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"callback_url\": \"<string>\",\n  \"callback_key_name\": \"\\\"my key\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"response_id\": \"string\",\n  \"analyzed_violations\": [\n    \"privacy_violation.PII\",\n    \"abusive_or_harmful.child_grooming\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "edeeea64-1c49-4d71-aef3-ee3c0cb8d481",
+              "name": "Bad Request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": [\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"callback_url\": \"<string>\",\n  \"callback_key_name\": \"\\\"my key\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 400,\n  \"error\": \"Bad Request\",\n  \"message\": \"\\\\\\\"text\\\\\\\" is required\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"body\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"\\\\\\\"text\\\\\\\" is required\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d54f328e-c3d6-4593-800f-5c091815f538",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": [\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"callback_url\": \"<string>\",\n  \"callback_key_name\": \"\\\"my key\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 401,\n  \"error\": \"Unauthorized\",\n  \"message\": \"Invalid credentials\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"string\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"Invalid credentials\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b99b6f0-7fd9-42d1-b6f6-667bd3325f33",
+              "name": "Too Many Requests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v3",
+                    "users",
+                    "upsert"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "af-api-key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"users\": [\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    },\n    {\n      \"user_id\": \"user123\",\n      \"webpage_url\": \"<uri>\",\n      \"session_id\": \"sessionID1\",\n      \"name\": \"my name\",\n      \"description\": \"<string>\",\n      \"nickname\": \"my nickname\",\n      \"ips\": [\n        \"111.111.1.11\",\n        \"111.111.1.11\"\n      ],\n      \"email\": \"<email>\",\n      \"phone\": \"442075861777\",\n      \"thumbnail_url\": \"<uri>\",\n      \"language\": \"en\",\n      \"birthdate\": \"<date>\",\n      \"date_created\": \"<number>\",\n      \"views_count\": \"<number>\",\n      \"comments_count\": \"<number>\",\n      \"custom_fields\": [\n        \"<object>\",\n        \"<object>\"\n      ],\n      \"response_custom_fields\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  ],\n  \"callback_url\": \"<string>\",\n  \"callback_key_name\": \"\\\"my key\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 429,\n  \"error\": \"Too Many Requests\",\n  \"message\": \"Too Many Requests\",\n  \"params\": {\n    \"body\": {\n      \"source\": \"string\",\n      \"keys\": [\n        \"string\",\n        \"string\"\n      ],\n      \"message\": \"Too Many Requests\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.alice.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "af-api-key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e6340223-9967-49aa-b8f8-727be59fdad8",
+    "name": "Alice API Documentation users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n\n\nContact Support:\n Name: Support\n Email: support@alice.io",
+      "type": "text/plain"
+    }
+  }
+}

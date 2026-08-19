@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Alice API Documentation flags API",
+    "version": "3.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "af-api-key",
+      "value": "{{af-api-key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "flags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Flags API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.alice.io/v3/flags",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Endpoint: https://api.alice.io/v3/flags\n\nA flag represents a report by a platform user of what they consider a violative item, such as to specify that a content, a user or a collection is offensive, abusive or hate speech. \n\nThe Flag API enables you to send details about the flag made on an item on your platform to the Alice T&S platform. \n\nYou can specify one of the Alice supported [violation types](#section/Integrating-with-the-TandS-Platform-Overview/Violation-Types) and/or specify a custom v"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
