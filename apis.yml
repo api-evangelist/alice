@@ -58,6 +58,8 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
+  - APIKeys
+  tags_raw:
   - api keys
   properties:
   - type: OpenAPI
@@ -72,6 +74,8 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
+  - Collection
+  tags_raw:
   - collection
   properties:
   - type: OpenAPI
@@ -85,6 +89,8 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
+  - Content
+  tags_raw:
   - content
   properties:
   - type: OpenAPI
@@ -97,6 +103,8 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
+  - Flags
+  tags_raw:
   - flags
   properties:
   - type: OpenAPI
@@ -111,6 +119,8 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
