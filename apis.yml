@@ -70,7 +70,7 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
-  - api keys
+  - APIKeys
   tags_raw:
   - api keys
   properties:
@@ -101,7 +101,7 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
-  - content
+  - Content
   tags_raw:
   - content
   properties:
@@ -115,7 +115,7 @@ apis:
   humanURL: https://docs.alice.io
   baseURL: https://api.alice.io
   tags:
-  - flags
+  - Flags
   tags_raw:
   - flags
   properties:
