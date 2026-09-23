@@ -1,11 +1,27 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   license:
     name: Alice API Terms of Use
     url: https://app.alice.io/ts-platform/api-terms.pdf
   version: 3.0.0
-  title: Alice API Documentation content API
-  description: "# About This Guide\nThis guide provides comprehensive documentation for Alice's API offerings:\n\n**WonderSuite** - Our GenAI protection suite:\n- **WonderBuild**: Red teaming and security assessment tools for AI applications\n- **WonderFence**: Real-time guardrails for AI-generated content\n\n**ActiveFamily** - Our content moderation platform:\n- **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores\n- **ActiveOS**: Self-service UI for organizing items, taking automatic or manual actions, and more\n\nAll APIs use a standard REST design, allowing you to use any standard REST client to call our endpoints from your server.\n\n### Run in Postman\nIf you use Postman, you can import the Alice APIs endpoints as a collection into your Postman app, then try out different requests to learn how the API works. Click the following button to get started:\n\n[![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e?action=collection%2Ffork&collection-url=entityId%3D24226888-0756580e-fccf-4fc3-8d36-7cc224b9215e%26entityType%3Dcollection%26workspaceId%3D4a89e487-a108-4875-9ade-315bd98baf53)\n\n# Authentication\nAn Alice platform account is required to send requests and data to the Alice platform. An Alice representative will open an account for you and send you an email invitation to log in.\n\nThe following describes how to generate an API key, which you must use in the **af-api-key** header of each API request that you send. \n\n\n\n## Generating an API Key – How To\n**To generate an API key –**\n\n1. Click the **Account Settings**  button.\n\n2. Select **DATA MANAGEMENT** and then select **Alice API Keys**. \nA list of the Alice API keys that have already been defined is displayed. \n\n \n3. Click the **Add Key** button. The following displays – \n\n    \n\n4. In the **Key Name** field, enter any free-text name to identify the key.\n\n5. In the **Description** field, enter any free text description of the key.\n\n6. Click the **Generate Key** button. The key is then displayed in the following window – \n\n    \n\n    You must copy the key and should keep it secure, because you will not be able to see it again. Later, if needed you can [regenerate this key](#section/Authentication/Regenerating-a-Key).\n\n7. Click on the key in the **Your API Key** field to copy it to the clipboard. You can now click the **I've copied the key** button.\n\n8. Use this key as the value of an **af-api-key** header that you must add to each request.\n**af-api-key: \"YOUR_API_KEY\"** \n\n ## Regenerating a Key\nRegenerating a key will override the current one. The old one will still be valid for an additional 12 hours. After 12 hours, any request sent with the old key will be rejected.\n\n**To regenerate an Alice API Key –** \n1. Click the **Account Settings**  button. \n2. Select **DATA MANAGEMENT** and then **Alice API Keys**. The following displays – \n\n\n3. Click the **Regenerate**  button on the right side of the API key to be generated.\n\n**Note –** The options to delete a key and/or regenerate an existing one enable you to rotate between two different API keys.\n\n## Editing/Deleting a Key\nOnly the name and description of a key can be edited.\nOnce you delete a key, any request that uses the deleted key will be rejected. \n\n**To delete an Alice API Key –** \n\n1. Click the **Account Settings**  button. \n\n2. Select **DATA MANAGEMENT**, and then **Alice API Keys**. \n\n3. Click the  button on the right side of the API key and select the **Edit** or the **Delete** option.\n"
+  title: Alice API Documentation Content API
+  description: '# About This Guide
+
+    This guide provides comprehensive documentation for Alice''s API offerings:
+
+
+    **WonderSuite** - Our GenAI protection suite:
+
+    - **WonderBuild**: Red teaming and security assessment tools for AI applications
+
+    - **WonderFence**: Real-time guardrails for AI-generated content
+
+
+    **ActiveFamily** - Our content moderation platform:
+
+    - **ActiveScore**: AI-driven automated detection API that analyzes items and returns risk scores
+
+    - **ActiveOS**: Self-service UI for organizing items, taking…'
   contact:
     name: Support
     email: support@alice.io
@@ -16,7 +32,7 @@ servers:
 security:
 - API Key: []
 tags:
-- name: content
+- name: Content
   description: Content APIs Represents WHAT content was created on your platform, such as a post, comment, review, message, article or data. For example, a web page containing a video, a customer review of a product, a comment and so on.
 paths:
   /v3/content/text:
@@ -34,7 +50,19 @@ paths:
           $ref: '#/components/responses/429'
       operationId: post-content-text
       parameters: []
-      description: "Endpoint: https://api.alice.io/v3/content/text\n\nThe Asynchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item in a callback. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** and **thumbnail_url** fields.\n\n**NOTE** - **Text length is limited to 10,240 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request."
+      description: 'Endpoint: https://api.alice.io/v3/content/text
+
+
+        The Asynchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item in a callback.
+
+
+        If the ID of this text item already exists, then its details are updated.
+
+
+        The T&S platform analyzes the **text** and **thumbnail_url** fields.
+
+
+        **NOTE** - **Text length is limited to 10,240 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request.'
       requestBody:
         content:
           application/json:
@@ -119,7 +147,7 @@ paths:
                 '200':
                   description: Callback successfully processed
       tags:
-      - content
+      - Content
   /sync/v3/content/text:
     parameters: []
     post:
@@ -218,9 +246,24 @@ paths:
                   custom_fields:
                   - {}
         description: Text, along with its context.
-      description: "Endpoint: https://api.alice.io/sync/v3/content/text\n\nThe Synchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously. \n\nIf the ID of this text item already exists, then its details are updated.\n\nThe T&S platform analyzes the **text** field.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request."
+      description: 'Endpoint: https://api.alice.io/sync/v3/content/text
+
+
+        The Synchronous Text API enables you to send a text item and its context to the Alice T&S platform, which will analyze it, detect violations and return an array of one or more violations detected in the item synchronously.
+
+
+        If the ID of this text item already exists, then its details are updated.
+
+
+        The T&S platform analyzes the **text** field.
+
+
+        Note - This API does not support **Promotes Terrorism** violation.
+
+
+        **NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent in a separate request.'
       tags:
-      - content
+      - Content
       parameters: []
   /sync/v3/content/bulk/text:
     parameters: []
@@ -355,9 +398,30 @@ paths:
                     custom_fields:
                     - {}
         description: Bulk texts, along with contexts.
-      description: "Endpoint: https://api.alice.io/sync/v3/content/bulk/text\n\nThe Synchronous Bulk Text API enables you to send a number of text items and their contexts to the Alice T&S platform in a single call, which will then analyze all of them, detect violations and return an array of one or more violations detected in each item synchronously. \n\n Since the number of items analyzed in each request is arbitrary and determined by the sender, there are no SLA guarantees on bulk item requests. \n\nThe T&S platform analyzes the **text** field of each item sent.\n\nNote - This API does not support **Promotes Terrorism** violation.\n\n**NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent as separate items.\n\nA bulk request is limited to 100 items maximum. A repeat of the same content_id in items in the same bulk request is **forbidden**, and will fail the duplicated item.\n\n**NOTE** This endpoint does not update items in the ActiveOS platform, and only returns the analysis on the request itself."
+      description: 'Endpoint: https://api.alice.io/sync/v3/content/bulk/text
+
+
+        The Synchronous Bulk Text API enables you to send a number of text items and their contexts to the Alice T&S platform in a single call, which will then analyze all of them, detect violations and return an array of one or more violations detected in each item synchronously.
+
+
+        Since the number of items analyzed in each request is arbitrary and determined by the sender, there are no SLA guarantees on bulk item requests.
+
+
+        The T&S platform analyzes the **text** field of each item sent.
+
+
+        Note - This API does not support **Promotes Terrorism** violation.
+
+
+        **NOTE** - **Text length is limited to 1024 characters**. Longer texts should be split into segments (by punctuation or spacing) and sent as separate items.
+
+
+        A bulk request is limited to 100 items maximum. A repeat of the same content_id in items in the same bulk request is **forbidden**, and will fail the duplicated item.
+
+
+        **NOTE** This endpoint does not update items in the ActiveOS platform, and only returns the analysis on the request itself.'
       tags:
-      - content
+      - Content
       parameters: []
   /sync/v3/content/image:
     parameters: []
@@ -488,7 +552,7 @@ paths:
 
         **NOTE** - **title field is limited to 1,024 characters and description field is limited to 10,240 characters**.'
       tags:
-      - content
+      - Content
       parameters: []
   /v3/content/image:
     parameters: []
@@ -615,7 +679,7 @@ paths:
                 '200':
                   description: Callback successfully processed
       tags:
-      - content
+      - Content
   /v3/content/video:
     parameters: []
     post:
@@ -752,7 +816,7 @@ paths:
                 '200':
                   description: Callback successfully processed
       tags:
-      - content
+      - Content
   /v3/content/audio:
     parameters: []
     post:
@@ -883,30 +947,66 @@ paths:
                 '200':
                   description: Callback successfully processed
       tags:
-      - content
+      - Content
 components:
   schemas:
-    violation_types:
-      title: violation_types
+    violation_type_image:
       type: string
+      title: violation_type_image
       enum:
-      - abusive_or_harmful.harassment_or_bullying
-      - abusive_or_harmful.profanity
-      - abusive_or_harmful.hate_speech
-      - abusive_or_harmful.child_grooming
       - abusive_or_harmful.graphic_violence
-      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.hate_speech
       - abusive_or_harmful.child_abuse
-      - abusive_or_harmful.promotes_terrorism
-      - self_harm.general
       - adult_content.general
       - adult_content.swimwear
       - unauthorised_sales.drugs
       - unauthorised_sales.alcohol
       - unauthorised_sales.weapons
       - gambling.gambling
-      - privacy_violation.PII
-      description: violation types analyzed by Alice
+      description: Specifies the detected violation for an image.
+    response_id_sync:
+      title: response_id_sync
+      type: string
+      description: A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
+      x-stoplight:
+        id: 9cf0ab8b08475
+    media_url:
+      type: string
+      title: media_url
+      description: 'The URL from which to download the content.
+
+        In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.
+
+        Alternatively, "raw_media" field can be used to send the media as Base64-encoded string.
+
+        Either the "media-url" or "raw-media" field is mandatory.'
+      format: uri
+    violation_error:
+      title: violation_error
+      x-stoplight:
+        id: spx19wur2mvdt
+      type: object
+      properties:
+        violation:
+          type: string
+        status:
+          type: number
+          example: 400
+        type:
+          type: string
+          example: Bad request
+        message:
+          type: string
+          example: 'media type invalid: '
+    user_id:
+      title: user_id
+      type: string
+      description: "The ID of the User who created this item. \nIt is recommended to first add the details of this User using the [Users API](#tag/users/operation/post-users-upsert)."
+    views_count:
+      type: number
+      title: views_count
+      description: 'The quantity of views of this item on your platform. '
+      minimum: 0
     mime_type:
       title: mime_type
       x-stoplight:
@@ -914,6 +1014,49 @@ components:
       type: string
       description: "The MIME (Multipurpose Internet Mail Extensions) type of a media file. Represents the specific format or type of the media content sent in \"raw-media\" field. \nIt is not mandatory in scenarios where the media type can be reliably inferred or detected."
       example: image/jpeg
+    entity_id:
+      title: entity_id
+      type: string
+      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
+    contained_in:
+      title: contained_in
+      type: array
+      description: The collections to which the item belongs.
+      items:
+        type: object
+        properties:
+          collection_id:
+            type: string
+            description: The collection_id of a Collection object sent via the [Collection API](#tag/collection).
+            example: channel123
+          collection_type:
+            type: string
+            enum:
+            - channel
+            - playlist
+            - album
+            - folder
+            - group
+            description: The type of the collection.
+    title:
+      title: title
+      type: string
+      description: The title that accompanied the item. Limited to 1024 characters
+      maxLength: 1024
+    description:
+      title: description
+      type: string
+      description: The description that accompanied the item. Limited to 10,240 characters.
+      maxLength: 10240
+    text:
+      title: text
+      type: string
+      description: The text item to analyze. Limited to 1024 characters
+      maxLength: 1024
+    language:
+      title: language
+      type: string
+      description: This field denotes the language identified for the analyzed item.
     entity_type:
       type: string
       title: entity_type
@@ -924,76 +1067,12 @@ components:
       description: 'The type of the entity, which can be one of the following –
 
         "content", "user" or "collection".'
-    violation_type_text:
+    analysis_description:
+      title: analysis_description
       type: string
-      enum:
-      - abusive_or_harmful.harassment_or_bullying
-      - abusive_or_harmful.profanity
-      - abusive_or_harmful.general_violence
-      - abusive_or_harmful.hate_speech
-      - abusive_or_harmful.child_grooming
-      - adult_content.general
-      - self_harm.general
-      - privacy_violation.PII
-      title: violation_type_text
-      description: Specifies the detected violation for a text.
-    entity_id:
-      title: entity_id
-      type: string
-      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
-    language:
-      title: language
-      type: string
-      description: This field denotes the language identified for the analyzed item.
-    response_id_sync:
-      title: response_id_sync
-      type: string
-      description: A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
-      x-stoplight:
-        id: 9cf0ab8b08475
-    detection_type:
-      type: string
-      title: detection_type
-      enum:
-      - manual
-      description: OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface.
-    views_count:
-      type: number
-      title: views_count
-      description: 'The quantity of views of this item on your platform. '
-      minimum: 0
-    date_created:
-      title: date_created
-      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
-      example: 2020-11-23 22:30
-      x-examples:
-        ISO format: 2020-11-23 22:30
-        Unix format: 1650886140
-      anyOf:
-      - type: number
-      - type: string
-    risk_score:
-      type: number
-      title: risk_score
-      maximum: 1
-      minimum: 0.1
-      example: 0.87
-      description: A number between 0.1 and 1 representing the probability of the item to be violative.
-    content_id_async:
-      title: content_id_async
-      x-stoplight:
-        id: v1yd97fsakvfi
-      type: string
-      description: 'The unique identifier of the item on your platform.
+      description: 'OPTIONAL. A textual description of the violation that was created by a human reviewer or the Alice platform algorithm.
 
-        This ID will be used in the callback sent to your platform.
-
-
-        **Note –** A callback containing the analysis results is only sent once for each content_id.'
-    category:
-      title: category
-      type: string
-      description: This field activates specific policies corresponding to the categories included in the API request. For example, sending a category of "chats" will activate only those policies defined as "chats" via the Policy Management UI.
+        Returned only if exists.'
     response_id:
       title: response_id
       type: string
@@ -1017,17 +1096,19 @@ components:
       x-examples:
       - field1
       - field2
-    webpage_url:
+    violation_type_text:
       type: string
-      title: webpage_url
-      format: uri
-      description: The publicly available web page where the item is visible.
-    callback_url:
-      title: callback_url
-      x-stoplight:
-        id: dbz2z4mf2znla
-      type: string
-      description: Callback URL where Alice will post the response to.
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - adult_content.general
+      - self_harm.general
+      - privacy_violation.PII
+      title: violation_type_text
+      description: Specifies the detected violation for a text.
     raw_media:
       title: raw_media
       x-stoplight:
@@ -1040,70 +1121,35 @@ components:
         Either the "raw-media" or "media-url" field is mandatory.
 
         '
-    title:
-      title: title
+    webpage_url:
       type: string
-      description: The title that accompanied the item. Limited to 1024 characters
-      maxLength: 1024
-    violation_error:
-      title: violation_error
+      title: webpage_url
+      format: uri
+      description: The publicly available web page where the item is visible.
+    content_id_async:
+      title: content_id_async
       x-stoplight:
-        id: spx19wur2mvdt
-      type: object
-      properties:
-        violation:
-          type: string
-        status:
-          type: number
-          example: 400
-        type:
-          type: string
-          example: Bad request
-        message:
-          type: string
-          example: 'media type invalid: '
-    confidence:
-      type: string
-      title: confidence
-      enum:
-      - NotDetected
-      - LOW
-      - MEDIUM
-      - HIGH
-      description: 'This field indicates the confidence level associated with the risk score returned by the policies.
-
-        * Per client request. Contact customer success for more information.'
-    content_id:
-      title: content_id
+        id: v1yd97fsakvfi
       type: string
       description: 'The unique identifier of the item on your platform.
 
-        This ID will be used in the response.'
-    contained_in:
-      title: contained_in
-      type: array
-      description: The collections to which the item belongs.
-      items:
-        type: object
-        properties:
-          collection_id:
-            type: string
-            description: The collection_id of a Collection object sent via the [Collection API](#tag/collection).
-            example: channel123
-          collection_type:
-            type: string
-            enum:
-            - channel
-            - playlist
-            - album
-            - folder
-            - group
-            description: The type of the collection.
-    comments_count:
+        This ID will be used in the callback sent to your platform.
+
+
+        **Note –** A callback containing the analysis results is only sent once for each content_id.'
+    risk_score:
       type: number
-      title: comments_count
-      description: The quantity of comments on this item on your platform.
-      minimum: 0
+      title: risk_score
+      maximum: 1
+      minimum: 0.1
+      example: 0.87
+      description: A number between 0.1 and 1 representing the probability of the item to be violative.
+    callback_url:
+      title: callback_url
+      x-stoplight:
+        id: dbz2z4mf2znla
+      type: string
+      description: Callback URL where Alice will post the response to.
     custom_fields:
       title: custom_fields
       x-stoplight:
@@ -1136,26 +1182,6 @@ components:
           - '"is_adopted"': true
           - adoption_date: '2015-11-25'
           - habitat: Urban
-    analysis_description:
-      title: analysis_description
-      type: string
-      description: 'OPTIONAL. A textual description of the violation that was created by a human reviewer or the Alice platform algorithm.
-
-        Returned only if exists.'
-    violation_type_image:
-      type: string
-      title: violation_type_image
-      enum:
-      - abusive_or_harmful.graphic_violence
-      - abusive_or_harmful.hate_speech
-      - abusive_or_harmful.child_abuse
-      - adult_content.general
-      - adult_content.swimwear
-      - unauthorised_sales.drugs
-      - unauthorised_sales.alcohol
-      - unauthorised_sales.weapons
-      - gambling.gambling
-      description: Specifies the detected violation for an image.
     thumbnail_url:
       type: string
       title: thumbnail_url
@@ -1163,6 +1189,42 @@ components:
 
         In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.'
       format: uri
+    violation_types:
+      title: violation_types
+      type: string
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - abusive_or_harmful.graphic_violence
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.child_abuse
+      - abusive_or_harmful.promotes_terrorism
+      - self_harm.general
+      - adult_content.general
+      - adult_content.swimwear
+      - unauthorised_sales.drugs
+      - unauthorised_sales.alcohol
+      - unauthorised_sales.weapons
+      - gambling.gambling
+      - privacy_violation.PII
+      description: violation types analyzed by Alice
+    comments_count:
+      type: number
+      title: comments_count
+      description: The quantity of comments on this item on your platform.
+      minimum: 0
+    date_created:
+      title: date_created
+      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
+      example: 2020-11-23 22:30
+      x-examples:
+        ISO format: 2020-11-23 22:30
+        Unix format: 1650886140
+      anyOf:
+      - type: number
+      - type: string
     callback_key_name:
       title: callback_key_name
       x-stoplight:
@@ -1173,31 +1235,33 @@ components:
 
         This key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.'
       example: '"my key'
-    text:
-      title: text
+    content_id:
+      title: content_id
       type: string
-      description: The text item to analyze. Limited to 1024 characters
-      maxLength: 1024
-    description:
-      title: description
-      type: string
-      description: The description that accompanied the item. Limited to 10,240 characters.
-      maxLength: 10240
-    user_id:
-      title: user_id
-      type: string
-      description: "The ID of the User who created this item. \nIt is recommended to first add the details of this User using the [Users API](#tag/users/operation/post-users-upsert)."
-    media_url:
-      type: string
-      title: media_url
-      description: 'The URL from which to download the content.
+      description: 'The unique identifier of the item on your platform.
 
-        In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.
+        This ID will be used in the response.'
+    detection_type:
+      type: string
+      title: detection_type
+      enum:
+      - manual
+      description: OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface.
+    confidence:
+      type: string
+      title: confidence
+      enum:
+      - NotDetected
+      - LOW
+      - MEDIUM
+      - HIGH
+      description: 'This field indicates the confidence level associated with the risk score returned by the policies.
 
-        Alternatively, "raw_media" field can be used to send the media as Base64-encoded string.
-
-        Either the "media-url" or "raw-media" field is mandatory.'
-      format: uri
+        * Per client request. Contact customer success for more information.'
+    category:
+      title: category
+      type: string
+      description: This field activates specific policies corresponding to the categories included in the API request. For example, sending a category of "chats" will activate only those policies defined as "chats" via the Policy Management UI.
   responses:
     '401':
       description: Unauthorized
@@ -1277,20 +1341,6 @@ components:
                       message:
                         type: string
                         example: Too Many Requests
-    200-async-text:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id'
-              analyzed_violations:
-                type: array
-                description: A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent
-                items:
-                  $ref: '#/components/schemas/violation_type_text'
     '400':
       description: Bad Request
       content:
@@ -1324,8 +1374,22 @@ components:
                       message:
                         type: string
                         example: \"text\" is required
+    200-async-text:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id'
+              analyzed_violations:
+                type: array
+                description: A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent
+                items:
+                  $ref: '#/components/schemas/violation_type_text'
   securitySchemes:
-    API Key:
+    API_Key:
       name: af-api-key
       type: apiKey
       in: header

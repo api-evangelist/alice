@@ -1,7 +1,7 @@
 {
   "provider": "alice",
   "sources": [
-    "alice-openapi-original.json"
+    "_original/alice-openapi-original.json"
   ],
   "outputs": [
     "alice-wonderbuild-api-openapi.yml",
@@ -12,11 +12,21 @@
     "alice-flags-api-openapi.yml",
     "alice-users-api-openapi.yml"
   ],
-  "archived": [
-    "archived openapi/alice-openapi-original.json"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "alice-openapi-original.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0; renamed 1 component key(s) illegal in 3.x (e.g. API Key)",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "alice-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alice-collection-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alice-content-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alice-flags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alice-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alice-wonderbuild-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "alice-wonderfence-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
