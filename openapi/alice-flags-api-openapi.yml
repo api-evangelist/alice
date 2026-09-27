@@ -179,60 +179,6 @@ components:
       x-stoplight:
         id: 9cf0ab8b08475
   responses:
-    200-sync:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id_sync'
-        application/xml:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id_sync'
-        multipart/form-data:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id_sync'
-    '400':
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 400
-              error:
-                type: string
-                example: Bad Request
-              message:
-                type: string
-                example: \"text\" is required
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                        example: body
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: \"text\" is required
     '429':
       description: Too Many Requests
       content:
@@ -297,6 +243,60 @@ components:
                       message:
                         type: string
                         example: Invalid credentials
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              message:
+                type: string
+                example: \"text\" is required
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                        example: body
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: \"text\" is required
+    200-sync:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+        application/xml:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
   securitySchemes:
     API_Key:
       name: af-api-key

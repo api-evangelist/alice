@@ -130,38 +130,134 @@ paths:
       - Collection
 components:
   schemas:
-    violation_error:
-      title: violation_error
-      x-stoplight:
-        id: spx19wur2mvdt
-      type: object
-      properties:
-        violation:
-          type: string
-        status:
-          type: number
-          example: 400
-        type:
-          type: string
-          example: Bad request
-        message:
-          type: string
-          example: 'media type invalid: '
-    views_count:
-      type: number
-      title: views_count
-      description: 'The quantity of views of this item on your platform. '
-      minimum: 0
-    entity_id:
-      title: entity_id
+    violation_types:
+      title: violation_types
       type: string
-      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - abusive_or_harmful.graphic_violence
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.child_abuse
+      - abusive_or_harmful.promotes_terrorism
+      - self_harm.general
+      - adult_content.general
+      - adult_content.swimwear
+      - unauthorised_sales.drugs
+      - unauthorised_sales.alcohol
+      - unauthorised_sales.weapons
+      - gambling.gambling
+      - privacy_violation.PII
+      description: violation types analyzed by Alice
+    webpage_url:
+      type: string
+      title: webpage_url
+      format: uri
+      description: The publicly available web page where the item is visible.
     analysis_description:
       title: analysis_description
       type: string
       description: 'OPTIONAL. A textual description of the violation that was created by a human reviewer or the Alice platform algorithm.
 
         Returned only if exists.'
+    violation_type_text:
+      type: string
+      enum:
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - adult_content.general
+      - self_harm.general
+      - privacy_violation.PII
+      title: violation_type_text
+      description: Specifies the detected violation for a text.
+    callback_key_name:
+      title: callback_key_name
+      x-stoplight:
+        id: cufgi3wj9z5zc
+      type: string
+      description: 'The name of a key defined in the platform''s Auth Management section.
+
+
+        This key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.'
+      example: '"my key'
+    description:
+      title: description
+      type: string
+      description: The description that accompanied the item. Limited to 10,240 characters.
+      maxLength: 10240
+    entity_id:
+      title: entity_id
+      type: string
+      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
+    custom_fields:
+      title: custom_fields
+      x-stoplight:
+        id: pn300kxait3uk
+      type: array
+      description: "A set of key/value pairs of the custom fields that were added to your account. \nThese custom fields then appear throughout the platform.\n\n**Example –** [{\"special_name\":\"name1\"}, {\"special_count\": \"10\"}, {\"is_premium\": \"true\"}]\n\n**Note –** Quotation marks must be used for key and text values.\n"
+      items:
+        type: object
+        description: 'key/value pair.
+
+          key - Corresponds to a custom field''s key defined on your platform.
+
+          value - Can be a string, integer, boolean (true/false), date or dropdown
+
+          Quotation marks must be used for key and text values.'
+      x-examples:
+        Dropdown with multiple values:
+          custom_fields:
+          - '"animal_type': '"Persian cat"'
+          - '"age"': 3
+          - '"is_adopted"': true
+          - adoption_date: '2015-11-25'
+          - habitat:
+            - Urban
+            - Coastal
+        Dropdown with a single value:
+          custom_fields:
+          - '"animal_type': '"Persian cat"'
+          - '"age"': 3
+          - '"is_adopted"': true
+          - adoption_date: '2015-11-25'
+          - habitat: Urban
+    response_custom_fields:
+      title: response_custom_fields
+      x-stoplight:
+        id: v1yd97fsakvfi
+      type: array
+      description: 'list of field names to be included in the response.
+
+        these names should match some \ all of the fields which were specified in the ''custom_fields''.
+
+        '
+      items:
+        type: string
+        description: Corresponds to a custom field's field name.
+      x-examples:
+      - field1
+      - field2
+    callback_url:
+      title: callback_url
+      x-stoplight:
+        id: dbz2z4mf2znla
+      type: string
+      description: Callback URL where Alice will post the response to.
+    date_created:
+      title: date_created
+      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
+      example: 2020-11-23 22:30
+      x-examples:
+        ISO format: 2020-11-23 22:30
+        Unix format: 1650886140
+      anyOf:
+      - type: number
+      - type: string
     entity_type:
       type: string
       title: entity_type
@@ -172,6 +268,13 @@ components:
       description: 'The type of the entity, which can be one of the following –
 
         "content", "user" or "collection".'
+    risk_score:
+      type: number
+      title: risk_score
+      maximum: 1
+      minimum: 0.1
+      example: 0.87
+      description: A number between 0.1 and 1 representing the probability of the item to be violative.
     collection:
       title: collection
       type: object
@@ -209,27 +312,23 @@ components:
       required:
       - collection_id
       - name
-    description:
-      title: description
-      type: string
-      description: The description that accompanied the item. Limited to 10,240 characters.
-      maxLength: 10240
-    response_custom_fields:
-      title: response_custom_fields
+    violation_error:
+      title: violation_error
       x-stoplight:
-        id: v1yd97fsakvfi
-      type: array
-      description: 'list of field names to be included in the response.
-
-        these names should match some \ all of the fields which were specified in the ''custom_fields''.
-
-        '
-      items:
-        type: string
-        description: Corresponds to a custom field's field name.
-      x-examples:
-      - field1
-      - field2
+        id: spx19wur2mvdt
+      type: object
+      properties:
+        violation:
+          type: string
+        status:
+          type: number
+          example: 400
+        type:
+          type: string
+          example: Bad request
+        message:
+          type: string
+          example: 'media type invalid: '
     response_id:
       title: response_id
       type: string
@@ -237,69 +336,16 @@ components:
 
 
         All callbacks for a request have the same response ID, so they can all be related to the request.'
-    violation_type_text:
-      type: string
-      enum:
-      - abusive_or_harmful.harassment_or_bullying
-      - abusive_or_harmful.profanity
-      - abusive_or_harmful.general_violence
-      - abusive_or_harmful.hate_speech
-      - abusive_or_harmful.child_grooming
-      - adult_content.general
-      - self_harm.general
-      - privacy_violation.PII
-      title: violation_type_text
-      description: Specifies the detected violation for a text.
-    webpage_url:
-      type: string
-      title: webpage_url
-      format: uri
-      description: The publicly available web page where the item is visible.
-    callback_url:
-      title: callback_url
-      x-stoplight:
-        id: dbz2z4mf2znla
-      type: string
-      description: Callback URL where Alice will post the response to.
-    risk_score:
+    comments_count:
       type: number
-      title: risk_score
-      maximum: 1
-      minimum: 0.1
-      example: 0.87
-      description: A number between 0.1 and 1 representing the probability of the item to be violative.
-    custom_fields:
-      title: custom_fields
-      x-stoplight:
-        id: pn300kxait3uk
-      type: array
-      description: "A set of key/value pairs of the custom fields that were added to your account. \nThese custom fields then appear throughout the platform.\n\n**Example –** [{\"special_name\":\"name1\"}, {\"special_count\": \"10\"}, {\"is_premium\": \"true\"}]\n\n**Note –** Quotation marks must be used for key and text values.\n"
-      items:
-        type: object
-        description: 'key/value pair.
-
-          key - Corresponds to a custom field''s key defined on your platform.
-
-          value - Can be a string, integer, boolean (true/false), date or dropdown
-
-          Quotation marks must be used for key and text values.'
-      x-examples:
-        Dropdown with multiple values:
-          custom_fields:
-          - '"animal_type': '"Persian cat"'
-          - '"age"': 3
-          - '"is_adopted"': true
-          - adoption_date: '2015-11-25'
-          - habitat:
-            - Urban
-            - Coastal
-        Dropdown with a single value:
-          custom_fields:
-          - '"animal_type': '"Persian cat"'
-          - '"age"': 3
-          - '"is_adopted"': true
-          - adoption_date: '2015-11-25'
-          - habitat: Urban
+      title: comments_count
+      description: The quantity of comments on this item on your platform.
+      minimum: 0
+    views_count:
+      type: number
+      title: views_count
+      description: 'The quantity of views of this item on your platform. '
+      minimum: 0
     thumbnail_url:
       type: string
       title: thumbnail_url
@@ -307,52 +353,6 @@ components:
 
         In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.'
       format: uri
-    violation_types:
-      title: violation_types
-      type: string
-      enum:
-      - abusive_or_harmful.harassment_or_bullying
-      - abusive_or_harmful.profanity
-      - abusive_or_harmful.hate_speech
-      - abusive_or_harmful.child_grooming
-      - abusive_or_harmful.graphic_violence
-      - abusive_or_harmful.general_violence
-      - abusive_or_harmful.child_abuse
-      - abusive_or_harmful.promotes_terrorism
-      - self_harm.general
-      - adult_content.general
-      - adult_content.swimwear
-      - unauthorised_sales.drugs
-      - unauthorised_sales.alcohol
-      - unauthorised_sales.weapons
-      - gambling.gambling
-      - privacy_violation.PII
-      description: violation types analyzed by Alice
-    comments_count:
-      type: number
-      title: comments_count
-      description: The quantity of comments on this item on your platform.
-      minimum: 0
-    date_created:
-      title: date_created
-      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
-      example: 2020-11-23 22:30
-      x-examples:
-        ISO format: 2020-11-23 22:30
-        Unix format: 1650886140
-      anyOf:
-      - type: number
-      - type: string
-    callback_key_name:
-      title: callback_key_name
-      x-stoplight:
-        id: cufgi3wj9z5zc
-      type: string
-      description: 'The name of a key defined in the platform''s Auth Management section.
-
-
-        This key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.'
-      example: '"my key'
     detection_type:
       type: string
       title: detection_type
@@ -360,20 +360,6 @@ components:
       - manual
       description: OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface.
   responses:
-    '200':
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id'
-              analyzed_violations:
-                type: array
-                description: A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent
-                items:
-                  $ref: '#/components/schemas/violation_types'
     '429':
       description: Too Many Requests
       content:
@@ -406,6 +392,52 @@ components:
                       message:
                         type: string
                         example: Too Many Requests
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: Invalid credentials
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Invalid credentials
+    '200':
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id'
+              analyzed_violations:
+                type: array
+                description: A list of violations that will be analyzed for this response. The specific violations included in this list will depend on the configuration set up for your account and the type of media that was sent to be analyzed. In case this list is empty, no callback will be sent
+                items:
+                  $ref: '#/components/schemas/violation_types'
     '400':
       description: Bad Request
       content:
@@ -439,38 +471,6 @@ components:
                       message:
                         type: string
                         example: \"text\" is required
-    '401':
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 401
-              error:
-                type: string
-                example: Unauthorized
-              message:
-                type: string
-                example: Invalid credentials
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: Invalid credentials
   parameters:
     collection_type:
       name: collection_type
