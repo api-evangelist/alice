@@ -130,32 +130,44 @@ paths:
       - Collection
 components:
   schemas:
-    violation_types:
-      title: violation_types
+    date_created:
+      title: date_created
+      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
+      example: 2020-11-23 22:30
+      x-examples:
+        ISO format: 2020-11-23 22:30
+        Unix format: 1650886140
+      anyOf:
+      - type: number
+      - type: string
+    description:
+      title: description
       type: string
-      enum:
-      - abusive_or_harmful.harassment_or_bullying
-      - abusive_or_harmful.profanity
-      - abusive_or_harmful.hate_speech
-      - abusive_or_harmful.child_grooming
-      - abusive_or_harmful.graphic_violence
-      - abusive_or_harmful.general_violence
-      - abusive_or_harmful.child_abuse
-      - abusive_or_harmful.promotes_terrorism
-      - self_harm.general
-      - adult_content.general
-      - adult_content.swimwear
-      - unauthorised_sales.drugs
-      - unauthorised_sales.alcohol
-      - unauthorised_sales.weapons
-      - gambling.gambling
-      - privacy_violation.PII
-      description: violation types analyzed by Alice
-    webpage_url:
+      description: The description that accompanied the item. Limited to 10,240 characters.
+      maxLength: 10240
+    thumbnail_url:
       type: string
-      title: webpage_url
+      title: thumbnail_url
+      description: 'The publicly available URL of the thumbnail that accompanied the item.
+
+        In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.'
       format: uri
-      description: The publicly available web page where the item is visible.
+    entity_type:
+      type: string
+      title: entity_type
+      enum:
+      - content
+      - collection
+      - user
+      description: 'The type of the entity, which can be one of the following –
+
+        "content", "user" or "collection".'
+    callback_url:
+      title: callback_url
+      x-stoplight:
+        id: dbz2z4mf2znla
+      type: string
+      description: Callback URL where Alice will post the response to.
     analysis_description:
       title: analysis_description
       type: string
@@ -175,25 +187,46 @@ components:
       - privacy_violation.PII
       title: violation_type_text
       description: Specifies the detected violation for a text.
-    callback_key_name:
-      title: callback_key_name
+    risk_score:
+      type: number
+      title: risk_score
+      maximum: 1
+      minimum: 0.1
+      example: 0.87
+      description: A number between 0.1 and 1 representing the probability of the item to be violative.
+    response_custom_fields:
+      title: response_custom_fields
       x-stoplight:
-        id: cufgi3wj9z5zc
-      type: string
-      description: 'The name of a key defined in the platform''s Auth Management section.
+        id: v1yd97fsakvfi
+      type: array
+      description: 'list of field names to be included in the response.
 
+        these names should match some \ all of the fields which were specified in the ''custom_fields''.
 
-        This key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.'
-      example: '"my key'
-    description:
-      title: description
-      type: string
-      description: The description that accompanied the item. Limited to 10,240 characters.
-      maxLength: 10240
-    entity_id:
-      title: entity_id
-      type: string
-      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
+        '
+      items:
+        type: string
+        description: Corresponds to a custom field's field name.
+      x-examples:
+      - field1
+      - field2
+    violation_error:
+      title: violation_error
+      x-stoplight:
+        id: spx19wur2mvdt
+      type: object
+      properties:
+        violation:
+          type: string
+        status:
+          type: number
+          example: 400
+        type:
+          type: string
+          example: Bad request
+        message:
+          type: string
+          example: 'media type invalid: '
     custom_fields:
       title: custom_fields
       x-stoplight:
@@ -226,55 +259,38 @@ components:
           - '"is_adopted"': true
           - adoption_date: '2015-11-25'
           - habitat: Urban
-    response_custom_fields:
-      title: response_custom_fields
-      x-stoplight:
-        id: v1yd97fsakvfi
-      type: array
-      description: 'list of field names to be included in the response.
-
-        these names should match some \ all of the fields which were specified in the ''custom_fields''.
-
-        '
-      items:
-        type: string
-        description: Corresponds to a custom field's field name.
-      x-examples:
-      - field1
-      - field2
-    callback_url:
-      title: callback_url
-      x-stoplight:
-        id: dbz2z4mf2znla
-      type: string
-      description: Callback URL where Alice will post the response to.
-    date_created:
-      title: date_created
-      description: "The time in which the item was added to your platform.\nSupports ISO 8601 time string or UNIX number. \n\nISO format: \nYYYY-MM-DD HH:MM or \nMM-DD-YYYY HH:MM. \n\nFor example – \"2020-11-23 22:30\" 0r \"11-23-2015 05:30\"."
-      example: 2020-11-23 22:30
-      x-examples:
-        ISO format: 2020-11-23 22:30
-        Unix format: 1650886140
-      anyOf:
-      - type: number
-      - type: string
-    entity_type:
-      type: string
-      title: entity_type
-      enum:
-      - content
-      - collection
-      - user
-      description: 'The type of the entity, which can be one of the following –
-
-        "content", "user" or "collection".'
-    risk_score:
+    comments_count:
       type: number
-      title: risk_score
-      maximum: 1
-      minimum: 0.1
-      example: 0.87
-      description: A number between 0.1 and 1 representing the probability of the item to be violative.
+      title: comments_count
+      description: The quantity of comments on this item on your platform.
+      minimum: 0
+    webpage_url:
+      type: string
+      title: webpage_url
+      format: uri
+      description: The publicly available web page where the item is visible.
+    entity_id:
+      title: entity_id
+      type: string
+      description: 'The unique identifier of the item on your platform, as specified in the request''s content_id / collection_id / user_id field. '
+    views_count:
+      type: number
+      title: views_count
+      description: 'The quantity of views of this item on your platform. '
+      minimum: 0
+    detection_type:
+      type: string
+      title: detection_type
+      enum:
+      - manual
+      description: OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface.
+    response_id:
+      title: response_id
+      type: string
+      description: 'A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
+
+
+        All callbacks for a request have the same response ID, so they can all be related to the request.'
     collection:
       title: collection
       type: object
@@ -312,86 +328,38 @@ components:
       required:
       - collection_id
       - name
-    violation_error:
-      title: violation_error
-      x-stoplight:
-        id: spx19wur2mvdt
-      type: object
-      properties:
-        violation:
-          type: string
-        status:
-          type: number
-          example: 400
-        type:
-          type: string
-          example: Bad request
-        message:
-          type: string
-          example: 'media type invalid: '
-    response_id:
-      title: response_id
+    violation_types:
+      title: violation_types
       type: string
-      description: 'A tracking ID generated by the Alice platform upon receiving any request from your platform. This unique identifier enables you to trace events, if needed.
-
-
-        All callbacks for a request have the same response ID, so they can all be related to the request.'
-    comments_count:
-      type: number
-      title: comments_count
-      description: The quantity of comments on this item on your platform.
-      minimum: 0
-    views_count:
-      type: number
-      title: views_count
-      description: 'The quantity of views of this item on your platform. '
-      minimum: 0
-    thumbnail_url:
-      type: string
-      title: thumbnail_url
-      description: 'The publicly available URL of the thumbnail that accompanied the item.
-
-        In order to be displayed correctly in the platform, the url should start with "https://" to avoid mixed content issues, where web browsers block insecure resources from loading.'
-      format: uri
-    detection_type:
-      type: string
-      title: detection_type
       enum:
-      - manual
-      description: OPTIONAL. This field is only returned when its value is manual, which indicates that the decision was made by a human reviewer in the Alice platform user interface.
+      - abusive_or_harmful.harassment_or_bullying
+      - abusive_or_harmful.profanity
+      - abusive_or_harmful.hate_speech
+      - abusive_or_harmful.child_grooming
+      - abusive_or_harmful.graphic_violence
+      - abusive_or_harmful.general_violence
+      - abusive_or_harmful.child_abuse
+      - abusive_or_harmful.promotes_terrorism
+      - self_harm.general
+      - adult_content.general
+      - adult_content.swimwear
+      - unauthorised_sales.drugs
+      - unauthorised_sales.alcohol
+      - unauthorised_sales.weapons
+      - gambling.gambling
+      - privacy_violation.PII
+      description: violation types analyzed by Alice
+    callback_key_name:
+      title: callback_key_name
+      x-stoplight:
+        id: cufgi3wj9z5zc
+      type: string
+      description: 'The name of a key defined in the platform''s Auth Management section.
+
+
+        This key will be added to the header/query params of callback requests sent to the callback defined in **callback_url**.'
+      example: '"my key'
   responses:
-    '429':
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 429
-              error:
-                type: string
-                example: Too Many Requests
-              message:
-                type: string
-                example: Too Many Requests
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: Too Many Requests
     '401':
       description: Unauthorized
       content:
@@ -471,6 +439,38 @@ components:
                       message:
                         type: string
                         example: \"text\" is required
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
   parameters:
     collection_type:
       name: collection_type

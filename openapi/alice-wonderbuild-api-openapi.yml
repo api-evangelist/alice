@@ -341,39 +341,6 @@ paths:
       - WonderBuild
 components:
   responses:
-    '400':
-      description: Bad Request
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 400
-              error:
-                type: string
-                example: Bad Request
-              message:
-                type: string
-                example: \"text\" is required
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                        example: body
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: \"text\" is required
     '429':
       description: Too Many Requests
       content:
@@ -438,6 +405,39 @@ components:
                       message:
                         type: string
                         example: Invalid credentials
+    '400':
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              message:
+                type: string
+                example: \"text\" is required
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                        example: body
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: \"text\" is required
   securitySchemes:
     API_Key:
       name: af-api-key
