@@ -181,38 +181,6 @@ paths:
       - WonderFence
 components:
   responses:
-    '429':
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 429
-              error:
-                type: string
-                example: Too Many Requests
-              message:
-                type: string
-                example: Too Many Requests
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: Too Many Requests
     '401':
       description: Unauthorized
       content:
@@ -245,6 +213,38 @@ components:
                       message:
                         type: string
                         example: Invalid credentials
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
     '400':
       description: Bad Request
       content:

@@ -151,6 +151,91 @@ paths:
       - Flags
 components:
   responses:
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: Invalid credentials
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Invalid credentials
+    200-sync:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+        application/xml:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              response_id:
+                $ref: '#/components/schemas/response_id_sync'
+    '429':
+      description: Too Many Requests
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              statusCode:
+                type: number
+                example: 429
+              error:
+                type: string
+                example: Too Many Requests
+              message:
+                type: string
+                example: Too Many Requests
+              params:
+                type: object
+                properties:
+                  body:
+                    type: object
+                    description: error type
+                    properties:
+                      source:
+                        type: string
+                      keys:
+                        type: array
+                        items:
+                          type: string
+                      message:
+                        type: string
+                        example: Too Many Requests
     '400':
       description: Bad Request
       content:
@@ -184,91 +269,6 @@ components:
                       message:
                         type: string
                         example: \"text\" is required
-    '429':
-      description: Too Many Requests
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 429
-              error:
-                type: string
-                example: Too Many Requests
-              message:
-                type: string
-                example: Too Many Requests
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: Too Many Requests
-    200-sync:
-      description: Example response
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id_sync'
-        application/xml:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id_sync'
-        multipart/form-data:
-          schema:
-            type: object
-            properties:
-              response_id:
-                $ref: '#/components/schemas/response_id_sync'
-    '401':
-      description: Unauthorized
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              statusCode:
-                type: number
-                example: 401
-              error:
-                type: string
-                example: Unauthorized
-              message:
-                type: string
-                example: Invalid credentials
-              params:
-                type: object
-                properties:
-                  body:
-                    type: object
-                    description: error type
-                    properties:
-                      source:
-                        type: string
-                      keys:
-                        type: array
-                        items:
-                          type: string
-                      message:
-                        type: string
-                        example: Invalid credentials
   schemas:
     violation_types:
       title: violation_types
