@@ -64,6 +64,133 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Alice is a company surfaced as a portfolio company of crv, norwest-venture-partners and added to the API Evangelist network as a stub for enrichment. Sector: developer-tools. This profile is a lead awaiting the enrichment pipeline.
+Alice (formerly ActiveFence) is an enterprise AI security, safety, and trust platform for the GenAI era. Its WonderSuite platform stress-tests, guards, and monitors AI models, applications, and agents against jailbreaks, prompt injection, unsafe outputs, and policy violations. The Alice API provides content analysis (text, image, video, and audio moderation), real-time GenAI message evaluation (WonderFence), and adversarial red-team assessments (WonderBuild), authenticated with an af-api-key header and delivering asynchronous results via callback webhooks. Alice safeguards more than 3 billion users across 120+ languages and is SOC 2 and ISO 27001 certified.
 
-Backed by: crv, norwest-venture-partners — https://alice.io/
+**Areas:** Company · Developer Tools · AI Security · AI Safety · Content Moderation · Trust and Safety · LLM Guardrails · Red Teaming · Generative AI
+
+## Alice on APIs.io
+
+Everything profiled for Alice is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/alice/](https://apis.io/providers/alice/)** — or go straight to one of the APIs or properties below.
+
+### APIs (7)
+
+- [Alice api keys API](https://apis.io/apis/alice/alice-api-keys-api/) — Provides APIs to manage API key(s), including adding new keys, listing existing keys, and deleting keys.
+- [Alice Collection API](https://apis.io/apis/alice/alice-collection-api/) — Collection API Represents grouped entities. A collection is comprised of multiple items grouped together in a playlist, album, folder, group or channel on…
+- [Alice Content API](https://apis.io/apis/alice/alice-content-api/) — Content APIs Represents WHAT content was created on your platform, such as a post, comment, review, message, article or data. For example, a web page…
+- [Alice Flags API](https://apis.io/apis/alice/alice-flags-api/) — The Flags API enables you to send details about the flag made on an item on your platform to the Alice T&S platform.
+- [Alice Users API](https://apis.io/apis/alice/alice-users-api/) — Users API Represents WHO created content on your platform. These are the end users that have uploaded content to your platform, meaning the people who are…
+- [Alice WonderBuild API](https://apis.io/apis/alice/alice-wonderbuild-api/) — WonderBuild provides red teaming and security assessment tools for AI applications. APIs for running comprehensive security assessments on gen-AI applications.
+- [Alice WonderFence API](https://apis.io/apis/alice/alice-wonderfence-api/) — WonderFence provides real-time guardrails for AI-generated content. APIs for evaluating and moderating AI-generated content and interactions to protect…
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Alice Webhooks](https://apis.io/asyncapis/alice/alice-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [alice](https://apis.io/servers/alice/alice/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Alice Agentic Access](https://apis.io/agentic-access/alice/alice-agentic-access/)
+
+#### Collections (7)
+
+Postman and Open Collection request collections.
+
+- [Alice API Documentation api keys API](https://apis.io/collections/alice/open-alice-api-keys-api/)
+- [Alice API Documentation collection API](https://apis.io/collections/alice/open-alice-collection-api/)
+- [Alice API Documentation content API](https://apis.io/collections/alice/open-alice-content-api/)
+- [Alice API Documentation flags API](https://apis.io/collections/alice/open-alice-flags-api/)
+- [Alice API Documentation users API](https://apis.io/collections/alice/open-alice-users-api/)
+- [Alice API Documentation WonderBuild API](https://apis.io/collections/alice/open-alice-wonderbuild-api/)
+- [Alice API Documentation WonderFence API](https://apis.io/collections/alice/open-alice-wonderfence-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Alice Overlay](https://apis.io/overlays/alice/alice-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Alice Authentication](https://apis.io/security/alice/alice-authentication/)
+- [Alice Domain Security](https://apis.io/security/alice/alice-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://alice.io/)
+- [Documentation](https://docs.alice.io)
+- [API reference](https://docs.alice.io/reference)
+- [Blog](https://alice.io/blog)
+- [Terms of service](https://alice.io/terms-of-use)
+- [Privacy policy](https://alice.io/privacy-policy)
+
+## API Evangelist rating
+
+**Kin Score 43.9** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 60.3 |
+| Contract governance | 18.2 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 42.3 |
+| Access clarity | 28.9 |
+
+**Agent readiness 27.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 27.3** — AI & Biometrics
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/alice/](https://apis.io/providers/alice/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Alice: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/alice/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
